@@ -1,17 +1,19 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <img alt="Nepes Hayyim Logo" src="./assets/nepes-hayyim-name.png">
+    <SamplePage msg=""/>
+    <!-- <router-link to="/sample-page"></router-link>
+    <router-view></router-view> -->
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import SamplePage from './components/SamplePage.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    SamplePage
   }
 }
 </script>

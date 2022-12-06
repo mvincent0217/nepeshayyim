@@ -1,0 +1,130 @@
+﻿Imports System.ServiceModel
+Imports DecaTech.CoreData
+Imports System.ServiceModel.Web
+
+<ServiceContract(Namespace:="http://Microsoft.ServiceModel.Samples")>
+Public Interface IRestService
+#Region "Common APIs"
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="WebServiceRequestHandler?api={api}")>
+    Function WebServiceRequestHandler(ByVal api As String) As String
+
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="ValidateUserAccount?username={username}&password={password}")>
+    Function ValidateUserAccount(ByVal username As String, ByVal password As String) As UserAccount
+
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="GetUserAccountByName?username={username}")>
+    Function GetUserAccountByName(ByVal username As String) As UserAccount
+
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="GetUserAccountByNumber?employeenumber={employeenumber}")>
+    Function GetUserAccountByNumber(ByVal employeenumber As String) As UserAccount
+
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="GetUserAccountByBarcode?barcode={barcode}")>
+    Function GetUserAccountByBarcode(ByVal barcode As String) As UserAccount
+
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="GetUserAccountByBadge?badge={badge}")>
+    Function GetUserAccountByBadge(ByVal badge As String) As UserAccount
+
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="GetCanteenCalendarRecords?startdate={startdate}&enddate={enddate}")>
+    Function GetCanteenCalendarRecords(ByVal startdate As Date, ByVal enddate As Date) As List(Of CanteenCalendarRecord)
+#End Region
+
+#Region "Employee APIs"
+#Region "Employee APIs - Menu APIs"
+    ' Same as HR/Admin GetCanteenMenuSchedule API
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="GetCanteenMenu?calendar_idx={calendar_idx}")>
+    Function GetCanteenMenu(ByVal calendar_idx As Int64) As CanteenMenuSchedule
+#End Region
+
+#Region "Employee APIs - Order APIs"
+    ' Same as Concessionaire APIs - Employee Order APIs SaveCanteenCustomerOrder
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="SaveCanteenOrder?calendar_idx={calendar_idx}&username={username}&menuitem_idx={menuitem_idx}&quantity={quantity}")>
+    Function SaveCanteenOrder(ByVal calendar_idx As Int64, ByVal username As String, menuitem_idx As Int64, quantity As Integer) As Boolean
+
+    ' Same as Concessionaire APIs - Employee Order APIs ClearCanteenCustomerOrders
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="ClearCanteenOrders?calendar_idx={calendar_idx}&username={username}")>
+    Function ClearCanteenOrders(ByVal calendar_idx As Int64, ByVal username As String) As Boolean
+
+    ' Same as Concessionaire APIs - Employee Order APIs DeleteCanteenCustomerOrder
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="DeleteCanteenOrder?calendar_idx={calendar_idx}&username={username}&menuitem_idx={menuitem_idx}")>
+    Function DeleteCanteenOrder(ByVal calendar_idx As Int64, ByVal username As String, menuitem_idx As Int64) As Boolean
+
+    ' Same as Concessionaire APIs - Employee Order APIs GetCanteenCustomerOrder
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="GetCanteenOrders?calendar_idx={calendar_idx}&username={username}")>
+    Function GetCanteenOrders(ByVal calendar_idx As Int64, ByVal username As String) As CanteenOrder
+#End Region
+#End Region
+
+#Region "HR/Admin APIs"
+#Region "HR/Admin APIs - Menu Item APIs"
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="SaveCanteenMenuItem?name={name}&description={description}")>
+    Function SaveCanteenMenuItem(ByVal name As String, ByVal description As String) As Boolean
+
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="DeleteCanteenMenuItem?menuitem_idx={menuitem_idx}")>
+    Function DeleteCanteenMenuItem(ByVal menuitem_idx As Int64) As Boolean
+
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="GetCanteenMenuItems")>
+    Function GetCanteenMenuItems() As List(Of CanteenMenuItem)
+#End Region
+
+#Region "HR/Admin APIs - Menu Schedule APIs"
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="SaveCanteenMenuSchedule?calendar_idx={calendar_idx}&menuitem_idx={menuitem_idx}")>
+    Function SaveCanteenMenuSchedule(ByVal calendar_idx As Int64, ByVal menuitem_idx As Int64) As Boolean
+
+    'Save as Employee API GetCanteenMenu
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="GetCanteenMenuSchedule?calendar_idx={calendar_idx}")>
+    Function GetCanteenMenuSchedule(ByVal calendar_idx As Int64) As CanteenMenuSchedule
+
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="ClearCanteenMenuSchedule?calendar_idx={calendar_idx}")>
+    Function ClearCanteenMenuSchedule(ByVal calendar_idx As Int64) As Boolean
+
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="DeleteCanteenMenuSchedule?calendar_idx={calendar_idx}&menuitem_idx={menuitem_idx}")>
+    Function DeleteCanteenMenuSchedule(ByVal calendar_idx As Int64, ByVal menuitem_idx As Int64) As Boolean
+#End Region
+#End Region
+
+#Region "Concessionaire APIs"
+#Region "Concessionaire APIs - Employee Order APIs"
+    ' Same as Employee APIs - Order APIs GetCanteenOrder
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="GetCanteenCustomerOrders?calendar_idx={calendar_idx}&username={username}")>
+    Function GetCanteenCustomerOrders(ByVal calendar_idx As Int64, ByVal username As String) As CanteenOrder
+
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="SetCanteenCustomerOrderFulfilled?calendar_idx={calendar_idx}&username={username}")>
+    Function SetCanteenCustomerOrderFulfilled(ByVal calendar_idx As Int64, ByVal username As String) As Boolean
+
+    ' Same as Employee APIs - Order APIs SaveCanteenOrder
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="SaveCanteenCustomerOrder?calendar_idx={calendar_idx}&username={username}&menuitem_idx={menuitem_idx}&quantity={quantity}")>
+    Function SaveCanteenCustomerOrder(ByVal calendar_idx As Int64, ByVal username As String, menuitem_idx As Int64, quantity As Integer) As Boolean
+
+    ' Same as Employee APIs - Order APIs ClearCanteenOrders
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="ClearCanteenCustomerOrders?calendar_idx={calendar_idx}&username={username}")>
+    Function ClearCanteenCustomerOrders(ByVal calendar_idx As Int64, ByVal username As String) As Boolean
+
+    ' Same as Employee APIs - Order APIs DeleteCanteenOrder
+    <OperationContract()>
+    <WebInvoke(Method:="POST", UriTemplate:="DeleteCanteenCustomerOrder?calendar_idx={calendar_idx}&username={username}&menuitem_idx={menuitem_idx}")>
+    Function DeleteCanteenCustomerOrder(ByVal calendar_idx As Int64, ByVal username As String, menuitem_idx As Int64) As Boolean
+#End Region
+#End Region
+End Interface
