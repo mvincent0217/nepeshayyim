@@ -1,0 +1,2 @@
+USER_NAME = window.localStorage.getItem('username')
+PASSWORD = window.localStorage.getItem('pasword')
