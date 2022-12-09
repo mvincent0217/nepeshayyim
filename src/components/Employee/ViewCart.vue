@@ -28,21 +28,20 @@
                             </thead>
                             <tbody>
                                 <!--Product 1-->
-                                <tr>
+                                <tr v-for="(order, index) in orders" :key="index">
                                     <td data-th="Product">
                                         <div class="row">
                                             <div class="col-md-3 text-left">
                                                 <img src="https://via.placeholder.com/250x250/5fa9f8/ffffff" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
                                             </div>
                                             <div class="col-md-9 text-left mt-sm-2">
-                                                <h4>Food Name</h4>
-                                                <p class="font-weight-light">Description</p>
+                                                <h4>{{ order.Name._text }}</h4>
+                                                <p>{{ order.Description._text }}</p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td data-th="Price">₱50.00</td>
                                     <td data-th="Quantity">
-                                        <input type="number" class="form-control form-control-lg text-center" value="1">
+                                        <input type="number" class="form-control form-control-lg text-center" :value="order.quantity">
                                     </td>
                                     <td class="actions" data-th="">
                                         <div class="text-right">
@@ -51,37 +50,8 @@
                                             </button>
                                         </div>
                                     </td>
-                                    <td data-th="Date">12/3/2022</td>
+                                    <td data-th="Date">{{ date }}</td>
                                 </tr>
-                                <!--Product 1-->
-                                <!--Product 2-->
-                                <tr>
-                                    <td data-th="Product">
-                                        <div class="row">
-                                            <div class="col-md-3 text-left">
-                                                <img src="https://via.placeholder.com/250x250/5fa9f8/ffffff" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
-                                            </div>
-                                            <div class="col-md-9 text-left mt-sm-2">
-                                                <h4>Food Name</h4>
-                                                <p class="font-weight-light">Description</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td data-th="Price">₱50.00</td>
-                                    <td data-th="Quantity">
-                                        <input type="number" class="form-control form-control-lg text-center" value="1">
-                                    </td>
-                                    <td class="actions" data-th="">
-                                        <div class="text-right">
-                                            <button class="btn btn-white border-secondary bg-white btn-md mb-2">
-                                               🗑️
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td data-th="Date">12/3/2022</td>
-                                </tr>
-                                <!--Product 2-->
-
                             </tbody>
                         </table>
                         <div class="float-right text-right">
@@ -104,3 +74,26 @@
         </div>
     </div>
   </template>
+
+  <script>
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios)
+
+export default {
+    data() {
+        return{
+            orders:[],
+            date: null,
+        }
+    },
+    methods:{
+        
+    },
+    created(){
+        this.date = localStorage.getItem("datetime")
+        this.orders = JSON.parse(localStorage.getItem("orders"));
+    }
+}
+</script>
