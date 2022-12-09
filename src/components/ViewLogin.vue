@@ -54,6 +54,7 @@ export default {
                {compact: true, spaces: 4});
                   result2 = JSON.parse(result2);
                   window.localStorage.setItem("user",result2.UserAccount.FullName._text)
+                  localStorage.setItem("login",true)
                   this.$router.push('/employee-home');
             })
           }

@@ -28,7 +28,6 @@
                                 <h4>{{ food.Name._text }}</h4>
                                 <input type="number" class="col-sm-1 mb-3 mb-m-1 order-md-1 text-md-center" value="1"> <br>
                                 <button class="btn btn-white border-secondary bg-white btn-md mb-2">Add to cart</button>
-                                <button class="btn btn-white border-secondary bg-white btn-md mb-2">Order</button>
                             </div>
                         </div>
                     </td>

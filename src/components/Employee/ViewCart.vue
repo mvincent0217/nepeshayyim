@@ -8,8 +8,8 @@
 
             <!--Shopping-->
             <section class="pt-5 pb-5">
-                   <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
-                    <a class="btn btn-default submit" href="file:///C:/Users/CRSC/Desktop/Food%20ordering%20system%20V2/Home.html#">Continue Ordering</a>
+                  <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
+                    <RouterLink class="btn btn-default submit" to="/OrderHistory">View Order History</routerlink>
                   </div>
               <div class="container">
                 <div class="row w-100">
@@ -20,7 +20,7 @@
                             <thead>
                                 <tr>
                                     <th style="width:50%"></th>
-                                    <th style="width:12%">Price</th>
+
                                     <th style="width:10%">Quantity</th>
                                     <th style="width:19%"></th>
                                     <th style="width:9%">Date</th>
@@ -40,7 +40,6 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td data-th="Price">₱50.00</td>
                                     <td data-th="Quantity">
                                         <input type="number" class="form-control form-control-lg text-center" value="1">
                                     </td>
@@ -67,7 +66,6 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td data-th="Price">₱50.00</td>
                                     <td data-th="Quantity">
                                         <input type="number" class="form-control form-control-lg text-center" value="1">
                                     </td>
@@ -84,23 +82,17 @@
 
                             </tbody>
                         </table>
-                        <div class="float-right text-right">
-                            <h4>Subtotal:</h4>
-                            <h1>₱100.00</h1>
-                        </div>
                     </div>
                 </div>
                 <div class="row mt-4 d-flex align-items-center">
                     <div class="col-sm-6 order-md-2 text-center">
                         <a href="file:///C:/Users/CRSC/Desktop/Food%20ordering%20system%20V2/Orders.html#" class="btn btn-primary mb-4 btn-lg pl-5 pr-5 text-md-center">Checkout</a>
                     </div>
-                    <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
-                      <a class="btn btn-default submit" href="file:///C:/Users/CRSC/Desktop/Food%20ordering%20system%20V2/Home.html#">Continue Ordering</a>
-                    </div>
                 </div>
             </div>
             </section>
             <!--Shopping-->
         </div>
+        <router-view></router-view>
     </div>
   </template>
