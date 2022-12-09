@@ -26,9 +26,14 @@
                             </div>
                             <div class="col-md-9 text-left mt-sm-2">
                                 <h4>{{ food.Name._text }}</h4>
+<<<<<<< HEAD
                                 <p>{{ food.Description._text }}</p>
                                 <input type="number" class="col-sm-1 mb-3 mb-m-1 order-md-1 text-md-center" value="1" v-model="food.quantity" :key="index" @change="checkquantity(food.quantity, index)"> <br>
                                 <button class="btn btn-white border-secondary bg-white btn-md mb-2" @click="Orders(food)">Add to cart</button>
+=======
+                                <input type="number" class="col-sm-1 mb-3 mb-m-1 order-md-1 text-md-center" value="1"> <br>
+                                <button class="btn btn-white border-secondary bg-white btn-md mb-2">Add to cart</button>
+>>>>>>> ca5f87d5d4279b1cfb5e64a206d292c5267e5cb2
                             </div>
                         </div>
                     </td>

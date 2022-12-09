@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+  <div v-if="login">
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 
@@ -8,13 +10,12 @@
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">  
                       <li class="nav-item" ><router-link class="nav-link" to="/employee-home">Home</router-link></li>  
                       <li class="nav-item" ><router-link class="nav-link" to="/viewHR">Upload Food</router-link></li>   
-                      <li class="nav-item" ><router-link class="nav-link" to="/viewCanteen">View Orders</router-link></li>              
-                        <li class="nav-item" ><router-link class="nav-link" to="/view-order">Orders</router-link></li>
-                        <li class="nav-item"><router-link class="nav-link" to="/view-cart">Your Cart</router-link></li>   
+                      <li class="nav-item" ><router-link class="nav-link" to="/viewCanteen">All Orders</router-link></li>              
+                        <li class="nav-item"><router-link class="nav-link" to="/view-cart">Your Orders</router-link></li>   
                                 <li class="nav-item dropdown">
                                          <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                            <li><router-link class="dropdown-item" to="/view-login">Logout</router-link></li>
+                                            <li><router-link class="dropdown-item" to="/login">Logout</router-link></li>
                                     </ul>
                                 </li>    
                     </ul>
@@ -22,12 +23,27 @@
             </div>
         </nav>
     <router-view></router-view>
+
+  </div>
+  
+  <div v-else>
+    <router-view></router-view>
+  </div>
+   
   </div>
 </template>
 
 <script>
 export default {
   name: 'App',
+  data()
+  {
+    return{login: false}
+  },
+  created()
+  {
+    this.login=localStorage.getItem("login")
+  }
 
 }
 </script>
