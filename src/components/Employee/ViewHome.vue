@@ -8,7 +8,8 @@
             <div class="text-center">
                 <h3 class="display-5 mb-2 text-center">Goodmorning! {{fullname}}</h3><br><br>
                 <label for ="Date">Date of Order Reservation:</label> 
-                 <input type="datetime-local" id="date" class="col-sm-4 mb-3 mb-m-2 order-md-2 text-md-center" name="date">
+                 <input type="date" id="date" class="col-sm-4 mb-3 mb-m-2 order-md-2 text-md-center" name="date"><br>
+                 <label>Schedule Hour: </label>&nbsp;<input type="checkbox"><label for="">12PM</label><input type="checkbox"><label for="">7PM</label>
             </div>
             <tbody>
                  <!-- Product 1-->
