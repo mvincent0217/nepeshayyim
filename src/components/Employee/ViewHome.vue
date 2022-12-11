@@ -115,16 +115,10 @@ export default {
             })
         },
         Orders(food){
-            var convert = require('xml-js');
             axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + food.CalendarRecord.Calendar_Idx._text + "&username=" + this.username  +"&menuitem_idx=" + food.MenuItemList.CanteenMenuItem.MenuItem_Idx._text + "&quantity=" + food.quantity).then(response => {
-                var result = convert.xml2json(response.data,
-               {compact: true, spaces: 4});
-               result = JSON.parse(result);
-               console.log(result);
-            this.orders.push(food)
-            localStorage.setItem("datetime", this.date2)
-            localStorage.setItem("orders", JSON.stringify(this.orders))
-            alert("Your food is ordered. Kindly Check your Order!");
+               console.log(response);
+            this.orders.push(food);
+            alert("Order Save!");
             })
         },
         checkquantity(quantity, index){
