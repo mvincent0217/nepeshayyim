@@ -22,6 +22,7 @@
                                     <th style="width:50%">Food</th>
                                     <th style="width:10%">Quantity</th>
                                     <th style="width:19%">Action</th>
+                                    <th style="width:9%">Day</th>
                                     <th style="width:9%">Date</th>
                                 </tr>
                             </thead>
@@ -40,23 +41,20 @@
                                         </div>
                                     </td>
                                     <td data-th="Quantity">
-                                        <input type="number" class="form-control form-control-lg text-center" :value="order.Quantity">
+                                        <input type="number" class="form-control form-control-lg text-center" :value="order.Quantity._text">
                                     </td>
                                     <td class="actions" data-th="">
                                         <div class="text-right">
-                                            <button class="btn btn-white border-secondary bg-white btn-md mb-2" @click="DeleteOrders"> 
+                                            <button class="btn btn-white border-secondary bg-white btn-md mb-2" @click="DeleteCanteenOrders(order)"> 
                                                 🗑️
                                             </button>
                                         </div>
                                     </td>
-                                    <td data-th="Date">{{ date }}</td>
+                                    <td data-th="Day">{{ dateorder.DateTime._text }}</td>
+                                    <td data-th="Date">{{ dateorder.DateTime._text }}</td>
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="float-right text-right">
-                            <h4>Subtotal:</h4>
-                            <h1>₱100.00</h1>
-                        </div>
                     </div>
                 </div>
                 <div class="row mt-4 d-flex align-items-center">
@@ -78,24 +76,29 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import moment from 'moment'
+
+Vue.prototype.moment = moment
 Vue.use(VueAxios, axios)
 
 export default {
     data() {
         return{
             orders: [],
+            dateorder: null,
             menuitem_idx: null,
             username: window.localStorage.getItem("username"),
             calendar_idx: window.localStorage.getItem("calendar_idx")
         }
     },
     methods:{
-        
-    },
-    DeleteOrders(){
-        axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.username + "&menuitem_idx=" + this.menuitem_idx ).then(response => {
-               console.log(response);
-        })
+        DeleteCanteenOrders(order){
+            this.menuitem_idx = order.MenuItem.MenuItem_Idx._text;
+            console.log(this.menuitem_idx)
+            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.username + "&menuitem_idx=" + this.menuitem_idx ).then(response => {
+                console.log(response);
+            })
+        },
     },
     created(){
         var convert = require('xml-js');
@@ -104,8 +107,16 @@ export default {
                {compact: true, spaces: 4});
                 this.orders = JSON.parse(result);
                 var orders = JSON.parse(result);
-                this.orders = orders.CanteenOrder.OrderList.CanteenOrderItem;
-                console.log(this.orders)
+                if(Array.isArray(orders.CanteenOrder.OrderList.CanteenOrderItem)){
+                    this.orders = orders.CanteenOrder.OrderList.CanteenOrderItem;
+                    console.log(this.orders)
+                }else{
+                    var new_order = orders.CanteenOrder.OrderList.CanteenOrderItem
+                    let array = []
+                    array.push(new_order)
+                    this.orders = array;
+                }
+                this.dateorder = orders.CanteenOrder.CalendarRecord;
             })
         },
 }
