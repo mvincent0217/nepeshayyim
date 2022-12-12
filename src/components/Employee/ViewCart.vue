@@ -57,6 +57,17 @@
                         </table>
                     </div>
                 </div>
+              <div text-center>
+                <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        </ul>
+                        </nav>
+              </div>
                 <div class="row mt-4 d-flex align-items-center">
                     <div class="col-sm-6 order-md-2 text-center">
                         <a href="#" class="btn btn-primary mb-4 btn-lg pl-5 pr-5 text-md-center">Checkout</a>
