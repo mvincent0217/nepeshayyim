@@ -27,8 +27,8 @@
                             <div class="col-md-9 text-left mt-sm-2">
                                 <h4>{{ food.Name._text }}</h4>
                                 <p>{{ food.Description._text }}</p>
-                                <input type="number" class="col-sm-1 mb-3 mb-m-1 order-md-1 text-md-center" value="1" v-model="food.quantity" :key="index" @change="checkquantity(food.quantity, index)"> <br>
-                                <button class="btn btn-white border-secondary bg-white btn-md mb-2" @click="Orders(food)">Add to cart</button>
+                                <input type="number" class="col-sm-1 mb-3 mb-m-1 order-md-1 text-md-center" value="1" v-model="food.quantity" :key="index" @change="CheckQuantity(food.quantity, index)"> <br>
+                                <button class="btn btn-white border-secondary bg-white btn-md mb-2" @click="FoodOrders(food)">Add to cart</button>
                             </div>
                         </div>
                     </td>
@@ -58,7 +58,7 @@ export default {
     data() {
         return{
             fullname: window.localStorage.getItem("user"),
-            username: window.localStorage.getItem("username"),
+            accountname: window.localStorage.getItem("username"),
             Foods: [],
             date: null,
             date2: null,
@@ -84,11 +84,11 @@ export default {
         },
         showhour(){
             if(this.picked=="10:30:00"){
-                this.enddate = this.date + " 12:30:00"
+                this.enddate = this.date + " 12:30:00";
             }else{
-                this.enddate = this.date + " 22:00:00"
+                this.enddate = this.date + " 22:00:00";
             }
-            this.date2 = this.date + " " + this.picked
+            this.date2 = this.date + " " + this.picked;
             this.GetCanteenCalendarRecords();
         },
         GetCanteenCalendarRecords(){
@@ -97,42 +97,45 @@ export default {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                result = JSON.parse(result);
-               var calendar_idx = result.ArrayOfCanteenCalendarRecord.CanteenCalendarRecord.Calendar_Idx._text;
-               this.GetCanteenMenu(calendar_idx)
+               this.calendar_idx = result.ArrayOfCanteenCalendarRecord.CanteenCalendarRecord.Calendar_Idx._text;
+               this.GetCanteenMenu(this.calendar_idx);
             })
         },
         GetCanteenMenu(id){
+            this.calendar_idx = id;
             this.Foods = [];
             var convert = require('xml-js');
             axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/GetCanteenMenu?calendar_idx=" + id).then(response => {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                result = JSON.parse(result);
-               console.log(result)
+               console.log(result);
                 if(result.CanteenMenuSchedule.MenuItemList.CanteenMenuItem != undefined){
                     this.Foods = result.CanteenMenuSchedule.MenuItemList.CanteenMenuItem;
                 }
             })
         },
-        Orders(food){
+        FoodOrders(food){
             var convert = require('xml-js');
-            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + food.CalendarRecord.Calendar_Idx._text + "&username=" + this.username  +"&menuitem_idx=" + food.MenuItemList.CanteenMenuItem.MenuItem_Idx._text + "&quantity=" + food.quantity).then(response => {
+            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.username  +"&menuitem_idx=" + food.MenuItem_Idx._text.toString() + "&quantity=" + food.quantity).then(response => {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                result = JSON.parse(result);
                console.log(result);
-            this.orders.push(food)
-            localStorage.setItem("datetime", this.date2)
-            localStorage.setItem("orders", JSON.stringify(this.orders))
+            this.orders.push(food);
+            console.log(this.orders)
+            localStorage.setItem("calendar_idx", this.calendar_idx);
+            localStorage.setItem("datetime", this.date2);
+            localStorage.setItem("orders", JSON.stringify(this.orders));
             alert("Your food is ordered. Kindly Check your Order!");
             })
         },
-        checkquantity(quantity, index){
+        CheckQuantity(quantity, index){
             this.Foods.forEach((item,i) =>{
                 if(i == index){
                     if(item.quantity <= 0)
                     {
-                       item.quantity = 1 
+                       item.quantity = 1;
                     }
                 }
             })

@@ -60,9 +60,7 @@ export default {
                 var result2 = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                result2 = JSON.parse(result2);
-               this.Foods = result2.ArrayOfCanteenMenuItem.CanteenMenuItem
-               console.log(result2);
-                console.log(response);
+               this.Foods = result2.ArrayOfCanteenMenuItem.CanteenMenuItem;
             })
         },
 
