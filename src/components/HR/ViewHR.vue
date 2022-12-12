@@ -1,11 +1,11 @@
 <template>
         <div class="text-center">
             <br><br>
-            <h3 class="display-5 mb-2 text-center">Goodmorning! Test Name</h3>
+            <h3 class="display-5 mb-2 text-center">Superstar! Test Name</h3>
 
                 <input type="radio" id="html" name="fav_language" value="Existing" v-model ="Existingfood" @change="Select">
-                <label for="html">Existing Food</label>
-                <label for="html" class="ml-2"> </label>
+                <label for="html">Existing Food</label> 
+                <label for="html" class="ml-2"> </label> &nbsp;
                 <input type="radio" class="mx-auto" id="html" name="fav_language" value="Nonexisting" v-model ="Existingfood" @change ="Select">
                 <label for="html">Upload New Food</label><br><br>
 
@@ -13,7 +13,7 @@
 
                     <div v-if="isexisting">
 
-                        <label for="cars">Select Existing Foods:</label>
+                        <label for="cars">Select Existing Foods: &nbsp;</label>
                         <select name="food" id="" >
                         <option v-for="(food,index) in Foods" value="volvo" :key="index">{{food.Name._text}}</option>
                         </select>
@@ -21,17 +21,17 @@
                     </div>
 
                 <div v-else>
-                <label for ="Date">Date of Order Reservation:</label>
+                <label for ="Date">Date of Order Reservation: &nbsp;</label>
                 <input type="date" id="date" name="date"> <br><br>
-                <label for="img">Select image:</label>
+                <label for="img">Select image: &nbsp;</label>
                 <input type="file" id="myFile" name="filename"> <br><br>
 
                 <label for="img">Food Name:</label>
                 <input type="text" id="Foodname" name="Foodname"><br><br>
                 <label for="img">Description:</label> <br>
-                <textarea id="Description" name="Description" rows="4" cols="50"></textarea><br><br>
+                <textarea id="Description" name="Description" rows="4" cols="50"></textarea><br>
                 </div>
-                <input type="submit">
+                <br><input type="submit">
 
                 </div>
   

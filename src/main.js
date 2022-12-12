@@ -8,7 +8,6 @@ import ViewCart from './components/Employee/ViewCart.vue'
 import OrderHistory from './components/Employee/OrderHistory.vue'
 import ViewLogin from './components/ViewLogin.vue'
 import ViewHR from './components/HR/ViewHR.vue'
-import ViewCanteen from './components/Canteen/ViewCanteen.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
@@ -31,7 +30,6 @@ const routes =[
   {path: '/OrderHistory', component: OrderHistory},
   {path: '/login', component: ViewLogin},
   {path: '/viewHR', component: ViewHR},
-  {path: '/viewCanteen', component: ViewCanteen},
 
 
 
