@@ -55,7 +55,9 @@ export default {
                   result2 = JSON.parse(result2);
                   window.localStorage.setItem("user",result2.UserAccount.FullName._text)
                   window.localStorage.setItem("username", this.username);
+                  window.localStorage.setItem("login", true);
                   this.$router.push('/employee-home');
+
             })
           }
         }

@@ -63,7 +63,7 @@ export default {
             date: null,
             date2: null,
             hour: null,
-            calendar_idx: '',
+            calendar_idx: null,
             enddate: '',
             picked: null,
             orders: [],
@@ -97,17 +97,18 @@ export default {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                result = JSON.parse(result);
-               var calendar_idx = result.ArrayOfCanteenCalendarRecord.CanteenCalendarRecord.Calendar_Idx._text;
-               this.GetCanteenMenu(calendar_idx)
+               this.calendar_idx = result.ArrayOfCanteenCalendarRecord.CanteenCalendarRecord.Calendar_Idx._text;
+               this.GetCanteenMenu()
             })
         },
-        GetCanteenMenu(id){
+        GetCanteenMenu(){
             this.Foods = [];
             var convert = require('xml-js');
-            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/GetCanteenMenu?calendar_idx=" + id).then(response => {
+            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/GetCanteenMenu?calendar_idx=" + this.calendar_idx).then(response => {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                result = JSON.parse(result);
+
                console.log(result)
                 if(result.CanteenMenuSchedule.MenuItemList.CanteenMenuItem != undefined){
                     this.Foods = result.CanteenMenuSchedule.MenuItemList.CanteenMenuItem;
@@ -115,8 +116,9 @@ export default {
             })
         },
         Orders(food){
-            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + food.CalendarRecord.Calendar_Idx._text + "&username=" + this.username  +"&menuitem_idx=" + food.MenuItemList.CanteenMenuItem.MenuItem_Idx._text + "&quantity=" + food.quantity).then(response => {
+            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.username  +"&menuitem_idx=" + food.MenuItem_Idx._text + "&quantity=" + food.quantity).then(response => {
                console.log(response);
+               window.localStorage.setItem("calendar_idx", this.calendar_idx);
             this.orders.push(food);
             alert("Order Save!");
             })
