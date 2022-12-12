@@ -9,7 +9,7 @@
             <!--Shopping-->
             <section class="pt-5 pb-5">
                    <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
-                    <a class="btn btn-default submit" href="">Continue Ordering</a>
+                    <router-link class="btn btn-default submit" to="/OrderHistory">Order History</router-link>
                   </div>
               <div class="container">
                 <div class="row w-100">
@@ -62,13 +62,13 @@
                         <a href="#" class="btn btn-primary mb-4 btn-lg pl-5 pr-5 text-md-center">Checkout</a>
                     </div>
                     <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
-                      <a class="btn btn-default submit" href="#">Continue Ordering</a>
                     </div>
                 </div>
             </div>
             </section>
             <!--Shopping-->
         </div>
+        <router-view></router-view>
     </div>
   </template>
 
