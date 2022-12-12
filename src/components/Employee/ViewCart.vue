@@ -28,6 +28,7 @@
                             </thead>
                             <tbody>
                                 <!--Product 1-->
+                                <tr v-if="!orders.length">No Order/s</tr>
                                 <tr v-for="(order, index) in orders" :key="index">
                                     <td data-th="Product">
                                         <div class="row">
@@ -35,13 +36,13 @@
                                                 <img src="https://via.placeholder.com/250x250/5fa9f8/ffffff" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
                                             </div>
                                             <div class="col-md-9 text-left mt-sm-2">
-                                                <h4>{{ order.MenuItem.Name._text }}</h4>
-                                                <p>{{ order.MenuItem.Description._text }}</p>
+                                                <h4>{{ order.OrderList.CanteenOrderItem.MenuItem.Name._text }}</h4>
+                                                <p>{{ order.OrderList.CanteenOrderItem.MenuItem.Description._text }}</p>
                                             </div>
                                         </div>
                                     </td>
                                     <td data-th="Quantity">
-                                        <input type="number" class="form-control form-control-lg text-center" :value="order.Quantity._text">
+                                        <input type="number" class="form-control form-control-lg text-center" :value="order.OrderList.CanteenOrderItem.Quantity._text">
                                     </td>
                                     <td class="actions" data-th="">
                                         <div class="text-right">
@@ -50,8 +51,8 @@
                                             </button>
                                         </div>
                                     </td>
-                                    <td data-th="Day">{{ dateorder.DateTime._text }}</td>
-                                    <td data-th="Date">{{ dateorder.DateTime._text }}</td>
+                                    <td data-th="Day">{{ order.CalendarRecord.DateTime._text }}</td>
+                                    <td data-th="Date">{{ order.CalendarRecord.DateTime._text }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -59,16 +60,13 @@
                 </div>
                 <div class="row mt-4 d-flex align-items-center">
                     <div class="col-sm-6 order-md-2 text-center">
-                        <a href="#" class="btn btn-primary mb-4 btn-lg pl-5 pr-5 text-md-center">Checkout</a>
-                    </div>
-                    <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
+                        <a href="#" class="btn btn-primary mb-4 btn-lg pl-5 pr-5 text-md-center" @click="CheckOutOrders">Checkout</a>
                     </div>
                 </div>
             </div>
             </section>
             <!--Shopping-->
         </div>
-        <router-view></router-view>
     </div>
   </template>
 
@@ -97,19 +95,34 @@ export default {
             console.log(this.menuitem_idx)
             axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.username + "&menuitem_idx=" + this.menuitem_idx ).then(response => {
                 console.log(response);
+                this.GetOrders();
             })
+
         },
-    },
-    created(){
-        var convert = require('xml-js');
-        axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/GetCanteenOrders?calendar_idx=" + this.calendar_idx + "&username=" + this.username).then(response => {
+        CheckOutOrders(){
+            for(var x = 0; x < this.orders.length;x++)
+            {
+                var convert = require('xml-js');
+                axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.username  +"&menuitem_idx=" + this.orders[x].MenuItem.MenuItem_Idx._text.toString() + "&quantity=" + this.orders[x].Quantity._text).then(response => {
+                var result = convert.xml2json(response.data,
+               {compact: true, spaces: 4});
+               result = JSON.parse(result);
+               console.log(result);
+                localStorage.setItem("datetime", this.date2)
+                localStorage.setItem("orders", JSON.stringify(this.orders))
+                })
+            }
+            alert("Your food is ordered. Kindly Check your Order!");
+        },
+        GetOrders(){
+            var convert = require('xml-js');
+            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/GetCanteenOrders?calendar_idx=" + this.calendar_idx + "&username=" + this.username).then(response => {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                 this.orders = JSON.parse(result);
                 var orders = JSON.parse(result);
                 if(Array.isArray(orders.CanteenOrder.OrderList.CanteenOrderItem)){
                     this.orders = orders.CanteenOrder.OrderList.CanteenOrderItem;
-                    console.log(this.orders)
                 }else{
                     var new_order = orders.CanteenOrder.OrderList.CanteenOrderItem
                     let array = []
@@ -117,7 +130,21 @@ export default {
                     this.orders = array;
                 }
                 this.dateorder = orders.CanteenOrder.CalendarRecord;
+                console.log(this.dateorder)
             })
+        },
+        GetAllOrder(){
+            var convert = require('xml-js');
+            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/GetAllCanteenOrders?username=" + this.username).then(response => {
+                var result = convert.xml2json(response.data,
+                {compact: true, spaces: 4});
+                result = JSON.parse(result); 
+                this.orders = result.ArrayOfCanteenOrder.CanteenOrder;
+            })
+        }
+    },
+    created(){
+            this.GetAllOrder();
         },
 }
 </script>

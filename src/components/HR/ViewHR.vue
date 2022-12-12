@@ -1,7 +1,7 @@
 <template>
         <div class="text-center">
             <br><br>
-            <h3 class="display-5 mb-2 text-center">Goodmorning! Test Name</h3>
+            <h3 class="display-5 mb-2 text-center">Goodmorning!{{ fullname }}</h3>
 
                 <input type="radio" id="html" name="fav_language" value="Existing" v-model ="Existingfood" @change="Select">
                 <label for="html">Existing Food</label>
@@ -60,9 +60,7 @@ export default {
                 var result2 = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                result2 = JSON.parse(result2);
-               this.Foods = result2.ArrayOfCanteenMenuItem.CanteenMenuItem
-               console.log(result2);
-                console.log(response);
+               this.Foods = result2.ArrayOfCanteenMenuItem.CanteenMenuItem;
             })
         },
 
