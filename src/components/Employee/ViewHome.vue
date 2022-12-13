@@ -6,11 +6,11 @@
         <div class="container">
             <br><br>
             <div class="text-center">
-                <h3 class="display-5 mb-2 text-center">Goodmorning! {{fullname}}</h3><br><br>
+                <h3 class="display-5 mb-2 text-center">Superstar! {{fullname}}</h3><br><br>
                 <label for ="Date">Date of Order Reservation:</label> 
                 <input type="date" id="date" class="col-sm-4 mb-3 mb-m-2 order-md-2 text-md-center" name="date" v-model="date" @change="showdate"><br>
                 <input type="radio" id="lunch" value="10:30:00" v-model="picked" @change="showhour"/>
-                <label for="two">12PM</label> &nbsp;
+                <label for="two">12PM</label>&nbsp;
                 <input type="radio" id="dinner" value="20:00:00" v-model="picked" @change="showhour" />
                 <label for="two">7PM</label>
             </div>

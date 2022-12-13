@@ -43,10 +43,12 @@
 </template>
 
 <script>
+
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 Vue.use(VueAxios, axios);
+
 
 export default {
   data() {
@@ -56,6 +58,7 @@ export default {
       accountname: "",
       accountrole: "",
     };
+
   },
   methods: {
     ValidateUserAccount() {
@@ -81,9 +84,11 @@ export default {
             this.username = window.localStorage.setItem("username", this.username);
             window.localStorage.setItem("login", true);
             this.$router.push("/employee-home");
+            console.log(result2);
           });
       }
     },
   },
 };
+
 </script>
