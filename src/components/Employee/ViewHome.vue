@@ -73,7 +73,7 @@ export default {
     methods:{
         GetCanteenMenuItems(){
             var convert = require('xml-js');
-            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/GetCanteenMenuItems").then(response => {
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetCanteenMenuItems").then(response => {
             var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                console.log(result);
@@ -93,7 +93,7 @@ export default {
         },
         GetCanteenCalendarRecords(){
             var convert = require('xml-js');
-            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/GetCanteenCalendarRecords?startdate="+ this.date2 + "&enddate=" + this.enddate ).then(response => {
+            axios.post("hhttps://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetCanteenCalendarRecords?startdate="+ this.date2 + "&enddate=" + this.enddate ).then(response => {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                result = JSON.parse(result);
@@ -105,7 +105,7 @@ export default {
             this.calendar_idx = id;
             this.Foods = [];
             var convert = require('xml-js');
-            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/GetCanteenMenu?calendar_idx=" + id).then(response => {
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetCanteenMenu?calendar_idx=" + id).then(response => {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                result = JSON.parse(result);
@@ -116,8 +116,12 @@ export default {
             })
         },
         FoodOrders(food){
+            console.log(this.calendar_idx)
+            console.log(this.accountname)
+            console.log(food.MenuItem_Idx._text.toString())
+            console.log(food.quantity)
             var convert = require('xml-js');
-            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.username  +"&menuitem_idx=" + food.MenuItem_Idx._text.toString() + "&quantity=" + food.quantity).then(response => {
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.accountname  +"&menuitem_idx=" + food.MenuItem_Idx._text.toString() + "&quantity=" + food.quantity).then(response => {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                result = JSON.parse(result);

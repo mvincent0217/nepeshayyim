@@ -54,6 +54,7 @@ export default {
       username: "",
       password: "",
       accountname: "",
+      accountrole: "",
     };
   },
   methods: {
@@ -66,7 +67,7 @@ export default {
         window.localStorage.setItem("password", this.username);
         axios
           .post(
-            "http://dev-en-viaeim2.decatechnologies.com:8080/Decatech/BRM_Canteen_WEB/ValidateUserAccount?username=" +
+            "https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/ValidateUserAccount?username=" +
               this.username +
               "&password=" +
               this.password
@@ -74,6 +75,8 @@ export default {
           .then((response) => {
             var result2 = convert.xml2json(response.data, { compact: true, spaces: 4 });
             result2 = JSON.parse(result2);
+            this.accountrole = result2.UserAccount
+            console.log(this.accountrole)
             this.fullname = window.localStorage.setItem("user", result2.UserAccount.FullName._text);
             this.username = window.localStorage.setItem("username", this.username);
             window.localStorage.setItem("login", true);

@@ -28,7 +28,7 @@
                             </thead>
                             <tbody>
                                 <!--Product 1-->
-                                <tr v-if="!orders.length">No Order/s</tr>
+                                <!-- <tr v-if="!orders.length">No Order/s</tr> -->
                                 <tr v-for="(order, index) in orders" :key="index">
                                     <td data-th="Product">
                                         <div class="row">
@@ -36,8 +36,8 @@
                                                 <img src="https://via.placeholder.com/250x250/5fa9f8/ffffff" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
                                             </div>
                                             <div class="col-md-9 text-left mt-sm-2">
-                                                <h4>{{ order.OrderList.CanteenOrderItem.MenuItem.Name._text }}</h4>
-                                                <p>{{ order.OrderList.CanteenOrderItem.MenuItem.Description._text }}</p>
+                                                <h4>{{ order.Name._text }}</h4>
+                                                <p>{{ order.Description._text }}</p>
                                             </div>
                                         </div>
                                     </td>
@@ -51,8 +51,8 @@
                                             </button>
                                         </div>
                                     </td>
-                                    <td data-th="Day">{{ order.CalendarRecord.DateTime._text }}</td>
-                                    <td data-th="Date">{{ order.CalendarRecord.DateTime._text }}</td>
+                                    <td data-th="Day">{{ order.DateTime }}</td>
+                                    <td data-th="Date">{{ order.DateTime }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -85,7 +85,7 @@ export default {
             orders: [],
             dateorder: null,
             menuitem_idx: null,
-            username: window.localStorage.getItem("username"),
+            accountname: window.localStorage.getItem("username"),
             calendar_idx: window.localStorage.getItem("calendar_idx")
         }
     },
@@ -93,7 +93,7 @@ export default {
         DeleteCanteenOrders(order){
             this.menuitem_idx = order.MenuItem.MenuItem_Idx._text;
             console.log(this.menuitem_idx)
-            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.username + "&menuitem_idx=" + this.menuitem_idx ).then(response => {
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.accountname + "&menuitem_idx=" + this.menuitem_idx ).then(response => {
                 console.log(response);
                 this.GetOrders();
             })
@@ -103,7 +103,7 @@ export default {
             for(var x = 0; x < this.orders.length;x++)
             {
                 var convert = require('xml-js');
-                axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.username  +"&menuitem_idx=" + this.orders[x].MenuItem.MenuItem_Idx._text.toString() + "&quantity=" + this.orders[x].Quantity._text).then(response => {
+                axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.accountname  +"&menuitem_idx=" + this.orders[x].MenuItem.MenuItem_Idx._text.toString() + "&quantity=" + this.orders[x].Quantity._text).then(response => {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                result = JSON.parse(result);
@@ -114,34 +114,49 @@ export default {
             }
             alert("Your food is ordered. Kindly Check your Order!");
         },
-        GetOrders(){
-            var convert = require('xml-js');
-            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/GetCanteenOrders?calendar_idx=" + this.calendar_idx + "&username=" + this.username).then(response => {
-                var result = convert.xml2json(response.data,
-               {compact: true, spaces: 4});
-                this.orders = JSON.parse(result);
-                var orders = JSON.parse(result);
-                if(Array.isArray(orders.CanteenOrder.OrderList.CanteenOrderItem)){
-                    this.orders = orders.CanteenOrder.OrderList.CanteenOrderItem;
-                }else{
-                    var new_order = orders.CanteenOrder.OrderList.CanteenOrderItem
-                    let array = []
-                    array.push(new_order)
-                    this.orders = array;
-                }
-                this.dateorder = orders.CanteenOrder.CalendarRecord;
-                console.log(this.dateorder)
-            })
-        },
         GetAllOrder(){
             var convert = require('xml-js');
-            axios.post("https://dev-b2b/Decatech/BRM_Canteen_Web/GetAllCanteenOrders?username=" + this.username).then(response => {
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetAllCanteenOrders?username=" + this.accountname).then(response => {
                 var result = convert.xml2json(response.data,
-                {compact: true, spaces: 4});
-                result = JSON.parse(result); 
-                this.orders = result.ArrayOfCanteenOrder.CanteenOrder;
+               {compact: true, spaces: 4});
+                var orders = JSON.parse(result);
+                console.log(orders)
+                if(Array.isArray(orders)){
+                    this.orders = orders.ArrayOfCanteenOrder.CanteenOrder;
+                }else{                        
+                    var new_order = orders.ArrayOfCanteenOrder.CanteenOrder;
+                    let array = []
+                    array = new_order;
+                    for(var iArr= 0; iArr < array.length; iArr++){
+                        var temp = {};
+                        temp = array[iArr];
+                        var tempOrderList = {};
+                        tempOrderList = temp.OrderList;
+                        if(!Array.isArray(tempOrderList.CanteenOrderItem))
+                        {
+                            tempOrderList.CanteenOrderItem.MenuItem['Calendar_Idx'] = temp.CalendarRecord.Calendar_Idx._text;
+                            tempOrderList.CanteenOrderItem.MenuItem['DateTime'] = temp.CalendarRecord.DateTime._text;
+                            tempOrderList.CanteenOrderItem.MenuItem['Quantity'] = tempOrderList.CanteenOrderItem.Quantity._text;
+                            this.orders.push(tempOrderList.CanteenOrderItem.MenuItem);
+                        }
+                        else{
+                            var tempCanteenOrderItem = [];
+                            tempCanteenOrderItem = tempOrderList.CanteenOrderItem;
+                            for(var iOrder = 0; iOrder < tempCanteenOrderItem.length; iOrder++)
+                            {
+                                var tempCanteenOrder = {};
+                                tempCanteenOrder = tempCanteenOrderItem[iOrder];
+                                tempCanteenOrder.MenuItem['Calendar_Idx'] = temp.CalendarRecord.Calendar_Idx._text;
+                                tempCanteenOrder.MenuItem['DateTime'] = temp.CalendarRecord.DateTime._text;
+                                tempCanteenOrder.MenuItem['Quantity'] = tempCanteenOrder.Quantity._text;
+                                this.orders.push(tempCanteenOrder.MenuItem);
+                            }
+                        }
+                    }
+                }
+                console.log(this.orders)
             })
-        }
+        },
     },
     created(){
             this.GetAllOrder();
