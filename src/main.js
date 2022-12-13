@@ -28,7 +28,7 @@ const routes =[
   {path: '/employee-home', component: ViewHome},
   {path: '/view-cart', component: ViewCart},
   {path: '/OrderHistory', component: OrderHistory},
-  {path: '/login', component: ViewLogin},
+  {path: '/login', component: ViewLogin, name: 'login'},
   {path: '/viewHR', component: ViewHR},
 
 

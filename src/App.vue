@@ -14,7 +14,7 @@
                                 <li class="nav-item dropdown">
                                          <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"></a>
                                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                            <li><router-link class="dropdown-item" to="/login">Logout</router-link></li>
+                                      <li @click="logout" class="dropdown-item">Logout</li>
                                     </ul>
                                 </li>    
                     </ul>
@@ -38,6 +38,15 @@ export default {
   data()
   {
     return{login: false}
+  },
+
+  methods:{
+  logout()
+  {
+localStorage.clear()
+this.$router.push({name: 'login'})
+  }
+
   },
   created()
   {
