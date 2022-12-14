@@ -21,7 +21,7 @@
                                 <tr>
                                     <th style="width:50%">Food</th>
                                     <th style="width:10%">Quantity</th>
-                                    <th style="width:19%">Action</th>
+                                    <th style="width:22%">Action</th>
                                     <th style="width:9%">Day</th>
                                     <th style="width:9%">Date</th>
                                 </tr>
@@ -49,6 +49,9 @@
                                         <div class="text-right">
                                             <button class="btn btn-white border-secondary bg-white btn-md mb-2" @click="DeleteCanteenOrders(order)"> 
                                                 🗑️
+                                            </button> &nbsp;
+                                            <button class="btn btn-white border-secondary bg-primary btn-md mb-2" @click="CheckOutOrders"> 
+                                                Check Out
                                             </button>
                                         </div>
                                     </td>
@@ -176,6 +179,7 @@ export default {
     },
     created(){
             this.GetAllOrder();
+            
         },
 }
 </script>
