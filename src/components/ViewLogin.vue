@@ -56,7 +56,7 @@ export default {
       username: "",
       password: "",
       accountname: "",
-      accountrole: "",
+      fullname: "",
     };
 
   },
@@ -67,7 +67,6 @@ export default {
         alert("Empty Fields");
       } else {
         window.localStorage.setItem("username", this.username);
-        window.localStorage.setItem("password", this.username);
         axios
           .post(
             "https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/ValidateUserAccount?username=" +
@@ -78,10 +77,16 @@ export default {
           .then((response) => {
             var result2 = convert.xml2json(response.data, { compact: true, spaces: 4 });
             result2 = JSON.parse(result2);
-            this.accountrole = result2.UserAccount
-            console.log(this.accountrole)
-            this.fullname = window.localStorage.setItem("user", result2.UserAccount.FullName._text);
-            this.username = window.localStorage.setItem("username", this.username);
+
+            this.username = result2.UserAccount.UserId._text;
+            this.fullname = result2.UserAccount.FullName._text;
+
+            if(result2.UserAccount.FullName._text == undefined){
+              this.accountname = window.localStorage.setItem("accountname", this.username);
+            }else{
+              this.accountname = window.localStorage.setItem("accountname", this.fullname)
+            }
+
             window.localStorage.setItem("login", true);
             this.$router.push("/employee-home");
             console.log(result2);

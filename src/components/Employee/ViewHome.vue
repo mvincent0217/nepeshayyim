@@ -6,13 +6,20 @@
         <div class="container">
             <br><br>
             <div class="text-center">
-                <h3 class="display-5 mb-2 text-center">Superstar! {{fullname}}</h3><br><br>
+                <h3 class="display-5 mb-2 text-center">Superstar! {{accountname}}</h3><br><br>
                 <label for ="Date">Date of Order Reservation:</label> 
-                <input type="date" id="date" class="col-sm-4 mb-3 mb-m-2 order-md-2 text-md-center" name="date" v-model="date" @change="showdate"><br>
-                <input type="radio" id="lunch" value="10:30:00" v-model="picked" @change="showhour"/>
+                <input type="date" id="date" class="col-sm-4 mb-3 mb-m-2 order-md-2 text-md-center" name="date" v-model="date" min="" @change="showdate"><br>
+                
+                <!-- <input type="radio" id="lunch" value="10:30:00" v-model="picked" @change="showhour"/>
                 <label for="two">12PM</label>&nbsp;
                 <input type="radio" id="dinner" value="20:00:00" v-model="picked" @change="showhour" />
-                <label for="two">7PM</label>
+                <label for="two">7PM</label> -->
+
+                
+                <div v-for="(arDate, index) in arDates"  :key="index">
+                <input type="radio" :id="index" :value="arDate.StartDate" name="Hour" @change="showhour(arDate.StartDate, arDate.EndDate)" :key="index">{{arDate.StartDate}}
+                </div>
+
             </div>
             <tbody>
                  <!-- Product 1-->
@@ -52,13 +59,16 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import moment from 'moment'
+
+Vue.prototype.moment = moment
 Vue.use(VueAxios, axios)
 
 export default {
     data() {
         return{
-            fullname: window.localStorage.getItem("user"),
-            accountname: window.localStorage.getItem("username"),
+            username: window.localStorage.getItem("username"),
+            accountname: window.localStorage.getItem("accountname"),
             Foods: [],
             date: null,
             date2: null,
@@ -68,6 +78,8 @@ export default {
             picked: null,
             orders: [],
             quantity: 0,
+            minDate: null,
+            arDates: [],
         }
     },
     methods:{
@@ -82,18 +94,41 @@ export default {
         showdate(){
             this.date;
         },
-        showhour(){
-            if(this.picked=="10:30:00"){
-                this.enddate = this.date + " 12:30:00";
-            }else{
-                this.enddate = this.date + " 22:00:00";
-            }
-            this.date2 = this.date + " " + this.picked;
+        showhour(StartDate, EndDate){
+            // if(this.picked=="10:30:00"){
+            //     this.enddate = this.date + " 12:30:00";
+            // }else{
+            //     this.enddate = this.date + " 22:00:00";
+            // }
+            this.enddate = this.date + " " + EndDate;
+            this.date2 = this.date + " " + StartDate;
             this.GetCanteenCalendarRecords();
+        },
+        GetCanteenCalendarIdx(){
+            var convert = require('xml-js');
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetCanteenCalendarRecords?startdate="+ this.date2 + "&enddate=" + this.enddate ).then(response => {
+                var result = convert.xml2json(response.data,
+               {compact: true, spaces: 4});
+               result = JSON.parse(result);
+               var arCanteenCalendarRecord = [];
+               arCanteenCalendarRecord = result.ArrayOfCanteenCalendarRecord.CanteenCalendarRecord;
+               for(var iCCR = 0; iCCR < arCanteenCalendarRecord.length; iCCR++){
+
+                var tempStartDate = moment(arCanteenCalendarRecord[iCCR].StartDateTime._text).format('HH:mm:ss');
+                var tempEndDate = moment(arCanteenCalendarRecord[iCCR].EndDateTime._text).format('HH:mm:ss');
+                var oDate = {};
+                oDate['StartDate'] = tempStartDate;
+                oDate['EndDate'] = tempEndDate;
+                this.arDates.push(oDate);
+
+                console.log(this.arDates);
+               }
+               console.log(result);
+            })
         },
         GetCanteenCalendarRecords(){
             var convert = require('xml-js');
-            axios.post("hhttps://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetCanteenCalendarRecords?startdate="+ this.date2 + "&enddate=" + this.enddate ).then(response => {
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetCanteenCalendarRecords?startdate="+ this.date2 + "&enddate=" + this.enddate ).then(response => {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                result = JSON.parse(result);
@@ -121,7 +156,7 @@ export default {
             console.log(food.MenuItem_Idx._text.toString())
             console.log(food.quantity)
             var convert = require('xml-js');
-            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.accountname  +"&menuitem_idx=" + food.MenuItem_Idx._text.toString() + "&quantity=" + food.quantity).then(response => {
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.username  +"&menuitem_idx=" + food.MenuItem_Idx._text.toString() + "&quantity=" + food.quantity).then(response => {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                result = JSON.parse(result);
@@ -143,8 +178,18 @@ export default {
                     }
                 }
             })
+        },
+        DateTimeMenu(){
+            
         }
     },
+    created(){
+        this.minDate = moment().format('YYYY-MM-DD');
+
+        this.date2 = moment().format('YYYY-MM-DD') + ' 00:00:00';
+        this.enddate = moment().format('YYYY-MM-DD') + ' 23:59:59';
+        this.GetCanteenCalendarIdx();
+    }
 }
 </script>
 

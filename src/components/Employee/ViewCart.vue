@@ -4,7 +4,7 @@
 
         <!-- Page content-->
         <div class="container">
-
+            <h3>Hi, {{accountname}}</h3>
 
             <!--Shopping-->
             <section class="pt-5 pb-5">
@@ -29,6 +29,7 @@
                             <tbody>
                                 <!--Product 1-->
                                 <!-- <tr v-if="!orders.length">No Order/s</tr> -->
+                                <tr v-if="!orders.length">No Order/s</tr>
                                 <tr v-for="(order, index) in orders" :key="index">
                                     <td data-th="Product">
                                         <div class="row">
@@ -42,7 +43,7 @@
                                         </div>
                                     </td>
                                     <td data-th="Quantity">
-                                        <input type="number" class="form-control form-control-lg text-center" :value="order.OrderList.CanteenOrderItem.Quantity._text">
+                                        <input type="number" class="form-control form-control-lg text-center" :value="order.Quantity">
                                     </td>
                                     <td class="actions" data-th="">
                                         <div class="text-right">
@@ -95,10 +96,11 @@ Vue.use(VueAxios, axios)
 export default {
     data() {
         return{
+            accountname: window.localStorage.getItem("accountname"),
             orders: [],
             dateorder: null,
             menuitem_idx: null,
-            accountname: window.localStorage.getItem("username"),
+            username: window.localStorage.getItem("username"),
             calendar_idx: window.localStorage.getItem("calendar_idx")
         }
     },
@@ -106,7 +108,7 @@ export default {
         DeleteCanteenOrders(order){
             this.menuitem_idx = order.MenuItem.MenuItem_Idx._text;
             console.log(this.menuitem_idx)
-            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.accountname + "&menuitem_idx=" + this.menuitem_idx ).then(response => {
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.username + "&menuitem_idx=" + this.menuitem_idx ).then(response => {
                 console.log(response);
                 this.GetOrders();
             })
@@ -116,7 +118,7 @@ export default {
             for(var x = 0; x < this.orders.length;x++)
             {
                 var convert = require('xml-js');
-                axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.accountname  +"&menuitem_idx=" + this.orders[x].MenuItem.MenuItem_Idx._text.toString() + "&quantity=" + this.orders[x].Quantity._text).then(response => {
+                axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.username  +"&menuitem_idx=" + this.orders[x].MenuItem.MenuItem_Idx._text.toString() + "&quantity=" + this.orders[x].Quantity._text).then(response => {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                result = JSON.parse(result);
@@ -128,12 +130,13 @@ export default {
             alert("Your food is ordered. Kindly Check your Order!");
         },
         GetAllOrder(){
+            console.log(this.accountname)
             var convert = require('xml-js');
-            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetAllCanteenOrders?username=" + this.accountname).then(response => {
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetAllCanteenOrders?username=" + this.username).then(response => {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                 var orders = JSON.parse(result);
-                console.log(orders)
+                
                 if(Array.isArray(orders)){
                     this.orders = orders.ArrayOfCanteenOrder.CanteenOrder;
                 }else{                        
