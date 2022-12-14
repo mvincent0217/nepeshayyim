@@ -56,7 +56,6 @@ export default {
       username: "",
       password: "",
       accountname: "",
-      accountrole: "",
     };
 
   },
@@ -78,13 +77,17 @@ export default {
           .then((response) => {
             var result2 = convert.xml2json(response.data, { compact: true, spaces: 4 });
             result2 = JSON.parse(result2);
-            this.accountrole = result2.UserAccount
-            console.log(this.accountrole)
+            console.log(result2)
             this.fullname = window.localStorage.setItem("user", result2.UserAccount.FullName._text);
             this.username = window.localStorage.setItem("username", this.username);
             window.localStorage.setItem("login", true);
-            this.$router.push("/employee-home");
-            console.log(result2);
+            if(Array.isArray(result2.UserAccount.UserRoles["a:string"])){
+                console.log("error")
+                this.$router.push("/viewHR");
+
+            }else{
+              this.$router.push("/employee-home");
+            }
           });
       }
     },
