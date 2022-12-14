@@ -88,8 +88,13 @@ export default {
             }
 
             window.localStorage.setItem("login", true);
-            this.$router.push("/employee-home");
-            console.log(result2);
+            if(Array.isArray(result2.UserAccount.UserRoles["a:string"])){
+                console.log("error")
+                this.$router.push("/viewHR");
+
+            }else{
+              this.$router.push("/employee-home");
+            }
           });
       }
     },
