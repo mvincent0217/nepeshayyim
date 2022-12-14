@@ -89,12 +89,17 @@ export default {
 
             window.localStorage.setItem("login", true);
             if(Array.isArray(result2.UserAccount.UserRoles["a:string"])){
-                console.log("error")
+                window.localStorage.setItem("UserRoles", result2.UserAccount.UserRoles["a:string"][0]._text);
+                console.log(result2.UserAccount.UserRoles["a:string"][0]._text)
                 this.$router.push("/viewHR");
+
 
             }else{
               this.$router.push("/employee-home");
+              window.localStorage.setItem("UserRoles", "Employee");
             }
+
+            window.location.reload()
           });
       }
     },
