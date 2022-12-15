@@ -11,10 +11,14 @@
     "axios": "^1.2.0",
     "core-js": "^3.8.3",
     "cors": "^2.8.5",
+    "jw-paginate": "^1.0.4",
+    "jw-vue-pagination": "^1.0.3",
     "moment": "^2.29.4",
     "vue": "^2.6.14",
     "vue-axios": "^3.5.2",
     "vue-router": "^3.4.7",
+    "vue-scroll-fixed-navbar": "^0.2.2",
+    "vuejs-paginate": "^2.1.0",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {

@@ -29,9 +29,8 @@
             <div class="text-center">
               <button
                 type="button"
-                class="btn btn-default submit"
-                @click="ValidateUserAccount"
-              >
+                class="btn btn-primary btn-lg"
+                @click="ValidateUserAccount">
                 Log in
               </button>
             </div>
@@ -41,7 +40,6 @@
     </div>
   </div>
 </template>
-
 <script>
 
 import Vue from "vue";
