@@ -15,7 +15,6 @@
                 type="text"
                 v-model="username"
                 placeholder="Username"
-                value="if.brm"
               /><br /><br />
             </div>
             <div class="text-center">
@@ -23,7 +22,6 @@
                 type="password"
                 v-model="password"
                 placeholder="Password"
-                value="decatech"
               /><br /><br />
             </div>
             <div class="text-center">
@@ -65,8 +63,7 @@ export default {
       var convert = require("xml-js");
       if (this.password == "" || this.password == "") {
         alert("Empty Fields");
-      } else {
-        window.localStorage.setItem("username", this.username);
+      } else{
         axios
           .post(
             "https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/ValidateUserAccount?username=" +
@@ -75,32 +72,47 @@ export default {
               this.password
           )
           .then((response) => {
-            var result2 = convert.xml2json(response.data, { compact: true, spaces: 4 });
-            result2 = JSON.parse(result2);
+            var result = convert.xml2json(response.data, { compact: true, spaces: 4 });
+            result = JSON.parse(result);
 
-            this.username = result2.UserAccount.UserId._text;
-            this.fullname = result2.UserAccount.FullName._text;
+            this.username = result.UserAccount.UserId._text;
+            this.fullname = result.UserAccount.FullName._text;
 
-            if(result2.UserAccount.FullName._text == undefined){
-              this.accountname = window.localStorage.setItem("accountname", this.username);
-            }else{
-              this.accountname = window.localStorage.setItem("accountname", this.fullname)
-            }
-
-            window.localStorage.setItem("login", true);
-            if(Array.isArray(result2.UserAccount.UserRoles["a:string"])){
-                window.localStorage.setItem("UserRoles", result2.UserAccount.UserRoles["a:string"][0]._text);
-                console.log(result2.UserAccount.UserRoles["a:string"][0]._text)
-                this.$router.push("/viewHR");
-
-
-            }else{
-              this.$router.push("/employee-home");
-              window.localStorage.setItem("UserRoles", "Employee");
-            }
-
-            window.location.reload()
-          });
+              if(this.username == undefined){
+                  alert("User not found !");
+                  this.username = '';
+                  this.password = '';
+              }else{
+                window.localStorage.setItem('username', this.username);
+                if(result.UserAccount.FullName._text == undefined){
+                  this.accountname = window.localStorage.setItem("accountname", this.username);
+                }else{
+                  this.accountname = window.localStorage.setItem("accountname", this.fullname)
+                }
+                window.localStorage.setItem("login", true);
+                  var bAdmin = false;
+                  if(Array.isArray(result.UserAccount.UserRoles["a:string"])){
+                      var arUserRoles = [];
+                      arUserRoles = result.UserAccount.UserRoles["a:string"];
+                      var requiredRole = 'HR_Admin';
+                      for(var iUser=0; iUser < arUserRoles.length; iUser++)
+                      {
+                        if(requiredRole==arUserRoles[iUser]._text)
+                        {
+                          bAdmin = true;
+                        }
+                      }
+                  }
+                  if(bAdmin)
+                  {
+                    this.$router.push("/viewHR");
+                  }else{
+                    this.$router.push("/employee-home");
+                    window.localStorage.setItem("UserRoles", "Employee");
+                  }
+              }
+              window.location.reload();
+          });      
       }
     },
   },

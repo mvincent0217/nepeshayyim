@@ -17,11 +17,10 @@
                             <thead>
                                 <tr>
                                     <th style="width:50%">Product</th>
-                                    <th style="width:10%">Quantity</th>
+                                    <th style="width:20%">Quantity</th>
                                     <th style="width:5%">Day</th>
-                                    <th style="width:15%">Date</th>
+                                    <th style="width:10%">Date</th>
                                     <th style="width:10%">Time</th>
-                                    <th style="width:10%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -40,22 +39,16 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td data-th="Quantity">
-                                        <label for="">-</label><input type="number" class="form-control form-control-lg text-center" min="0" max="10" onpaste="return false;" onkeypress="return event.charCode >= 48 && event.charCode <= 57" v-model="order.Quantity" @change="checkquantity(order.Quantity)" :disabled="order.Locked == 'true'"><label for="">+</label>
+                                    <td data-th="Quantity" style="text-align:center">
+                                        <div class="text-right d-flex" >
+                                            <button class="btn btn-white bg-white btn-md mb-2" @click="DeductQuantity(order)" :disabled="order.Locked == 'true'">➖</button> &nbsp;                       
+                                            <input style="width:50px;" type="number" class="form-control form-control-md text-center" v-model="order.Quantity" @change="checkquantity(order.Quantity)" disabled>&nbsp;
+                                            <button class="btn btn-white bg-white btn-md mb-2" @click="AddQuantity(order)" :disabled="order.Locked == 'true'">➕</button>
+                                        </div>
                                     </td>
                                     <td data-th="Day">{{ moment(order.DateTime).format('dddd') }}</td>
                                     <td data-th="Date">{{ moment(order.DateTime).format('MMM DD YYYY') }}</td>
                                     <td data-th="Date">{{ moment(order.DateTime).format('hh:mmA') }}</td>
-                                    <td class="actions" data-th="">
-                                        <div class="text-right">
-                                            <button class="btn btn-white border-secondary bg-danger btn-md mb-2" @click="DeleteCanteenOrders(order)" :disabled="order.Locked == 'true'"> 
-                                                🗑️
-                                            </button> &nbsp;
-                                            <button class="btn btn-white border-secondary bg-primary btn-md mb-2" @click="CheckOutOrders(order)" :disabled="order.Locked == 'true'"> 
-                                                ✓
-                                            </button>
-                                        </div>
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -97,6 +90,7 @@ export default {
             orders: [],
             dateorder: null,
             menuitem_idx: null,
+            quantity: 0,
             username: window.localStorage.getItem("username"),
             calendar_idx: window.localStorage.getItem("calendar_idx")
         }
@@ -105,8 +99,6 @@ export default {
         DeleteCanteenOrders(order){
             axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + order.Calendar_Idx + "&username=" + this.username + "&menuitem_idx=" + order.MenuItem_Idx._text ).then(response => {
                 console.log(response);
-                this.orders = [];
-                this.GetAllOrder();
             })
 
         },
@@ -116,15 +108,21 @@ export default {
                 order.Quantity = 0;
             }
         },
+        DeductQuantity(order){
+            order.Quantity = Number(order.Quantity) - 1;
+            this.CheckOutOrders(order);
+        },
+        AddQuantity(order){
+            order.Quantity = Number(order.Quantity) + 1;
+            this.CheckOutOrders(order);
+        },
         CheckOutOrders(order){
             console.log(order.Quantity)
             if(order.Quantity == 0){
                 this.DeleteCanteenOrders(order);
             }else{
-                for(var x = 0; x < this.orders.length;x++)
-                {
                     var convert = require('xml-js');
-                    axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + order.calendar_idx + "&username=" + order.username  +"&menuitem_idx=" + order.orders[x].MenuItem.MenuItem_Idx._text.toString() + "&quantity=" + this.orders[x].Quantity._text).then(response => {
+                    axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + order.Calendar_Idx + "&username=" + this.username  +"&menuitem_idx=" + order.MenuItem_Idx._text + "&quantity=" + order.Quantity).then(response => {
                     var result = convert.xml2json(response.data,
                 {compact: true, spaces: 4});
                 result = JSON.parse(result);
@@ -132,7 +130,7 @@ export default {
                     localStorage.setItem("datetime", this.date2)
                     localStorage.setItem("orders", JSON.stringify(this.orders))
                     })
-                }
+                
             }
         },
         GetAllOrder(){

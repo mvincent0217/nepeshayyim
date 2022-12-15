@@ -8,6 +8,7 @@ import ViewCart from './components/Employee/ViewCart.vue'
 import OrderHistory from './components/Employee/OrderHistory.vue'
 import ViewLogin from './components/ViewLogin.vue'
 import ViewHR from './components/HR/ViewHR.vue'
+import OrderViewCart from './components/Employee/OrderViewCart.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
@@ -30,6 +31,7 @@ const routes =[
   {path: '/OrderHistory', component: OrderHistory},
   {path: '/login', component: ViewLogin, name: 'login'},
   {path: '/viewHR', component: ViewHR},
+  {path: '/OrderViewCart', component: OrderViewCart}
 
 
 
