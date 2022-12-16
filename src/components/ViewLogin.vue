@@ -105,7 +105,7 @@ export default {
                   {
                     this.$router.push("/viewHR");
                   }else{
-                    this.$router.push("/employee-home");
+                    this.$router.push("/OrderViewCart");
                     window.localStorage.setItem("UserRoles", "Employee");
                   }
               }
