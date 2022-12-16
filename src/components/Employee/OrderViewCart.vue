@@ -10,8 +10,9 @@
               <div class="container">
                 <div class="row w-100">
                     <div class="col-lg-12 col-md-12 col-12">
+                        <br><br>
                         <h3 class="display-5 mb-2 text-center">SUPERSTAR! {{accountname}}</h3>
-                        <h3 class="display-5 mb-2 text-center">🛒 Order Cart 🛒</h3>
+                        <h3 class="display-5 mb-2 text-center">Order Cart </h3>
                         <p class="mb-5 text-center"></p>
                         <table id="shoppingCart" class="table table-condensed table-responsive">
                             <thead>
