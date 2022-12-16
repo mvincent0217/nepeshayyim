@@ -6,8 +6,9 @@
         <div class="container">
             <br><br>
             <div class="text-center">
+                <br><br>
                 <h3 class="display-5 mb-2 text-center">SUPERSTAR! {{accountname}}</h3><br><br>
-                <label for ="Date">Date of Order Reservation:</label> 
+                <label for ="Date">Date of Order Reservation: &nbsp;</label> 
                 <input type="date" id="date" class="col-sm-4 mb-3 mb-m-2 order-md-2 text-md-center" name="date" v-model="date" :min="this.MaxDate"  @change="showdate"><br>
                 
                 <!-- <input type="radio" id="lunch" value="10:30:00" v-model="picked" @change="showhour"/>
@@ -16,7 +17,7 @@
                 <label for="two">7PM</label> -->
 
                 
-                <label v-for="(arDate, index) in arDates"  :key="index">
+                <label v-for="(arDate, index) in arDates"  :key="index"> &nbsp;
                 <input type="radio" :id="index" :value="arDate.StartDate" name="Hour" :disabled="date == null" @change="showhour(arDate.StartDate, arDate.EndDate)" :key="index">{{arDate.StartDate}}
                 </label>
 

@@ -4,28 +4,38 @@
 
     <!-- Page content-->
     <div class="container">
+    <div class="row justify-content-center m-5">
+    <div class="card align-self-center w-50">
       <section class="pt-7 pb-5">
         <div class="container">
           <form>
-            <br /><br /><br /><br /><br /><br />
-            <h1 class="text-center">Login Form</h1>
+            <div>
+              <br><br>
+              <img src="../../public/images/nepeshayyim logo.png" alt="">
+            </div>
+            <br/><br/><br/>
+            <h2 class="text-center" style="color: navy;">Welcome!  Please login</h2>
             <br />
+            <div>
             <div class="text-center">
-              <input
+              <input class="form-control"
                 type="text"
                 v-model="username"
                 placeholder="Username"
+                value="if.brm"
               /><br /><br />
             </div>
             <div class="text-center">
-              <input
+              <input id="pass" class="form-control"
                 type="password"
-                v-model="password"
+                v-model="password" @keyup.enter="ValidateUserAccount"
                 placeholder="Password"
+                value="decatech"
               /><br /><br />
             </div>
+            </div>
             <div class="text-center">
-              <button
+              <button id="btn"
                 type="button"
                 class="btn btn-primary btn-lg"
                 @click="ValidateUserAccount">
@@ -35,6 +45,8 @@
           </form>
         </div>
       </section>
+   </div>
+   </div>
     </div>
   </div>
 </template>
@@ -61,7 +73,8 @@ export default {
       var convert = require("xml-js");
       if (this.password == "" || this.password == "") {
         alert("Empty Fields");
-      } else{
+      } else {
+        window.localStorage.setItem("username", this.username);
         axios
           .post(
             "https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/ValidateUserAccount?username=" +
