@@ -5,15 +5,15 @@
     <!-- Page content-->
     <div class="container">
     <div class="row justify-content-center m-5">
-    <div class="card align-self-center w-50">
+    <div class="card align-self-center w-auto">
       <section class="pt-7 pb-5">
         <div class="container">
           <form>
-            <div>
+            <div class="text-center">
               <br><br>
-              <img src="../../public/images/nepeshayyim logo.png" alt="">
+              <img src="../../public/images/nepeshayyim logo.png" width="460" height="345" alt="">
             </div>
-            <br/><br/><br/>
+            <br /><br /><br/>
             <h2 class="text-center" style="color: navy;">Welcome!  Please login</h2>
             <br />
             <div>
@@ -83,27 +83,27 @@ export default {
               this.password
           )
           .then((response) => {
-            var result = convert.xml2json(response.data, { compact: true, spaces: 4 });
-            result = JSON.parse(result);
+            var result2 = convert.xml2json(response.data, { compact: true, spaces: 4 });
+            result2 = JSON.parse(result2);
 
-            this.username = result.UserAccount.UserId._text;
-            this.fullname = result.UserAccount.FullName._text;
+            this.username = result2.UserAccount.UserId._text;
+            this.fullname = result2.UserAccount.FullName._text;
 
               if(this.username == undefined){
                   alert("User not found !");
                   this.username = '';
                   this.password = '';
               }else{
-                if(result.UserAccount.FullName._text == undefined){
+                if(result2.UserAccount.FullName._text == undefined){
                   this.accountname = window.localStorage.setItem("accountname", this.username);
                 }else{
                   this.accountname = window.localStorage.setItem("accountname", this.fullname)
                 }
                 window.localStorage.setItem("login", true);
                   var bAdmin = false;
-                  if(Array.isArray(result.UserAccount.UserRoles["a:string"])){
+                  if(Array.isArray(result2.UserAccount.UserRoles["a:string"])){
                       var arUserRoles = [];
-                      arUserRoles = result.UserAccount.UserRoles["a:string"];
+                      arUserRoles = result2.UserAccount.UserRoles["a:string"];
                       var requiredRole = 'HR_Admin';
                       for(var iUser=0; iUser < arUserRoles.length; iUser++)
                       {
@@ -131,3 +131,9 @@ export default {
 };
 
 </script>
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
