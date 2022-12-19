@@ -14,12 +14,12 @@
                 <form>
                     <div>
                             <label for="img">Select image: &nbsp;</label>
-                            <input type="file" name="myImage" accept="image/png, image/jpeg" @change="changeHandler" /> <br><br>
+                            <input type="file" name="foodimage" id="foodimage" accept="image/png, image/jpeg" @change="UploadImage" /> <br><br>
                             <label for="img">Food Name:</label>
                             <input type="text" id="Foodname" name="Foodname" v-model="foodname"><br><br>
                             <label for="img">Description:</label> <br>
                             <textarea id="Description" name="Description" rows="4" cols="50" v-model="fooddescription"></textarea><br>
-                            <br><input type="submit" @click="SubmitNewFoodMenu">
+                            <br><input type="submit" @click.prevent="SubmitNewFoodMenu">
                     </div>
                 </form>
         </div>
@@ -36,44 +36,55 @@ export default {
         return{
             fullname: window.localStorage.getItem("user"),
             accountname: window.localStorage.getItem("accountname"),
-            foodname: null,
-            fooddescription: null,
-            foodimage: null,
-            foodimagefilepath: '',
+            foodname: "",
+            fooddescription: "",
+            foodimage: "",
+            images: [],
+            foodimagefilepath: null,
             Foods: [],
         }
     },
     methods:{
-        changeHandler(event){
-            // setFile(event.target.files[0]);
-            // console.log(file)
-
-            let file = event.target.files[0]
-            let reader = new FileReader();
-            reader.onloadend = files => {
-            this.foodimage = reader.result;
-            console.log(this.foodimage);
-            console.log(files)
+        GetCanteenImageFilenames(){
+            var convert = require('xml-js');
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetCanteenImageFilenames").then(response => {
+                var resultGetCanteenImageFilenames = convert.xml2json(response.data,
+            {compact: true, spaces: 4});
+            resultGetCanteenImageFilenames = JSON.parse(resultGetCanteenImageFilenames);
+            this.images = resultGetCanteenImageFilenames.ArraOfstring["string"]._text;
+            console.log(this.images);
+            })
+        },
+        UploadImage(e){
+            let img = e.target.files[0];
+            let fd= new FormData()
+            fd.append('image', img)
+                    axios.post('/upload-image', fd).then(resp => {
+                    this.foodimagefilepath = resp.data.path
+            })
+        },
+        SubmitNewFoodMenu(){
+            let fooddata = {
+                foodname: this.foodname,
+                fooddescription: this.fooddescription,
+                foodimagefilepath: this.foodimagefilepath,
+                foodimage: this.foodimage,
             }
-            reader.readAsDataURL(file);
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenMenuItem", fooddata)
         },
         GetCanteenMenuItems(){
             var convert = require('xml-js');
             axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetCanteenMenuItems").then(response => {
-                var result2 = convert.xml2json(response.data,
+                var resultGetCanteenMenuItems = convert.xml2json(response.data,
             {compact: true, spaces: 4});
-            result2 = JSON.parse(result2);
-            this.Foods = result2.ArrayOfCanteenMenuItem.CanteenMenuItem;
+            resultGetCanteenMenuItems = JSON.parse(resultGetCanteenMenuItems);
+            this.Foods = resultGetCanteenMenuItems.ArrayOfCanteenMenuItem.CanteenMenuItem;
             })
         },
-        SubmitNewFoodMenu(){
-            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenMenuItem?name=" + this.foodname + "&description=" + this.fooddescription +"&filepath=" + this.foodimagefilepath + "&filecontent=" + this.foodimage).then(response => {
-                console.log(response)
-            })
-        }
     },
     created(){
         this.GetCanteenMenuItems();
+        this.GetCanteenImageFilenames();
     }
 }
 </script>

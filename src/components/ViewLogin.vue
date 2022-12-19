@@ -74,7 +74,7 @@ export default {
       if (this.password == "" || this.password == "") {
         alert("Empty Fields");
       } else {
-        window.localStorage.setItem("username", this.username);
+      
         axios
           .post(
             "https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/ValidateUserAccount?username=" +
@@ -94,7 +94,6 @@ export default {
                   this.username = '';
                   this.password = '';
               }else{
-                window.localStorage.setItem('username', this.username);
                 if(result.UserAccount.FullName._text == undefined){
                   this.accountname = window.localStorage.setItem("accountname", this.username);
                 }else{
@@ -116,8 +115,10 @@ export default {
                   }
                   if(bAdmin)
                   {
+                    window.localStorage.setItem('username', this.username);
                     this.$router.push("/viewHR");
                   }else{
+                    window.localStorage.setItem('username', this.username);
                     this.$router.push("/OrderViewCart");
                     window.localStorage.setItem("UserRoles", "Employee");
                   }

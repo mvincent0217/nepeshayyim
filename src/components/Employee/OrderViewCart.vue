@@ -97,26 +97,31 @@ export default {
         }
     },
     methods:{
+
         DeleteCanteenOrders(order){
             axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + order.Calendar_Idx + "&username=" + this.username + "&menuitem_idx=" + order.MenuItem_Idx._text ).then(response => {
                 console.log(response);
             })
 
         },
+
         checkquantity(order){
             if(order=="")
             {
                 order.Quantity = 0;
             }
         },
+
         DeductQuantity(order){
             order.Quantity = Number(order.Quantity) - 1;
             this.CheckOutOrders(order);
         },
+
         AddQuantity(order){
             order.Quantity = Number(order.Quantity) + 1;
             this.CheckOutOrders(order);
         },
+
         CheckOutOrders(order){
             console.log(order.Quantity)
             if(order.Quantity == 0){
@@ -131,9 +136,9 @@ export default {
                     localStorage.setItem("datetime", this.date2)
                     localStorage.setItem("orders", JSON.stringify(this.orders))
                     })
-                
             }
         },
+
         GetAllOrder(){
             var convert = require('xml-js');
             axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetAllCanteenOrders?username=" + this.username).then(response => {
@@ -200,13 +205,16 @@ export default {
                     }
                     
                 }
-                console.log(this.orders)
             })
         },
     },
+
     created(){
             this.GetAllOrder();
-
+            if(this.username == null){
+                this.$router.push("/login");
+            }
+            
         },
 }
 </script>
