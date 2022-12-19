@@ -14,9 +14,10 @@
                         <h3 class="display-5 mb-2 text-center">SUPERSTAR! {{accountname}}</h3>
                         <h3 class="display-5 mb-2 text-center">Order Cart </h3>
                         <p class="mb-5 text-center"></p>
+                        <infinite-loading>
                         <table id="shoppingCart" class="table table-condensed table-responsive">
                             <thead>
-                                <tr>
+                                <tr w-auto>
                                     <th style="width:50%">Product</th>
                                     <th style="width:20%">Quantity</th>
                                     <th style="width:5%">Day</th>
@@ -53,6 +54,7 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </infinite-loading>
                     </div>
                 </div>
                 <div class="col-sm-6 order-md-2 text-center">
@@ -80,6 +82,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import moment from 'moment'
+import InfiniteLoading from 'vue-infinite-loading';
 
 Vue.prototype.moment = moment
 Vue.use(VueAxios, axios)
@@ -134,6 +137,8 @@ export default {
                 
             }
         },
+        components: {
+        InfiniteLoading,},
         GetAllOrder(){
             var convert = require('xml-js');
             axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetAllCanteenOrders?username=" + this.username).then(response => {
