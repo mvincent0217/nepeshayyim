@@ -11,15 +11,20 @@
                 <div class="row w-100">
                     <div class="col-lg-12 col-md-12 col-12">
                         <br><br>
+
                         <h3 class="display-5 mb-2 text-center">SUPERSTAR! {{accountname}}</h3>
                         <h3 class="display-5 mb-2 text-center">Order Cart </h3>
                         <p class="mb-5 text-center"></p>
-                        <infinite-loading>
+                        <p class="text-center"> Once pre ordered considered sold</p>
+                        <p class="text-center"> Orders will be lock 2 days before</p>
+                        
+
                         <table id="shoppingCart" class="table table-condensed table-responsive">
                             <thead>
                                 <tr w-auto>
-                                    <th style="width:50%">Product</th>
-                                    <th style="width:20%">Quantity</th>
+                                    <th style="width:60%">Image</th>
+                                    <th style="width:10%">Product</th>
+                                    <th style="width:8%">Quantity</th>
                                     <th style="width:5%">Day</th>
                                     <th style="width:10%">Date</th>
                                     <th style="width:10%">Time</th>
@@ -30,11 +35,15 @@
                                 <!-- <tr v-if="!orders.length">No Order/s</tr> -->
                                 <tr v-if="!orders.length">No Order/s</tr>
                                 <tr v-for="(order, index) in orders" :key="index">
-                                    <td data-th="Product">
+                                    <td data-th="Image">
                                         <div class="row">
                                             <div class="col-md-3 text-left">
-                                                <img src="../../../public/images/menu.jpg" alt="" class="img-fluid d-none d-md-block rounded mb-2 shadow ">
+                                                <img src="../../../public/images/menu.jpg" width="600" height="600" alt="">
                                             </div>
+                                        </div>
+                                    </td>
+                                    <td data-th="Product">
+                                        <div class="row">
                                             <div class="col-md-9 text-left mt-sm-2">
                                                 <h4>{{ order.Name._text }}</h4>
                                                 <p>{{ order.Description._text }}</p>
@@ -54,11 +63,10 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </infinite-loading>
+       
                     </div>
                 </div>
                 <div class="col-sm-6 order-md-2 text-center">
-
                     <!-- <nav aria-label="Page navigation example">
                      <ul class="pagination">
                       <li class="page-item"><a class="page-link" href="#">Previous</a></li>
@@ -68,7 +76,6 @@
                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
                     </ul>
                     </nav> -->
-
                 </div>
             </div>
             </section>
@@ -219,3 +226,10 @@ export default {
         },
 }
 </script>
+
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
