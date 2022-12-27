@@ -21,9 +21,9 @@
                         <table id="shoppingCart" class="table table-condensed table-responsive">
                             <thead>
                                 <tr w-auto>
-                                    <th style="width:60%">Image</th>
-                                    <th style="width:10%">Product</th>
-                                    <th style="width:5%">Quantity</th>
+                                    <th style="width:40%">Image</th>
+                                    <th style="width:25%">Product</th>
+                                    <th style="width:10%">Quantity</th>
                                     <th style="width:5%">Day</th>
                                     <th style="width:10%">Date</th>
                                     <th style="width:10%">Time</th>
@@ -36,7 +36,7 @@
                                 <tr v-for="(order, index) in orders" :key="index">
                                     <td data-th="Image">
                                         <div class="row">
-                                            <div class="col-md-3 text-left">
+                                            <div class="col-md-9 text-left">
                                                 <img :src="order.FilePath._text" alt="">
                                             </div>
                                         </div>
