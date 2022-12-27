@@ -8,7 +8,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">  
                       <li class="nav-item" hidden><router-link class="nav-link" to="/employee-home">Menu☰</router-link></li>  
-                      <li class="nav-item" ><router-link class="nav-link" to="/viewHR" v-if="UserRoles == 'HR_Admin'">Upload Food</router-link></li>              
+                      <li class="nav-item" ><router-link class="nav-link" to="/viewHR" :hidden="(this.bAdmin == false)">Upload Food</router-link></li>              
                         <li class="nav-item" hidden><router-link class="nav-link" to="/view-cart">My Orders🛒</router-link></li>
                         <li class="nav-item"><router-link class="nav-link" to="/OrderViewCart">Order🛒</router-link></li>
                         <li class="nav-item nav-link">{{ this.username.toUpperCase() }}</li>   
@@ -43,10 +43,23 @@ export default {
   {
     return{
       login: false,
+      bAdmin: false,
       UserRoles: window.localStorage.getItem("UserRoles"),
       username : window.localStorage.getItem("username"),
     }
 
+  },
+  mounted() {
+    window.onpopstate = () => {
+      // if (
+      //   window.localStorage.getItem("info") !== null &&
+      //   this.$route.path == "/login"
+      // ) 
+      //{
+        //this.$router.push("/"); // redirect to home, for example
+      //}
+      this.$router.push("/OrderViewCart");
+    };
   },
 
   methods:{
@@ -59,7 +72,12 @@ export default {
 
   },
   created(){
-    this.login=localStorage.getItem("login")
+    this.login = localStorage.getItem("login")
+    this.bAdmin = window.localStorage.getItem('bAdmin');
+    if(this.bAdmin == undefined)
+    {
+      this.bAdmin = false;
+    }
   }
 
 }

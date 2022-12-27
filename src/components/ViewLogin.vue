@@ -65,6 +65,7 @@ export default {
       password: "",
       accountname: "",
       fullname: "",
+      isLogin: false,
     };
 
   },
@@ -94,6 +95,7 @@ export default {
                   this.username = '';
                   this.password = '';
               }else{
+                this.isLogin = true;
                 if(result2.UserAccount.FullName._text == undefined){
                   this.accountname = window.localStorage.setItem("accountname", this.username);
                 }else{
@@ -101,10 +103,11 @@ export default {
                 }
                 window.localStorage.setItem("login", true);
                   var bAdmin = false;
-                  if(Array.isArray(result2.UserAccount.UserRoles["a:string"])){
+
+                  var requiredRole = 'HR_Admin';
+                 if(Array.isArray(result2.UserAccount.UserRoles["a:string"])){
                       var arUserRoles = [];
                       arUserRoles = result2.UserAccount.UserRoles["a:string"];
-                      var requiredRole = 'HR_Admin';
                       for(var iUser=0; iUser < arUserRoles.length; iUser++)
                       {
                         if(requiredRole==arUserRoles[iUser]._text)
@@ -113,12 +116,23 @@ export default {
                         }
                       }
                   }
+                  else{
+                    var oUserRoles = {};
+                    oUserRoles = result2.UserAccount.UserRoles["a:string"];
+                    if(requiredRole==oUserRoles._text)
+                      {
+                        bAdmin = true;
+                      }
+                  }
                   if(bAdmin)
                   {
                     window.localStorage.setItem('username', this.username);
+                    window.localStorage.setItem('bAdmin', true);
+                    window.localStorage.setItem('bHasAccess', true);
                     this.$router.push("/viewHR");
                   }else{
                     window.localStorage.setItem('username', this.username);
+                    window.localStorage.setItem('bHasAccess', true);
                     this.$router.push("/OrderViewCart");
                     window.localStorage.setItem("UserRoles", "Employee");
                   }
@@ -126,7 +140,7 @@ export default {
               window.location.reload();
           });      
       }
-    },
+    }
   },
 };
 
