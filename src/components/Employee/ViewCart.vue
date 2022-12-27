@@ -4,24 +4,27 @@
 
         <!-- Page content-->
         <div class="container">
+            <h3>Hi, {{accountname}}</h3>
 
             <!--Shopping-->
             <section class="pt-5 pb-5">
-              <div class="container">
+                   <div class="col-sm-6 mb-3 mb-m-1 order-md-1 text-md-left">
+                    <router-link class="btn btn-default submit" to="/OrderHistory">Order History</router-link>
+                  </div>
+              <div class="container" id="Table">
                 <div class="row w-100">
                     <div class="col-lg-12 col-md-12 col-12">
-                        <h3 class="display-5 mb-2 text-center">SUPERSTAR! {{accountname}}</h3>
-                        <h3 class="display-5 mb-2 text-center">🛒 Order Cart 🛒</h3>
+                        <h3 class="display-5 mb-2 text-center">Order Cart</h3>
                         <p class="mb-5 text-center"></p>
                         <table id="shoppingCart" class="table table-condensed table-responsive">
                             <thead>
                                 <tr>
-                                    <th style="width:50%">Product</th>
+                                    
+                                    <th style="width:30%">Food</th>
                                     <th style="width:10%">Quantity</th>
-                                    <th style="width:5%">Day</th>
-                                    <th style="width:15%">Date</th>
-                                    <th style="width:10%">Time</th>
-                                    <th style="width:10%">Action</th>
+                                    <th style="width:22%">Action</th>
+                                    <th style="width:9%">Day</th>
+                                    <th style="width:9%">Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -41,21 +44,20 @@
                                         </div>
                                     </td>
                                     <td data-th="Quantity">
-                                        <label for="">-</label><input type="number" class="form-control form-control-lg text-center" min="0" max="10" onpaste="return false;" onkeypress="return event.charCode >= 48 && event.charCode <= 57" v-model="order.Quantity" @change="checkquantity(order.Quantity)" :disabled="order.Locked == 'true'"><label for="">+</label>
+                                        <input type="number" class="form-control form-control-lg text-center" :value="order.Quantity">
                                     </td>
-                                    <td data-th="Day">{{ moment(order.DateTime).format('dddd') }}</td>
-                                    <td data-th="Date">{{ moment(order.DateTime).format('MMM DD YYYY') }}</td>
-                                    <td data-th="Date">{{ moment(order.DateTime).format('hh:mmA') }}</td>
                                     <td class="actions" data-th="">
                                         <div class="text-right">
-                                            <button class="btn btn-white border-secondary bg-danger btn-md mb-2" @click="DeleteCanteenOrders(order)" :disabled="order.Locked == 'true'"> 
+                                            <button class="btn btn-white border-secondary bg-white btn-md mb-2" @click="DeleteCanteenOrders(order)"> 
                                                 🗑️
                                             </button> &nbsp;
-                                            <button class="btn btn-white border-secondary bg-primary btn-md mb-2" @click="CheckOutOrders(order)" :disabled="order.Locked == 'true'"> 
-                                                ✓
+                                            <button class="btn btn-white border-secondary bg-primary btn-md mb-2" @click="CheckOutOrders"> 
+                                                Check Out
                                             </button>
                                         </div>
                                     </td>
+                                    <td data-th="Day">{{ order.DateTime }}</td>
+                                    <td data-th="Date">{{ order.DateTime }}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -82,18 +84,11 @@ import moment from 'moment'
 Vue.prototype.moment = moment
 Vue.use(VueAxios, axios)
 
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-
-    document.getElementById("navbar").style.top = "0";
-
-}
 
 export default {
     data() {
         return{
-            accountname: window.localStorage.getItem("accountname").toUpperCase(),
+            accountname: window.localStorage.getItem("accountname"),
             orders: [],
             dateorder: null,
             menuitem_idx: null,
@@ -104,39 +99,31 @@ export default {
     methods:{
 
         DeleteCanteenOrders(order){
-            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + order.Calendar_Idx + "&username=" + this.username + "&menuitem_idx=" + order.MenuItem_Idx._text ).then(response => {
+            this.menuitem_idx = order.MenuItem.MenuItem_Idx._text;
+            console.log(this.menuitem_idx)
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.username + "&menuitem_idx=" + this.menuitem_idx ).then(response => {
                 console.log(response);
-                this.orders = [];
-                this.GetAllOrder();
+                this.GetOrders();
             })
 
         },
-        checkquantity(order){
-            if(order=="")
+        CheckOutOrders(){
+            for(var x = 0; x < this.orders.length;x++)
             {
-                order.Quantity = 0;
+                var convert = require('xml-js');
+                axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + this.calendar_idx + "&username=" + this.username  +"&menuitem_idx=" + this.orders[x].MenuItem.MenuItem_Idx._text.toString() + "&quantity=" + this.orders[x].Quantity._text).then(response => {
+                var result = convert.xml2json(response.data,
+               {compact: true, spaces: 4});
+               result = JSON.parse(result);
+               console.log(result);
+                localStorage.setItem("datetime", this.date2)
+                localStorage.setItem("orders", JSON.stringify(this.orders))
+                })
             }
-        },
-        CheckOutOrders(order){
-            console.log(order.Quantity)
-            if(order.Quantity == 0){
-                this.DeleteCanteenOrders(order);
-            }else{
-                for(var x = 0; x < this.orders.length;x++)
-                {
-                    var convert = require('xml-js');
-                    axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + order.calendar_idx + "&username=" + order.username  +"&menuitem_idx=" + order.orders[x].MenuItem.MenuItem_Idx._text.toString() + "&quantity=" + this.orders[x].Quantity._text).then(response => {
-                    var result = convert.xml2json(response.data,
-                {compact: true, spaces: 4});
-                result = JSON.parse(result);
-                console.log(result);
-                    localStorage.setItem("datetime", this.date2)
-                    localStorage.setItem("orders", JSON.stringify(this.orders))
-                    })
-                }
-            }
+            alert("Your food is ordered. Kindly Check your Order!");
         },
         GetAllOrder(){
+            console.log(this.accountname)
             var convert = require('xml-js');
             axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetAllCanteenOrders?username=" + this.username).then(response => {
                 var result = convert.xml2json(response.data,
@@ -148,59 +135,33 @@ export default {
                 }else{                        
                     var new_order = orders.ArrayOfCanteenOrder.CanteenOrder;
                     let array = []
-                    var bSpecialCase = false;
-                    if(Array.isArray(new_order))
-                    {
-                        array = new_order;
-                    }
-                    else{
-                        bSpecialCase = true;
-                        array = new_order.OrderList.CanteenOrderItem;
-                    }
-                    if(!bSpecialCase)
-                    {
-                        for(var iArr= 0; iArr < array.length; iArr++){
-                            var temp = {};
-                            temp = array[iArr];
-                            var tempOrderList = {};
-                            tempOrderList = temp.OrderList;
-                            if(!Array.isArray(tempOrderList.CanteenOrderItem))
-                            {
-                                tempOrderList.CanteenOrderItem.MenuItem['Locked'] = temp.Locked._text;
-                                tempOrderList.CanteenOrderItem.MenuItem['Calendar_Idx'] = temp.CalendarRecord.Calendar_Idx._text;
-                                tempOrderList.CanteenOrderItem.MenuItem['DateTime'] = temp.CalendarRecord.DateTime._text;
-                                tempOrderList.CanteenOrderItem.MenuItem['Quantity'] = tempOrderList.CanteenOrderItem.Quantity._text;
-                                this.orders.push(tempOrderList.CanteenOrderItem.MenuItem);
-                            }
-                            else{
-                                var tempCanteenOrderItem = [];
-                                tempCanteenOrderItem = tempOrderList.CanteenOrderItem;
-                                for(var iOrder = 0; iOrder < tempCanteenOrderItem.length; iOrder++)
-                                {
-                                    var tempCanteenOrder = {};
-                                    tempCanteenOrder = tempCanteenOrderItem[iOrder];
-                                    tempCanteenOrder.MenuItem['Locked'] = temp.Locked._text;
-                                    tempCanteenOrder.MenuItem['Calendar_Idx'] = temp.CalendarRecord.Calendar_Idx._text;
-                                    tempCanteenOrder.MenuItem['DateTime'] = temp.CalendarRecord.DateTime._text;
-                                    tempCanteenOrder.MenuItem['Quantity'] = tempCanteenOrder.Quantity._text;
-                                    this.orders.push(tempCanteenOrder.MenuItem);
-                                }
-                            }
-                        }
-                    }
-                    else{
-                        for(var i = 0; i < array.length; i++)
+                    array = new_order;
+                    for(var iArr= 0; iArr < array.length; iArr++){
+                        var temp = {};
+                        temp = array[iArr];
+                        var tempOrderList = {};
+                        tempOrderList = temp.OrderList;
+                        if(!Array.isArray(tempOrderList.CanteenOrderItem))
                         {
-                            tempCanteenOrder = {};
-                            tempCanteenOrder = array[i];
-                            tempCanteenOrder.MenuItem['Locked'] = new_order.Locked._text;
-                            tempCanteenOrder.MenuItem['Calendar_Idx'] = new_order.CalendarRecord.Calendar_Idx._text;
-                            tempCanteenOrder.MenuItem['DateTime'] = new_order.CalendarRecord.DateTime._text;
-                            tempCanteenOrder.MenuItem['Quantity'] = tempCanteenOrder.Quantity._text;
-                            this.orders.push(tempCanteenOrder.MenuItem);
+                            tempOrderList.CanteenOrderItem.MenuItem['Calendar_Idx'] = temp.CalendarRecord.Calendar_Idx._text;
+                            tempOrderList.CanteenOrderItem.MenuItem['DateTime'] = temp.CalendarRecord.DateTime._text;
+                            tempOrderList.CanteenOrderItem.MenuItem['Quantity'] = tempOrderList.CanteenOrderItem.Quantity._text;
+                            this.orders.push(tempOrderList.CanteenOrderItem.MenuItem);
+                        }
+                        else{
+                            var tempCanteenOrderItem = [];
+                            tempCanteenOrderItem = tempOrderList.CanteenOrderItem;
+                            for(var iOrder = 0; iOrder < tempCanteenOrderItem.length; iOrder++)
+                            {
+                                var tempCanteenOrder = {};
+                                tempCanteenOrder = tempCanteenOrderItem[iOrder];
+                                tempCanteenOrder.MenuItem['Calendar_Idx'] = temp.CalendarRecord.Calendar_Idx._text;
+                                tempCanteenOrder.MenuItem['DateTime'] = temp.CalendarRecord.DateTime._text;
+                                tempCanteenOrder.MenuItem['Quantity'] = tempCanteenOrder.Quantity._text;
+                                this.orders.push(tempCanteenOrder.MenuItem);
+                            }
                         }
                     }
-                    
                 }
                 console.log(this.orders)
             })
@@ -208,7 +169,7 @@ export default {
     },
     created(){
             this.GetAllOrder();
-
+            
         },
 }
 
