@@ -24,7 +24,7 @@
                                 <tr w-auto>
                                     <th style="width:60%">Image</th>
                                     <th style="width:10%">Product</th>
-                                    <th style="width:8%">Quantity</th>
+                                    <th style="width:5%">Quantity</th>
                                     <th style="width:5%">Day</th>
                                     <th style="width:10%">Date</th>
                                     <th style="width:10%">Time</th>
@@ -37,8 +37,8 @@
                                 <tr v-for="(order, index) in orders" :key="index">
                                     <td data-th="Image">
                                         <div class="row">
-                                            <div class="col-md-3 text-left">
-                                                <img src="../../../public/images/menu.jpg" width="600" height="600" alt="">
+                                            <div id="abc" class="text-left"  width="600" height="600">
+                                                <img src="../../../public/images/menu.jpg" alt="">
                                             </div>
                                         </div>
                                     </td>
@@ -53,7 +53,7 @@
                                     <td data-th="Quantity" style="text-align:center">
                                         <div class="text-right d-flex" >
                                             <button class="btn btn-white bg-white btn-md mb-2" @click="DeductQuantity(order)" :disabled="order.Locked == 'true'">➖</button> &nbsp;                       
-                                            <input style="width:50px;" type="number" class="form-control form-control-md text-center" v-model="order.Quantity" @change="checkquantity(order.Quantity)" disabled>&nbsp;
+                                            <input style="width:75px;" type="number" min="0" class="form-control form-control-md text-center" v-model="order.Quantity" @change="checkquantity(order.Quantity)" disabled>&nbsp;
                                             <button class="btn btn-white bg-white btn-md mb-2" @click="AddQuantity(order)" :disabled="order.Locked == 'true'">➕</button>
                                         </div>
                                     </td>
@@ -102,7 +102,8 @@ export default {
             menuitem_idx: null,
             quantity: 0,
             username: window.localStorage.getItem("username"),
-            calendar_idx: window.localStorage.getItem("calendar_idx")
+            calendar_idx: window.localStorage.getItem("calendar_idx"),
+            isLogin: true,
         }
     },
     methods:{
@@ -123,7 +124,11 @@ export default {
 
         DeductQuantity(order){
             order.Quantity = Number(order.Quantity) - 1;
-            this.CheckOutOrders(order);
+            if(order.quantity < 0){
+                order.quantity = 0;
+            }else{
+                this.CheckOutOrders(order);
+            }
         },
 
         AddQuantity(order){
@@ -160,6 +165,7 @@ export default {
                     var new_order = orders.ArrayOfCanteenOrder.CanteenOrder;
                     let array = []
                     var bSpecialCase = false;
+                    console.log(new_order)
                     if(Array.isArray(new_order))
                     {
                         array = new_order;
@@ -222,13 +228,12 @@ export default {
             if(this.username == null){
                 this.$router.push("/login");
             }
-            
         },
 }
 </script>
 
 <style>
-img {
+.abc {
   max-width: 100%;
   height: auto;
 }

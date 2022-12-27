@@ -3,9 +3,9 @@ import App from './App.vue'
 
 import VueRouter from 'vue-router'
 
-import ViewHome from './components/Employee/ViewHome.vue'
-import ViewCart from './components/Employee/ViewCart.vue'
-import OrderHistory from './components/Employee/OrderHistory.vue'
+//import ViewHome from './components/Employee/ViewHome.vue'
+//import ViewCart from './components/Employee/ViewCart.vue'
+//import OrderHistory from './components/Employee/OrderHistory.vue'
 import ViewLogin from './components/ViewLogin.vue'
 import ViewHR from './components/HR/ViewHR.vue'
 import OrderViewCart from './components/Employee/OrderViewCart.vue'
@@ -26,12 +26,19 @@ const routes =[
   next('/login')
   }
 },
-  {path: '/employee-home', component: ViewHome},
-  {path: '/view-cart', component: ViewCart},
-  {path: '/OrderHistory', component: OrderHistory},
+  //{path: '/employee-home', component: ViewHome},
+  //{path: '/view-cart', component: ViewCart},
+  //{path: '/OrderHistory', component: OrderHistory},
   {path: '/login', component: ViewLogin, name: 'login'},
-  {path: '/viewHR', component: ViewHR},
-  {path: '/OrderViewCart', component: OrderViewCart}
+  {path: '/viewHR', component: ViewHR, name: '_ViewHR' ,
+  meta:{
+    requiresAuth: true
+  }
+  },
+  {path: '/OrderViewCart', component: OrderViewCart, name: 'orderviewcart' ,
+  meta:{
+    requiresAuth: true
+  }}
 
 
 
@@ -44,6 +51,29 @@ const router =new VueRouter({
   routes: routes
 
   });
+  router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      // this route requires auth, check if logged in
+      // if not, redirect to login page.
+      var bHasAccess = window.localStorage.getItem('bHasAccess');
+      //var bAdmin = window.localStorage.setItem('bAdmin');
+      if (!bHasAccess) {
+        next({ name: 'login' })
+      } 
+      else {
+        next();
+        // if(bAdmin)
+        // {
+        //   next() // go to wherever I'm going
+        // }
+        // else{
+        //   next({ name: 'orderviewcart' })
+        // }
+      }
+    } else {
+      next() // does not require auth, make sure to always call next()!
+    }
+  })
 
 new Vue({
   router,

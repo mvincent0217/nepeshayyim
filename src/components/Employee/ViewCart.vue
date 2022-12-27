@@ -16,6 +16,7 @@
                     <div class="col-lg-12 col-md-12 col-12">
                         <h3 class="display-5 mb-2 text-center">Order Cart</h3>
                         <p class="mb-5 text-center"></p>
+                        <h3 class="display-5 mb-2 text-center">Order Cart</h3>
                         <table id="shoppingCart" class="table table-condensed table-responsive">
                             <thead>
                                 <tr>
