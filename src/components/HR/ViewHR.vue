@@ -5,7 +5,7 @@
             <br>
             <h5>List of Available Food Menu</h5>
                 <select name="food" id="" >
-                    <option value=""></option>
+                    <option value="">Food Menu</option>
                 <option v-for="(food,index) in Foods" :key="index">{{food.Name._text}}</option>
                 </select>
             <br>
@@ -14,19 +14,19 @@
             <br>
                 <form>
                     <div>
-                            <label for="img">Food Name:</label>
+                            <label for="img">Food Name: </label>
                             <input type="text" id="Foodname" name="Foodname" v-model="foodname"><br><br>
                             <label for="">Food Image</label>
                             <select name="food" id="" @change="DisplayImage">
-                                <option value=""></option>
+                                <option value="">Select Image here</option>
                                 <option v-for="(img,index) in foodimgArr" :key="index" :value="img._text">{{ img._text }}</option>
                             </select>
-                            <div style="border-style: ridge;" :hidden="this.displaypicture == '' ">
-                                <img :src="(GetimagePath + displaypicture)" width="450" height="345">
+                            <div :hidden="this.displaypicture == '' ">
+                                <img :src="(GetimagePath + displaypicture)" width="450" height="450" style="border-style: ridge;">
                             </div>
-                            <br><br>
+                            <br>
 
-                            <label for="img">Description:</label><br>
+                            <label for="img">Description: </label><br>
                             <textarea id="Description" name="Description" rows="4" cols="50" v-model="fooddescription"></textarea><br>
                             <br><input type="submit" @click.prevent="SubmitNewFoodMenu">
                     </div>
@@ -92,8 +92,8 @@ export default {
 </script>
 
 <style>
-img {
+/* img {
   max-width: 100%;
   height: auto;
-}
+} */
 </style>

@@ -37,7 +37,7 @@
                                     <td data-th="Image">
                                         <div class="row">
                                             <div class="col-md-12 text-left">
-                                                <img :src="order.FilePath._text" alt="">
+                                                <img :src="order.FilePath._text" height="450px" width="400px" alt="">
                                             </div>
                                         </div>
                                     </td>
@@ -232,36 +232,4 @@ export default {
 </script>
 
 <style>
-img {
-    max-width: 100%;
-    width: 100%;
-    height: auto !important;
-}
-@media (max-width:767px) {
-     img {
-        max-width: 100%;
-        max-height: 100%;
-    }
-}
-
-@media (min-width:768px) {
-     img {
-        max-width: 240px;
-        max-height: 240px;
-    }
-}
-
-@media (min-width:992px) {
-     img {
-        max-width: 314px;
-        max-height: 314px;
-    }
-}
-
-@media (min-width:1200px) {
-     img {
-        max-width: 380px;
-        max-height: 380px;
-    }
-}
 </style>
