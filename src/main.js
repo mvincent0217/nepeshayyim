@@ -20,10 +20,11 @@ Vue.config.productionTip = false
 const routes =[
   { 
   path: '/',
-  component: 
-  require('./components/ViewLogin.vue').default,
+  //component: 
+  //require('./components/ViewLogin.vue').default,
   beforeEnter: (to, from, next) => {
-  next('/login')
+    next({ name: 'orderviewcart' })
+  //next('/login')
   }
 },
   //{path: '/employee-home', component: ViewHome},

@@ -15,16 +15,15 @@
                         <h3 class="display-5 mb-2 text-center">SUPERSTAR! {{accountname}}</h3>
                         <h3 class="display-5 mb-2 text-center">Order Cart </h3>
                         <p class="mb-5 text-center"></p>
-                        <p class="text-center"> Once pre ordered considered sold</p>
-                        <p class="text-center"> Orders will be lock 2 days before</p>
+                        <h3>Note:</h3><span> Once pre ordered considered sold.  Orders will be lock 2 days before</span>
                         
 
                         <table id="shoppingCart" class="table table-condensed table-responsive">
                             <thead>
                                 <tr w-auto>
-                                    <th style="width:60%">Image</th>
-                                    <th style="width:10%">Product</th>
-                                    <th style="width:5%">Quantity</th>
+                                    <th style="width:50%">Image</th>
+                                    <th style="width:15%">Product</th>
+                                    <th style="width:10%">Quantity</th>
                                     <th style="width:5%">Day</th>
                                     <th style="width:10%">Date</th>
                                     <th style="width:10%">Time</th>
@@ -37,8 +36,8 @@
                                 <tr v-for="(order, index) in orders" :key="index">
                                     <td data-th="Image">
                                         <div class="row">
-                                            <div id="abc" class="text-left"  width="600" height="600">
-                                                <img src="../../../public/images/menu.jpg" alt="">
+                                            <div class="text-left">
+                                                <img src="../../../public/images/menu.jpg" width="200" height="200" alt="">
                                             </div>
                                         </div>
                                     </td>
@@ -53,7 +52,7 @@
                                     <td data-th="Quantity" style="text-align:center">
                                         <div class="text-right d-flex" >
                                             <button class="btn btn-white bg-white btn-md mb-2" @click="DeductQuantity(order)" :disabled="order.Locked == 'true'">➖</button> &nbsp;                       
-                                            <input style="width:75px;" type="number" min="0" class="form-control form-control-md text-center" v-model="order.Quantity" @change="checkquantity(order.Quantity)" disabled>&nbsp;
+                                            <input style="width:50px;" type="number" min="0" class="form-control form-control-md text-center" v-model="order.Quantity" @change="checkquantity(order.Quantity)" disabled>&nbsp;
                                             <button class="btn btn-white bg-white btn-md mb-2" @click="AddQuantity(order)" :disabled="order.Locked == 'true'">➕</button>
                                         </div>
                                     </td>
@@ -100,7 +99,6 @@ export default {
             orders: [],
             dateorder: null,
             menuitem_idx: null,
-            quantity: 0,
             username: window.localStorage.getItem("username"),
             calendar_idx: window.localStorage.getItem("calendar_idx"),
             isLogin: true,
@@ -124,8 +122,9 @@ export default {
 
         DeductQuantity(order){
             order.Quantity = Number(order.Quantity) - 1;
-            if(order.quantity < 0){
-                order.quantity = 0;
+            if(order.Quantity < 0){
+                order.Quantity = 0;
+                return order.Quantity;
             }else{
                 this.CheckOutOrders(order);
             }
@@ -233,7 +232,7 @@ export default {
 </script>
 
 <style>
-.abc {
+img {
   max-width: 100%;
   height: auto;
 }

@@ -1,6 +1,6 @@
 <template>
         <div class="text-center">
-            <br><br>
+            <br><br><br>
             <h3 class="display-5 mb-2 text-center">Superstar! {{ this.accountname}}</h3>
             <br>
             <h5>List of Available Food Menu</h5>
@@ -21,7 +21,7 @@
                                 <option value=""></option>
                                 <option v-for="(img,index) in foodimgArr" :key="index" :value="img._text">{{ img._text }}</option>
                             </select>
-                            <div :hidden="this.displaypicture == '' ">
+                            <div style="border-style: ridge;" :hidden="this.displaypicture == '' ">
                                 <img :src="(GetimagePath + displaypicture)" width="450" height="345">
                             </div>
                             <br><br>
@@ -71,10 +71,7 @@ export default {
             })
         },
         SubmitNewFoodMenu(){
-            console.log(this.foodname)
-            console.log(this.fooddescription)
-            console.log(this.displaypicture.replace("/", "\\"))
-            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenMenuItem?name=" + this.foodname + "&description=" + this.fooddescription + "&filepath=" + this.GetimagePath + this.displaypicture.replace("\\", "/") + "&filecontent=" + '')
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenMenuItem?name=" + this.foodname.toUpperCase() + "&description=" + this.fooddescription + "&filepath=" + this.GetimagePath + this.displaypicture.replace("\\", "/") + "&filecontent=" + '')
         },
         GetCanteenMenuItems(){
             var convert = require('xml-js');
