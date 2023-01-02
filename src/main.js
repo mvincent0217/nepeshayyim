@@ -3,9 +3,9 @@ import App from './App.vue'
 
 import VueRouter from 'vue-router'
 
-//import ViewHome from './components/Employee/ViewHome.vue'
-//import ViewCart from './components/Employee/ViewCart.vue'
-//import OrderHistory from './components/Employee/OrderHistory.vue'
+import ViewHome from './components/Employee/ViewHome.vue'
+import ViewCart from './components/Employee/ViewCart.vue'
+import OrderHistory from './components/Employee/OrderHistory.vue'
 import ViewLogin from './components/ViewLogin.vue'
 import ViewHR from './components/HR/ViewHR.vue'
 import OrderViewCart from './components/Employee/OrderViewCart.vue'
@@ -27,9 +27,9 @@ const routes =[
   //next('/login')
   }
 },
-  //{path: '/employee-home', component: ViewHome},
-  //{path: '/view-cart', component: ViewCart},
-  //{path: '/OrderHistory', component: OrderHistory},
+  {path: '/employee-home', component: ViewHome},
+  {path: '/view-cart', component: ViewCart},
+  {path: '/OrderHistory', component: OrderHistory},
   {path: '/login', component: ViewLogin, name: 'login'},
   {path: '/viewHR', component: ViewHR, name: '_ViewHR' ,
   meta:{

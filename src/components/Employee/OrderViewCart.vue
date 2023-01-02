@@ -36,8 +36,8 @@
                                 <tr v-for="(order, index) in orders" :key="index">
                                     <td data-th="Image">
                                         <div class="row">
-                                            <div class="col-md-12 text-left">
-                                                <img :src="order.FilePath._text" height="450px" width="400px" alt="">
+                                            <div class="col-lg-12 text-left">
+                                                <img :src="order.FilePath._text" height="500px" width="400px" alt="">
                                             </div>
                                         </div>
                                     </td>
