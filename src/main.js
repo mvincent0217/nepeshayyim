@@ -9,6 +9,7 @@ import VueRouter from 'vue-router'
 import ViewLogin from './components/ViewLogin.vue'
 import ViewHR from './components/HR/ViewHR.vue'
 import OrderViewCart from './components/Employee/OrderViewCart.vue'
+import FullCalendar from './components/Employee/FullCalendar.vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios)
@@ -31,6 +32,7 @@ const routes =[
   //{path: '/view-cart', component: ViewCart},
   //{path: '/OrderHistory', component: OrderHistory},
   {path: '/login', component: ViewLogin, name: 'login'},
+  {path: '/FullCalendar', component: FullCalendar, name: 'FullCalendar'}
   {path: '/viewHR', component: ViewHR, name: '_ViewHR' ,
   meta:{
     requiresAuth: true
