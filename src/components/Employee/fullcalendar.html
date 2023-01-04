@@ -89,7 +89,9 @@
 							title: title,
 							start: start,
 							end: end,
-							allDay: allDay
+							allDay: allDay,
+							className: 'important',
+							select: alert('clicked')
 						},
 						true // make the event "stick"
 					);
@@ -125,7 +127,7 @@
 				{
 					title: 'Dinner',
 					start: new Date(y, m, d),
-					className: 'important'
+					className: 'important',
 				},
 				{
 					title: 'Lunch',
