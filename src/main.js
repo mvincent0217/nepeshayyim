@@ -32,7 +32,7 @@ const routes =[
   //{path: '/view-cart', component: ViewCart},
   //{path: '/OrderHistory', component: OrderHistory},
   {path: '/login', component: ViewLogin, name: 'login'},
-  {path: '/FullCalendar', component: FullCalendar, name: 'FullCalendar'}
+  {path: '/FullCalendar', component: FullCalendar, name: 'FullCalendar'},
   {path: '/viewHR', component: ViewHR, name: '_ViewHR' ,
   meta:{
     requiresAuth: true

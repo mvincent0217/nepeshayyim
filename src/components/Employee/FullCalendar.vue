@@ -1,29 +1,25 @@
-
 <template>
+<div id='wrap'>
 
-	<div id='wrap'>
+<div id='calendar'></div>
 
-		<div id='calendar'></div>
-		
-		<div style='clear:both'></div>
-	</div>
+<div style='clear:both'></div>
+
+</div>
 
 </template>
 
-<link href='../../assets/css/fullcalendar.css' rel='stylesheet' />
-<link href='../../assets/css/fullcalendar.print.css' rel='stylesheet' media='print' />
-<script src='../../assets/js/jquery-1.10.2.js' type="text/javascript"></script>
-<script src='../../assets/js/jquery-ui.custom.min.js' type="text/javascript"></script>
-<script src='../../assets/js/fullcalendar.js' type="text/javascript"></script>
-
-
 <script>
+//import $ from "jquery";
+export default{
 
-	$(document).ready(function() {
-	    var date = new Date();
-		var d = date.getDate();
-		var m = date.getMonth();
-		var y = date.getFullYear();
+}
+
+$(document).ready(function() {
+	var date = new Date();
+	var d = date.getDate();
+	var m = date.getMonth();
+	var y = date.getFullYear();
 
 		/*  className colors
 
@@ -35,7 +31,7 @@
 		/* initialize the external events
 		-----------------------------------------------------------------*/
 
-		$('#external-events div.external-event').each(function() {
+	$('#external-events div.external-event').each(function() {
 
 			// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
 			// it doesn't need to have a start or end
@@ -47,11 +43,7 @@
 			$(this).data('eventObject', eventObject);
 
 			// make the event draggable using jQuery UI
-			$(this).draggable({
-				zIndex: 999,
-				revert: true,      // will cause the event to go back to its
-				revertDuration: 0  //  original position after the drag
-			});
+			
 
 		});
 
@@ -99,7 +91,7 @@
 				}
 				calendar.fullCalendar('unselect');
 			},
-			droppable: true, // this allows things to be dropped onto the calendar !!!
+			droppable: false, // this allows things to be dropped onto the calendar !!!
 			drop: function(date, allDay) { // this function is called when something is dropped
 
 				// retrieve the dropped element's stored Event Object
@@ -129,25 +121,28 @@
 				{
 					title: 'Dinner',
 					start: new Date(y, m, d),
-					className: 'success',
-				
+					className: 'important',
+					url: 'http://localhost:8080/OrderViewCart'
+					
 				},
-				
 				{
 					title: 'Lunch',
 					start: new Date(y, m, d),
 					className: 'important'
-				},
+				}
 			],
-			eventClick: function(info){
-				console.log(info)
-			}			
+			eventClick: function () {
+				
+			}
 		});
-
-
-	});
+});
 
 </script>
+<!-- <style scoped='../../assets/css/fullcalendar.css' rel='stylesheet'></style>
+<style scoped='../../assets/css/fullcalendar.print.css' rel='stylesheet' media='print'></style>
+<script src='../../assets/js/jquery-1.10.2.js' type="text/javascript"></script>
+<script src='../../assets/js/jquery-ui.custom.min.js' type="text/javascript"></script>
+<script src='../../assets/js/fullcalendar.js' type="text/javascript"></script> -->
 
 <style>
 
@@ -177,7 +172,7 @@
 		padding-top: 1em;
 		}
 
-	.external-event { /* try to mimick the look of a real event */
+	.external-event { /* try to mimick the look of a real event kk*/
 		margin: 10px 0;
 		padding: 2px 4px;
 		background: #3366CC;
@@ -202,7 +197,7 @@
         margin: 0 auto;
 		width: 900px;
 		background-color: #FFFFFF;
-		  border-radius: 6px;
+		border-radius: 6px;
         box-shadow: 0 1px 2px #C3C3C3;
 		}
 </style>

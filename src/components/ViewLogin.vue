@@ -129,11 +129,11 @@ export default {
                     window.localStorage.setItem('username', this.username);
                     window.localStorage.setItem('bAdmin', true);
                     window.localStorage.setItem('bHasAccess', true);
-                    this.$router.push("/viewHR");
+                    this.$router.push("/FullCalendar");
                   }else{
                     window.localStorage.setItem('username', this.username);
                     window.localStorage.setItem('bHasAccess', true);
-                    this.$router.push("/OrderViewCart");
+                    this.$router.push("/FullCalendar");
                     window.localStorage.setItem("UserRoles", "Employee");
                   }
               }

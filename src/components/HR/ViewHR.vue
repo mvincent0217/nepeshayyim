@@ -95,12 +95,5 @@ export default {
 /* img {
   max-width: 100%;
   height: auto;
-<<<<<<< HEAD
-}
-</style>
-
-
-=======
 } */
 </style>
->>>>>>> 20b994dda9f8a93ebb4dd527e2e368be5a2af3cb
