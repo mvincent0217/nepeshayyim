@@ -21,8 +21,8 @@
                         <table id="shoppingCart" class="table table-condensed table-responsive">
                             <thead>
                                 <tr w-auto>
-                                    <th style="width:40%">Image</th>
-                                    <th style="width:25%">Product</th>
+                                    <th style="width:50%">Image</th>
+                                    <th style="width:15%">Product</th>
                                     <th style="width:10%">Quantity</th>
                                     <th style="width:5%">Day</th>
                                     <th style="width:10%">Date</th>
@@ -36,8 +36,8 @@
                                 <tr v-for="(order, index) in orders" :key="index">
                                     <td data-th="Image">
                                         <div class="row">
-                                            <div class="col-lg-12 text-left">
-                                                <img :src="order.FilePath._text" height="500px" width="400px" alt="">
+                                            <div class="col-md-12 text-left">
+                                                <img :src="order.FilePath._text" alt="">
                                             </div>
                                         </div>
                                     </td>
@@ -52,7 +52,7 @@
                                     <td data-th="Quantity" style="text-align:center">
                                         <div class="text-right d-flex" >
                                             <button class="btn btn-white bg-white btn-md mb-2" @click="DeductQuantity(order)" :disabled="order.Locked == 'true'">➖</button> &nbsp;                       
-                                            <input style="width:75px;" type="number" max="50" class="form-control form-control-md text-center" v-model="order.Quantity" @change="checkquantity(order.Quantity)" disabled>&nbsp;
+                                            <input style="width:50px;" type="number" min="0" class="form-control form-control-md text-center" v-model="order.Quantity" @change="checkquantity(order.Quantity)" disabled>&nbsp;
                                             <button class="btn btn-white bg-white btn-md mb-2" @click="AddQuantity(order)" :disabled="order.Locked == 'true'">➕</button>
                                         </div>
                                     </td>
@@ -232,4 +232,36 @@ export default {
 </script>
 
 <style>
+img {
+    max-width: 100%;
+    width: 100%;
+    height: auto !important;
+}
+@media (max-width:767px) {
+     img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
+
+@media (min-width:768px) {
+     img {
+        max-width: 240px;
+        max-height: 240px;
+    }
+}
+
+@media (min-width:992px) {
+     img {
+        max-width: 314px;
+        max-height: 314px;
+    }
+}
+
+@media (min-width:1200px) {
+     img {
+        max-width: 380px;
+        max-height: 380px;
+    }
+}
 </style>
