@@ -10,12 +10,12 @@
 </template>
 
 <script>
-//import $ from "jquery";
+import $ from "jquery";
 export default{
 
 }
 
-$(document).ready(function() {
+ $(document).ready(function() {
 	var date = new Date();
 	var d = date.getDate();
 	var m = date.getMonth();
@@ -31,7 +31,7 @@ $(document).ready(function() {
 		/* initialize the external events
 		-----------------------------------------------------------------*/
 
-	$('#external-events div.external-event').each(function() {
+$('#external-events div.external-event').each(function() {
 
 			// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
 			// it doesn't need to have a start or end
@@ -122,7 +122,7 @@ $(document).ready(function() {
 					title: 'Dinner',
 					start: new Date(y, m, d),
 					className: 'important',
-					url: 'http://localhost:8080/OrderViewCart'
+					URL:"http://localhost:8080/#/ViewMenu"
 					
 				},
 				{
@@ -130,7 +130,9 @@ $(document).ready(function() {
 					start: new Date(y, m, d),
 					className: 'important'
 				}
+				
 			],
+			
 			eventClick: function () {
 				
 			}

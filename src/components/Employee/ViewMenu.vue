@@ -1,10 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+<template>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+</head>
+
+<body>
+    <div>HI, Name</div>
+    <div>DATE/TIME</div>
+    <div>Menu of the day</div>
+        <table border="1px solid" align="center">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <img src="../../../public/images/rice.jpg" alt="">
+                    </td>
+                    <td>
+                        <h4>Extra Rice</h4>
+                        <p>Extra rice over the included 1 cup of rice.</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    <div class="toggle-button-cover">
+        <div class="button r" id="button-1">
+            <input type="checkbox" class="checkbox">
+            <div class="knobs"></div>
+            <div class="layer"></div>
+        </div>
+        <center>EAT ?</center>
+    </div>
+</body>
+</template>
 
 <style>
     /* CSS rules are kept repetitive so that you can get CSS rules for each button easily :) */
@@ -160,37 +194,3 @@ img{
     height: 20%;
 }
 </style>
-</head>
-<body>
-    <div>HI, Name</div>
-    <div>DATE/TIME</div>
-    <div>Menu of the day</div>
-        <table border="1px solid" align="center">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Product</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <img src="../../../public/images/rice.jpg" alt="">
-                    </td>
-                    <td>
-                        <h4>Extra Rice</h4>
-                        <p>Extra rice over the included 1 cup of rice.</p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    <div class="toggle-button-cover">
-        <div class="button r" id="button-1">
-            <input type="checkbox" class="checkbox">
-            <div class="knobs"></div>
-            <div class="layer"></div>
-        </div>
-        <center>EAT ?</center>
-    </div>
-</body>
-</html>
