@@ -9,6 +9,7 @@
 
 <script>
 import moment from "moment";
+import axios from "axios";
 import Vue from 'vue'
 import FullCalendar from "vue-full-calendar";
 import "fullcalendar/dist/fullcalendar.min.css";
@@ -17,35 +18,62 @@ export default {
  // name: "hello",
   data() {
     return {
+      ttempstartdate: null,
+      ttempenddate: null,
+      
+
 
       events: [
-        // {
-        //   title: "est",
-        //   allDay: true,
-        //   start: moment(),
-        //   end: moment().add(1, "d"),
-        //   url: "google.com",
-        // },
-        // {
-        //   title: "est",
-        //   allDay: true,
-        //   start: moment(),
-        //   end: moment().add(1, "d"),
-        //   url: "google.com",
-        // },
+
       ],
-      eventClick: function () {},
       config: {
         defaultView: "month",
         eventRender: function (event) {
           console.log(event);
         },
+        eventClick: function (event) {
+
+          alert (event.Calendar_Idx);
+
+        }
       },
     };
   },
   methods:{
+
+    GetCanteenCalendarIdx(){
+      var attempstartdate = moment().format('YYYY-MM-DD');
+      var attempenddate = moment().add(2,'weeks').format('YYYY-MM-DD');
+      this.ttempstartdate = attempstartdate;
+      this.ttempenddate = attempenddate;
+            var convert = require('xml-js');
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetCanteenCalendarRecords?startdate="+ attempstartdate + "&enddate=" + attempenddate ).then(response => {
+                var result = convert.xml2json(response.data,
+               {compact: true, spaces: 4});
+               result = JSON.parse(result);
+               console.log(result);
+               var arCanteenCalendarRecord = [];
+               arCanteenCalendarRecord = result.ArrayOfCanteenCalendarRecord.CanteenCalendarRecord;
+               for(var iCCR = 0; iCCR < arCanteenCalendarRecord.length; iCCR++){
+
+                //var tempStartDate = moment(arCanteenCalendarRecord[iCCR].StartDateTime._text).format('HH:mm:ss');
+                //var tempEndDate = moment(arCanteenCalendarRecord[iCCR].EndDateTime._text).format('HH:mm:ss');
+                
+                var tempObj = {};
+      
+                //tempObj['allDay'] = true;
+                tempObj['start'] = arCanteenCalendarRecord[iCCR].StartDateTime._text;
+                tempObj['Calendar_Idx'] = arCanteenCalendarRecord[iCCR].Calendar_Idx._text;
+                //tempObj['end'] = tempEndDate;
+                this.events.push(tempObj);
+               }
+            })
+        },
+
+
+
     createCalendarRecords(){
-      for(var iCal =0; iCal<=25; iCal++){
+      for(var iCal =0; iCal<=14; iCal++){
         var tempObj = {};
         tempObj['title'] = iCal+'PM';
         tempObj['allDay'] = true;
@@ -53,10 +81,13 @@ export default {
         tempObj['end'] = moment().add(iCal, "d");
         this.events.push(tempObj);
       }
+      console.log(tempObj);
     }
   },
   created(){
-    this.createCalendarRecords();
+   // this.createCalendarRecords();
+   this.GetCanteenCalendarIdx()
+
   }
 };
 </script>
