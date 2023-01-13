@@ -1,230 +1,86 @@
 <template>
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
+    <div class="center">
+    
+        <div class="container">
 
-<body>
-    <div>HI, Name</div>
-    <div>DATE/TIME</div>
-    <div>Menu of the day</div>
-        <table border="1px solid" align="center">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Product</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <img src="../../../public/images/rice.jpg" alt="">
-                    </td>
-                    <td>
-                        <h4>Extra Rice</h4>
-                        <p>Extra rice over the included 1 cup of rice.</p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    <div class="toggle-button-cover">
-        <div class="button r" id="button-1">
-            <input type="checkbox" class="checkbox">
-            <div class="knobs"></div>
-            <div class="layer"></div>
+        <!--Shopping-->
+        <section class="pt-5 pb-5">
+        <div class="container">
+        <div class="row w-100">
+        <div class="col-lg-12 col-md-12 col-12">
+            <br><br>
+
+            <h3 class="display-5 mb-2 text-center">SUPERSTAR! {{accountname}}</h3>
+            <p class="mb-5 text-center"></p>
+            
+            <table class="table table-condensed table-responsive">
+                <thead>
+                    <tr w-auto>
+                        <th style="width:70%">Image</th>
+                        <th style="width:30%">Product</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!--Product 1-->
+                    <!-- <tr v-if="!orders.length">No Order/s</tr> -->
+                    <tr v-if="!orders.length">No Order/s</tr>
+                    <tr v-for="(order, index) in orders" :key="index">
+                        <td data-th="Image">
+                            <div class="row">
+                                <div class="col-md-12 text-left">
+                                    <img :src="order.FilePath._text" alt="">
+                                </div>
+                            </div>
+                        </td>
+                        <td data-th="Product">
+                            <div class="row">
+                                <div class="col-md-9 text-left mt-sm-2">
+                                    <h4>{{ order.Name._text }}</h4>
+                                    <p>{{ order.Description._text }}</p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
         </div>
-        <center>EAT ?</center>
     </div>
-</body>
+
+</div>
+</section>
+<!--Shopping-->
+</div>
+<input type="radio" id="Yes" name="Foodname" value="Yes">
+<span>Yes</span>&nbsp;
+<input type="radio" id="No" name="Foodname" value="No">
+<span>No</span>
+<h6>Are you going to eat?</h6>
+</div>
 </template>
 
-<style>
-    /* CSS rules are kept repetitive so that you can get CSS rules for each button easily :) */
+<script>
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+import moment from 'moment'
 
-*
-{
-    user-select: none;
-    -webkit-tap-highlight-color:transparent;
-}
 
-*:focus
-{
-    outline: none;
-}
+Vue.prototype.moment = moment
+Vue.use(VueAxios, axios)
 
-#app-cover
-{
-    display: table;
-    width: 600px;
-    margin: 80px auto;
-    counter-reset: button-counter;
+export default {
+    data() {
+        return{
+            accountname: window.localStorage.getItem("accountname").toUpperCase(),
+            orders: [],
+            dateorder: null,
+            menuitem_idx: null,
+            username: window.localStorage.getItem("username"),
+            calendar_idx: window.localStorage.getItem("calendar_idx"),
+            isLogin: true,
+        }
+    }
 }
+</script>
 
-.row
-{
-    display: table-row;
-}
-
-.toggle-button-cover
-{
-    display: table-cell;
-    position: relative;
-    width: 200px;
-    height: 140px;
-    box-sizing: border-box;
-}
-
-.button-cover
-{
-    height: 100px;
-    margin: 20px;
-    background-color: #fff;
-    box-shadow: 0 10px 20px -8px #c5d6d6;
-    border-radius: 4px;
-}
-
-.button-cover:before
-{
-    counter-increment: button-counter;
-    content: counter(button-counter);
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    color: #d7e3e3;
-    font-size: 12px;
-    line-height: 1;
-    padding: 5px;
-}
-
-.button-cover, .knobs, .layer
-{
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-}
-
-.button
-{
-    position: relative;
-    top: 50%;
-    width: 74px;
-    height: 36px;
-    margin: -20px auto 0 auto;
-    overflow: hidden;
-}
-
-.button.r, .button.r .layer
-{
-    border-radius: 100px;
-}
-
-.button.b2
-{
-    border-radius: 2px;
-}
-
-.checkbox
-{
-    position: relative;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 3;
-}
-
-.knobs
-{
-    z-index: 2;
-}
-
-.layer
-{
-    width: 100%;
-    background-color: #ebf7fc;
-    transition: 0.3s ease all;
-    z-index: 1;
-}
-
-/* Button 1 */
-#button-1 .knobs:before
-{
-    content: 'YES';
-    position: absolute;
-    top: 4px;
-    left: 4px;
-    width: 20px;
-    height: 10px;
-    color: #fff;
-    font-size: 10px;
-    font-weight: bold;
-    text-align: center;
-    line-height: 1;
-    padding: 9px 4px;
-    background-color: #03f40f;
-    border-radius: 50%;
-    transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
-}
-
-#button-1 .checkbox:checked + .knobs:before
-{
-    content: 'NO';
-    left: 42px;
-    background-color: #f81100;
-}
-
-#button-1 .checkbox:checked ~ .layer
-{
-    background-color: #fcebeb;
-}
-
-#button-1 .knobs, #button-1 .knobs:before, #button-1 .layer
-{
-    transition: 0.3s ease all;
-}
-
-img{
-    width: 20%;
-    height: 20%;
-}
-</style>
-</head>
-<body>
-    <div>HI, Name</div>
-    <div>DATE/TIME</div>
-    <div>Menu of the day</div>
-        <table border="1px solid" align="center">
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Product</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>
-                        <center><img src="../../../public/images/rice.jpg" alt=""></center>
-                    </td>
-                    <td>
-                        <h4>Extra Rice</h4>
-                        <p>Extra rice over the included 1 cup of rice.</p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    <div class="toggle-button-cover">
-        <div class="button r" id="button-1">
-            <input type="checkbox" class="checkbox">
-            <div class="knobs"></div>
-            <div class="layer"></div>
-        </div>
-        <center>EAT ?</center>
-    </div>
-</body>
-</html>
