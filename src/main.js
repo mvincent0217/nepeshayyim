@@ -32,12 +32,12 @@ Vue.config.productionTip = false
 const routes =[
   { 
   path: '/',
-  //component: 
-  //require('./components/ViewLogin.vue').default,
-  beforeEnter: (to, from, next) => {
-    next({ name: 'orderviewcart' })
-  //next('/login')
-  }
+  component: 
+  require('./components/ViewLogin.vue').default,
+  // beforeEnter: (to, from, next) => {
+  //   next({ name: 'orderviewcart' })
+  // next('/login')
+  // }
 },
 
 //---------calendar template

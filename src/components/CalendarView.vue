@@ -28,12 +28,12 @@ export default {
       ],
       config: {
         defaultView: "month",
-        eventRender: function (event) {
-          console.log(event);
+        eventRender: function () {
+    
         },
         eventClick: function (event) {
-
-          alert (event.Calendar_Idx);
+            console.log(event.url);
+        //window.open(event.url);
 
         }
       },
@@ -43,7 +43,7 @@ export default {
 
     GetCanteenCalendarIdx(){
       var attempstartdate = moment().format('YYYY-MM-DD');
-      var attempenddate = moment().add(2,'weeks').format('YYYY-MM-DD');
+      var attempenddate = moment().add(10,'weeks').format('YYYY-MM-DD');
       this.ttempstartdate = attempstartdate;
       this.ttempenddate = attempenddate;
             var convert = require('xml-js');
@@ -65,7 +65,9 @@ export default {
                 tempObj['start'] = arCanteenCalendarRecord[iCCR].StartDateTime._text;
                 tempObj['Calendar_Idx'] = arCanteenCalendarRecord[iCCR].Calendar_Idx._text;
                 //tempObj['end'] = tempEndDate;
+                tempObj['url'] = '#/ViewMenu';
                 this.events.push(tempObj);
+
                }
             })
         },

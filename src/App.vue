@@ -13,6 +13,7 @@
                         <li class="nav-item"><router-link class="nav-link" to="/ViewMenu">Menu🛒</router-link></li>
                         <li class="nav-item"><router-link class="nav-link" to="/ViewHome">View Home</router-link></li>
                           <li class="nav-item"><router-link class="nav-link" to="/CalendarView">Calendar📅</router-link></li>
+                          <!-- <li class="nav-item"><router-link class="nav-link" to="/OrderViewCart">Order View Cart</router-link></li> -->
                                 <li class="nav-item dropdown">
                                          <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ this.username.toUpperCase() }}</a>
                                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -49,14 +50,14 @@ export default {
   },
   mounted() {
     window.onpopstate = () => {
-      // if (
-      //   window.localStorage.getItem("info") !== null &&
-      //   this.$route.path == "/login"
-      // ) 
-      //{
-        //this.$router.push("/"); // redirect to home, for example
-      //}
-      this.$router.push("/OrderViewCart");
+      if (
+        window.localStorage.getItem("info") !== null &&
+        this.$route.path == "/login"
+      ) 
+      {
+        this.$router.push("/"); // redirect to home, for example
+      }
+      //this.$router.push("/OrderViewCart");
     };
   },
 
