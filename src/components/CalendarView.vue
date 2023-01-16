@@ -67,24 +67,28 @@ export default {
                 //tempObj['end'] = tempEndDate;
                 tempObj['url'] = '#/ViewMenu';
                 this.events.push(tempObj);
+                //localStorage['Calendar_Idx'] = arCanteenCalendarRecord[iCCR].Calendar_Idx._text;
 
                }
             })
         },
 
 
+        
 
-    createCalendarRecords(){
-      for(var iCal =0; iCal<=14; iCal++){
-        var tempObj = {};
-        tempObj['title'] = iCal+'PM';
-        tempObj['allDay'] = true;
-        tempObj['start'] = moment().add(iCal, "d");
-        tempObj['end'] = moment().add(iCal, "d");
-        this.events.push(tempObj);
-      }
-      console.log(tempObj);
-    }
+
+
+    // createCalendarRecords(){
+    //   for(var iCal =0; iCal<=14; iCal++){
+    //     var tempObj = {};
+    //     tempObj['title'] = iCal+'PM';
+    //     tempObj['allDay'] = true;
+    //     tempObj['start'] = moment().add(iCal, "d");
+    //     tempObj['end'] = moment().add(iCal, "d");
+    //     this.events.push(tempObj);
+    //   }
+    //   console.log(tempObj);
+    // }
   },
   created(){
    // this.createCalendarRecords();
