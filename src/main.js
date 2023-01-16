@@ -2,8 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
 import FullCalendar from "vue-full-calendar";
-import "fullcalendar/dist/fullcalendar.min.css";
+//import "fullcalendar/dist/fullcalendar.min.css";
 Vue.use(FullCalendar);
+//window.jQuery = window.$ = require('jquery')
+//Vue.use(require('vue-full-calendar'))
 Vue.config.productionTip = false
 import CalendarView from '../src/components/CalendarView.vue'
 import ViewHome from './components/Employee/ViewHome.vue'
