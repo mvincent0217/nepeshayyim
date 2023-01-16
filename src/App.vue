@@ -11,8 +11,9 @@
                       <li class="nav-item" ><router-link class="nav-link" to="/viewHR" :hidden="(this.bAdmin == false)">Upload Food</router-link></li>              
                        <!-- <li class="nav-item" hidden><router-link class="nav-link" to="/view-cart">My Orders🛒</router-link></li> -->
                         <li class="nav-item"><router-link class="nav-link" to="/ViewMenu">Menu🛒</router-link></li>
-                        <li class="nav-item"><router-link class="nav-link" to="/ViewHome">View Home</router-link></li>
-                        <li class="nav-item"><router-link class="nav-link" to="/FullCalendar">Calendar📅</router-link></li>  
+                        <!-- <li class="nav-item"><router-link class="nav-link" to="/ViewHome">View Home</router-link></li> -->
+                          <li class="nav-item"><router-link class="nav-link" to="/CalendarView">Calendar📅</router-link></li>
+                          <!-- <li class="nav-item"><router-link class="nav-link" to="/OrderViewCart">OrderViewCart</router-link></li> -->
                                 <li class="nav-item dropdown">
                                          <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ this.username.toUpperCase() }}</a>
                                      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
@@ -35,10 +36,8 @@
 </template>
 
 <script>
-
 export default {
 
-  name: 'App',
   data()
   {
     return{
@@ -50,16 +49,16 @@ export default {
 
   },
   mounted() {
-    window.onpopstate = () => {
-      // if (
-      //   window.localStorage.getItem("info") !== null &&
-      //   this.$route.path == "/login"
-      // ) 
-      //{
-        //this.$router.push("/"); // redirect to home, for example
-      //}
-      this.$router.push("/OrderViewCart");
-    };
+    // window.onpopstate = () => {
+    //   // if (
+    //   //   window.localStorage.getItem("info") !== null &&
+    //   //   this.$route.path == "/login"
+    //   // ) 
+    //   //{
+    //     //this.$router.push("/"); // redirect to home, for example
+    //   //}
+    //   this.$router.push("/OrderViewCart");
+    // };
   },
 
   methods:{
@@ -91,5 +90,4 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 } */
-
 </style>
