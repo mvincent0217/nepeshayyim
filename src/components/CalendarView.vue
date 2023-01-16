@@ -33,7 +33,7 @@ export default {
         },
         eventClick: function (event) {
             console.log(event.url);
-         //window.open(event.url);
+        //window.open(event.url);
 
         }
       },
