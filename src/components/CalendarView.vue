@@ -29,7 +29,6 @@ function execTransfer(event){
   window.localStorage.setItem('iFoodMenu',JSON.stringify({'iCalendarIdx':event.Calendar_Idx,'iCalendarStart':event.start._i, 'iCalendarQuantity':event.quantity}))
   transfer.$router.push({
             name: 'ViewMenu',
-            
           })
 }
 
