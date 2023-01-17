@@ -4,9 +4,12 @@
     <br>
     <br>
     <br>
-    <label><b>Legend</b></label>
-    <br>
-    <label><span>🟦Reserved</span>&nbsp;&nbsp;<span>⬜️For Reservation</span></label>
+    <div class="row justify-content-center">
+    <div class="card" style="width: 18rem;">
+    <label class="text-center"><b>Legend</b></label>
+    <label class="text-center"><span>🟦Reserved</span>&nbsp;&nbsp;<span>⬜️For Reservation</span></label>
+    </div>
+    </div>
     <br>
     <br>
   <full-calendar :config="config" :events="events" ></full-calendar>
