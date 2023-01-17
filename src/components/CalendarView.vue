@@ -3,38 +3,47 @@
     <br>
     <br>
     <br>
-  <full-calendar :config="config" :events="events" />
+  <full-calendar :config="config" :events="events" ></full-calendar>
 </body>
 </template>
 
 <script>
 import moment from "moment";
 import axios from "axios";
-import Vue from 'vue'
-import FullCalendar from "vue-full-calendar";
+//import { FullCalendar } from "vue-full-calendar";
 import "fullcalendar/dist/fullcalendar.min.css";
-Vue.use(FullCalendar);
+
+var test;
+
+function sample(event){
+  window.localStorage.setItem('iFoodMenu',JSON.stringify({'iCalendarIdx':event.Calendar_Idx,'iCalendarStart':event.start._i}))
+  test.$router.push({
+            name: 'ViewMenu',
+            
+          })
+}
+
 export default {
+  components:{
+    //FullCalendar
+  },
  // name: "hello",
   data() {
     return {
       ttempstartdate: null,
       ttempenddate: null,
-      
-
-
       events: [
 
       ],
       config: {
         defaultView: "month",
-        eventRender: function () {
-    
+        eventRender: function (event) {
+          console.log(event);
         },
         eventClick: function (event) {
-            console.log(event.url);
+          sample(event);
+            console.log(event);
         //window.open(event.url);
-
         }
       },
     };
@@ -58,8 +67,11 @@ export default {
                 var tempObj = {};
                 tempObj['start'] = arCanteenCalendarRecord[iCCR].StartDateTime._text;
                 tempObj['Calendar_Idx'] = arCanteenCalendarRecord[iCCR].Calendar_Idx._text;
+                //tempObj['end'] = tempEndDate;
                 tempObj['url'] = '#/ViewMenu';
                 this.events.push(tempObj);
+                //localStorage['Calendar_Idx'] = arCanteenCalendarRecord[iCCR].Calendar_Idx._text;
+
                }
             })
         },
@@ -78,7 +90,7 @@ export default {
   created(){
    // this.createCalendarRecords();
    this.GetCanteenCalendarIdx()
-
+    test = this;
   }
 };
 </script>

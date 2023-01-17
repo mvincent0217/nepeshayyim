@@ -10,6 +10,7 @@
                       <li class="nav-item" hidden><router-link class="nav-link" to="/employee-home">Menu☰</router-link></li>  
                       <li class="nav-item" ><router-link class="nav-link" to="/viewHR" :hidden="(this.bAdmin == false)">Upload Food</router-link></li>              
                         <li class="nav-item"><router-link class="nav-link" to="/ViewMenu">Menu🛒</router-link></li>
+                        <!-- <li class="nav-item"><router-link class="nav-link" to="/ViewHome">View Home</router-link></li> -->
                           <li class="nav-item"><router-link class="nav-link" to="/CalendarView">Calendar📅</router-link></li>
                                 <li class="nav-item dropdown">
                                          <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ this.username.toUpperCase() }}</a>

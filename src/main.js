@@ -2,13 +2,15 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
 import FullCalendar from "vue-full-calendar";
-import "fullcalendar/dist/fullcalendar.min.css";
-
-Vue.use(FullCalendar);
+//import "fullcalendar/dist/fullcalendar.min.css";
+Vue.use(FlulCalendar);
+//window.jQuery = window.$ = require('jquery')
+//Vue.use(require('vue-full-calendar'))
 Vue.config.productionTip = false
-
 import CalendarView from '../src/components/CalendarView.vue'
 import ViewHome from './components/Employee/ViewHome.vue'
+//import ViewCart from './components/Employee/ViewCart.vue'
+//import OrderHistory from './components/Employee/OrderHistory.vue'
 import ViewLogin from './components/ViewLogin.vue'
 import ViewHR from './components/HR/ViewHR.vue'
 import OrderViewCart from './components/Employee/OrderViewCart.vue'
@@ -31,6 +33,8 @@ const routes =[
   // next('/login')
   // }
 },
+
+
   {path: '/CalendarView', component: CalendarView},
   {path: '/ViewHome', component: ViewHome},
   {path: '/login', component: ViewLogin, name: 'login'},
