@@ -19,8 +19,8 @@
 
             <div class="text-center">
             <h6>Are you going to eat?</h6>
-            <input  type="button" id="Yes" value="Yes" @click="CheckEating(1)">&nbsp;
-            <input type="button" id="No" value="No" @click="CheckEating(0)">
+            <input class="bg-success"  type="button" id="Yes" value="Yes" @click="CheckEating(1)" :disabled="this.Quantity == 1">&nbsp;
+            <input class="bg-danger" type="button" id="No" value="No" @click="CheckEating(0)" :disabled="this.Quantity == 0">
             </div>
             
             <table class="table table-condensed table-responsive">
@@ -86,7 +86,7 @@ export default {
             username: window.localStorage.getItem("username"),
             isLogin: true,
             CalendarDateTime: null,
-            Quantity: null
+            Quantity: null,
         }
     },
     props: ['items'],
@@ -139,7 +139,8 @@ GetCanteenMenu(){
 },
 
 created(){
-    this.CalendarDateTime = JSON.parse(window.localStorage.getItem('iFoodMenu'))
+    this.CalendarDateTime = JSON.parse(window.localStorage.getItem('iFoodMenu'));
+    this.Quantity = this.CalendarDateTime.iCalendarQuantity;
     this.GetCanteenMenu()
 },
 }

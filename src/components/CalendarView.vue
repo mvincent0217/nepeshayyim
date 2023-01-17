@@ -132,9 +132,9 @@ export default {
                                   tempObj['Calendar_Idx'] = temp.CalendarRecord.Calendar_Idx._text;
                                   tempObj['quantity'] = tempOrderList.CanteenOrderItem.Quantity._text;
                                   if(tempOrderList.CanteenOrderItem.Quantity._text == '0'){
-                                    tempObj['color'] = 'red';
+                                    tempObj['color'] = 'gray';
                                     }else{
-                                    tempObj['color'] = 'green';
+                                    tempObj['color'] = 'blue';
                                   }
                                   this.events.push(tempObj);
                                 }
@@ -159,9 +159,9 @@ export default {
                                     tempObj['Calendar_Idx'] = temp.CalendarRecord.Calendar_Idx._text;
                                     tempObj['quantity'] = tempCanteenOrder.Quantity._text
                                     if(tempCanteenOrder.Quantity._text == '0'){
-                                      tempObj['color'] = 'red';
+                                      tempObj['color'] = 'gray';
                                     }else{
-                                      tempObj['color'] = 'green';
+                                      tempObj['color'] = 'blue';
                                     }
                                     this.events.push(tempObj);
                                     }     
@@ -185,9 +185,9 @@ export default {
                               tempObj['Calendar_Idx'] = new_order.CalendarRecord.Calendar_Idx._text;
                               tempObj['quantity'] = tempCanteenOrder.Quantity._text
                               if(tempCanteenOrder.Quantity._text == '0'){
-                                tempObj['color'] = 'red';
+                                tempObj['color'] = 'gray';
                               }else{
-                                tempObj['color'] = 'green';
+                                tempObj['color'] = 'blue';
                               }
                               this.events.push(tempObj);
                             }
