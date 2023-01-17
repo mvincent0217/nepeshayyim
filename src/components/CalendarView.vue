@@ -20,11 +20,11 @@ import axios from "axios";
 //import { FullCalendar } from "vue-full-calendar";
 import "fullcalendar/dist/fullcalendar.min.css";
 
-var test;
+var transfer;
 
-function sample(event){
+function execTransfer(event){
   window.localStorage.setItem('iFoodMenu',JSON.stringify({'iCalendarIdx':event.Calendar_Idx,'iCalendarStart':event.start._i, 'iCalendarQuantity':event.quantity}))
-  test.$router.push({
+  transfer.$router.push({
             name: 'ViewMenu',
             
           })
@@ -50,7 +50,7 @@ export default {
           
         },
         eventClick: function (event) {
-          sample(event);
+          execTransfer(event);
             console.log(event);
         //window.open(event.url);
         }
@@ -222,7 +222,7 @@ export default {
    this.GetAllOrder()
    console.log(this.orders)
    //this.GetCanteenCalendarIdx()
-    test = this;
+   transfer = this;
   }
 };
 </script>
