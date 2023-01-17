@@ -43,7 +43,7 @@ export default {
 
     GetCanteenCalendarIdx(){
       var attempstartdate = moment().format('YYYY-MM-DD');
-      var attempenddate = moment().add(10,'weeks').format('YYYY-MM-DD');
+      var attempenddate = moment().add(2,'weeks').format('YYYY-MM-DD');
       this.ttempstartdate = attempstartdate;
       this.ttempenddate = attempenddate;
             var convert = require('xml-js');
@@ -55,29 +55,14 @@ export default {
                var arCanteenCalendarRecord = [];
                arCanteenCalendarRecord = result.ArrayOfCanteenCalendarRecord.CanteenCalendarRecord;
                for(var iCCR = 0; iCCR < arCanteenCalendarRecord.length; iCCR++){
-
-                //var tempStartDate = moment(arCanteenCalendarRecord[iCCR].StartDateTime._text).format('HH:mm:ss');
-                //var tempEndDate = moment(arCanteenCalendarRecord[iCCR].EndDateTime._text).format('HH:mm:ss');
-                
                 var tempObj = {};
-      
-                //tempObj['allDay'] = true;
                 tempObj['start'] = arCanteenCalendarRecord[iCCR].StartDateTime._text;
                 tempObj['Calendar_Idx'] = arCanteenCalendarRecord[iCCR].Calendar_Idx._text;
-                //tempObj['end'] = tempEndDate;
                 tempObj['url'] = '#/ViewMenu';
                 this.events.push(tempObj);
-                //localStorage['Calendar_Idx'] = arCanteenCalendarRecord[iCCR].Calendar_Idx._text;
-
                }
             })
         },
-
-
-        
-
-
-
     // createCalendarRecords(){
     //   for(var iCal =0; iCal<=14; iCal++){
     //     var tempObj = {};

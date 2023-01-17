@@ -14,11 +14,11 @@
             <p class="mb-5 text-center"></p>
 
             <div class="text-center">
-            <h6>Are you going to eat?</h6>
             <input type="radio" id="Yes" name="Foodname" value="Yes">
             <span>Yes</span>&nbsp;
             <input type="radio" id="No" name="Foodname" value="No">
             <span>No</span>
+            <h6>Are you going to eat?</h6>
             </div>
             
             <table class="table table-condensed table-responsive">
@@ -76,6 +76,7 @@ Vue.use(VueAxios, axios)
 export default {
     data() {
         return{
+            
             accountname: window.localStorage.getItem("accountname").toUpperCase(),
             orders: [],
             dateorder: null,
@@ -214,4 +215,3 @@ created(){
 
 
 </script>
-
