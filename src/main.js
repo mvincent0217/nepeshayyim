@@ -3,7 +3,7 @@ import App from './App.vue'
 import VueRouter from 'vue-router'
 import FullCalendar from "vue-full-calendar";
 //import "fullcalendar/dist/fullcalendar.min.css";
-Vue.use(FlulCalendar);
+Vue.use(FullCalendar);
 //window.jQuery = window.$ = require('jquery')
 //Vue.use(require('vue-full-calendar'))
 Vue.config.productionTip = false

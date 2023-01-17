@@ -19,8 +19,22 @@
 
             <div class="text-center">
             <h6>Are you going to eat?</h6>
-            <input type="button" id="Yes" name="Foodname" value="Yes" >&nbsp;
-            <input type="button" id="No" name="Foodname" value="No" disabled>
+            <button
+            onclick="this.disabled=true;document.getElementById('No').disabled=false;"
+            type="submit"
+            class="positive"
+            name="Yes"
+            id="Yes">
+            Yes
+            </button> &nbsp;
+            <button
+            onclick="this.disabled=true;document.getElementById('Yes').disabled=false;"
+            type="submit"
+            class="negative"
+            name="No"
+            id="No">
+            No
+            </button>
             </div>
             
             <table class="table table-condensed table-responsive">
