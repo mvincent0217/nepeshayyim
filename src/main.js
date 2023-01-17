@@ -37,28 +37,16 @@ const routes =[
 
   {path: '/CalendarView', component: CalendarView, name: 'calendarview'},
   {path: '/ViewHome', component: ViewHome},
-  //{path: '/ViewCart', component: ViewCart},
-  //{path: '/OrderHistory', component: OrderHistory},
   {path: '/login', component: ViewLogin, name: 'login'},
   {path: '/ViewMenu', component: ViewMenu, name: 'ViewMenu'},
-  {path: '/viewHR', component: ViewHR, name: '_ViewHR' ,
-  meta:{
-    requiresAuth: true
-  }
-  },
-  {path: '/OrderViewCart', component: OrderViewCart, name: 'orderviewcart' ,
+  {path: '/viewHR', component: ViewHR, name: '_ViewHR' , meta:{ requiresAuth: true }},
+  {path: '/OrderViewCart', component: OrderViewCart, name: 'orderviewcart',
   meta:{
     requiresAuth: true
   }}
-
-
-
 ];
-
 const router =new VueRouter({
-
   mode: 'hash',
-
   routes: routes
 
   });

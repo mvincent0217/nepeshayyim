@@ -78,6 +78,7 @@ Vue.use(VueAxios, axios)
 export default {
     data() {
         return{
+            
             accountname: window.localStorage.getItem("accountname").toUpperCase(),
             Foods: [],
             dateorder: null,
@@ -145,4 +146,3 @@ created(){
 
 
 </script>
-
