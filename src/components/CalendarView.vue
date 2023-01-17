@@ -4,7 +4,7 @@
     <br>
     <br>
     <br>
-    <div class="row justify-content-center">
+    <div class="row justify-content-left m-2">
     <div class="card" style="width: 18rem;">
     <label class="text-center"><b>Legend</b></label>
     <label class="text-center"><span>🟦Reserved</span>&nbsp;&nbsp;<span>⬜️For Reservation</span></label>
@@ -37,11 +37,8 @@ export default {
   components:{
     //FullCalendar
   },
- // name: "hello",
   data() {
     return {
-      ttempstartdate: null,
-      ttempenddate: null,
       orders: [],
       username: window.localStorage.getItem("username"),
       events: [
@@ -208,23 +205,10 @@ export default {
                 console.log(this.orders)
             })
         },     
-    // createCalendarRecords(){
-    //   for(var iCal =0; iCal<=14; iCal++){
-    //     var tempObj = {};
-    //     tempObj['title'] = iCal+'PM';
-    //     tempObj['allDay'] = true;
-    //     tempObj['start'] = moment().add(iCal, "d");
-    //     tempObj['end'] = moment().add(iCal, "d");
-    //     this.events.push(tempObj);
-    //   }
-    //   console.log(tempObj);
-    // }
   },
   created(){
-   // this.createCalendarRecords();
    this.GetAllOrder()
    console.log(this.orders)
-   //this.GetCanteenCalendarIdx()
    transfer = this;
   }
 };

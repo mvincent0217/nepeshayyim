@@ -31,8 +31,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!--Product 1-->
-                    <!-- <tr v-if="!orders.length">No Order/s</tr> -->
                     <tr v-if="!Foods.length">No Order/s</tr>
                     <tr v-for="(food, index) in Foods" :key="index">
                         <td data-th="Image">
@@ -81,8 +79,6 @@ export default {
             
             accountname: window.localStorage.getItem("accountname").toUpperCase(),
             Foods: [],
-            dateorder: null,
-            menuitem_idx: null,
             username: window.localStorage.getItem("username"),
             isLogin: true,
             CalendarDateTime: null,
