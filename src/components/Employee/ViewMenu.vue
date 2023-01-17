@@ -18,11 +18,9 @@
             </div>
 
             <div class="text-center">
-            <input type="radio" id="Yes" name="Foodname" value="Yes">
-            <span>Yes</span>&nbsp;
-            <input type="radio" id="No" name="Foodname" value="No">
-            <span>No</span>
             <h6>Are you going to eat?</h6>
+            <input type="button" id="Yes" name="Foodname" value="Yes" >&nbsp;
+            <input type="button" id="No" name="Foodname" value="No" disabled>
             </div>
             
             <table class="table table-condensed table-responsive">
