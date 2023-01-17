@@ -18,9 +18,9 @@
             </div>
 
             <div class="text-center">
-            <h5>Are you going to eat?</h5>
-            <input class="bg-success"  type="button" id="Yes" value="Yes" @click="CheckEating(1)" :disabled="this.Quantity == 1">&nbsp;
-            <input class="bg-danger" type="button" id="No" value="No" @click="CheckEating(0)" :disabled="this.Quantity == 0">
+            <h6>Are you going to eat?</h6>
+            <input class="bg-primary"  type="button" id="Yes" value="Reserved" @click="CheckEating(1)" :disabled="this.Quantity == 1">&nbsp;
+            <input class="bg-secondary" type="button" id="No" value="Cancel Reservation" @click="CheckEating(0)" :disabled="this.Quantity == 0">
             </div>
             
             <table class="table table-condensed table-responsive">

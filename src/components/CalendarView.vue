@@ -1,9 +1,16 @@
 <template>
   <body>
+    
     <br>
+    <br>
+    <br>
+    <label><b>Legend</b></label>
+    <br>
+    <label><span>🟦Reserved</span>&nbsp;&nbsp;<span>⬜️For Reservation</span></label>
     <br>
     <br>
   <full-calendar :config="config" :events="events" ></full-calendar>
+  
 </body>
 </template>
 
