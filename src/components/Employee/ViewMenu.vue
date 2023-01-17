@@ -19,8 +19,8 @@
 
             <div class="text-center">
             <h6>Are you going to eat?</h6>
-            <input type="button" id="Yes" name="Foodname" value="Yes" >&nbsp;
-            <input type="button" id="No" name="Foodname" value="No" disabled>
+            <input  type="button" id="Yes" value="Yes" @click="CheckEating(1)">&nbsp;
+            <input type="button" id="No" value="No" @click="CheckEating(0)">
             </div>
             
             <table class="table table-condensed table-responsive">
@@ -84,29 +84,39 @@ export default {
             menuitem_idx: null,
             username: window.localStorage.getItem("username"),
             isLogin: true,
-            CalendarDateTime: null
+            CalendarDateTime: null,
+            Quantity: null
         }
     },
     props: ['items'],
 
 methods:{
 
-// CheckOutOrders(order){
-//     console.log(order.Quantity)
-//     if(order.Quantity == 0){
-//         this.DeleteCanteenOrders(order);
-//     }else{
-//             var convert = require('xml-js');
-//             axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + order.Calendar_Idx + "&username=" + this.username  +"&menuitem_idx=" + order.MenuItem_Idx._text + "&quantity=" + order.Quantity).then(response => {
-//             var result = convert.xml2json(response.data,
-//         {compact: true, spaces: 4});
-//         result = JSON.parse(result);
-//         console.log(result);
-//             localStorage.setItem("datetime", this.date2)
-//             localStorage.setItem("orders", JSON.stringify(this.orders))
-//             })
-//     }
-// },
+DeleteCanteenOrders(){
+    for(var i = 0; i < this.Foods.length; i++){
+        axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + this.CalendarDateTime.iCalendarIdx + "&username=" + this.username + "&menuitem_idx=" + this.Foods[i].MenuItem_Idx._text ).then(response => {
+            console.log(response);
+        })
+    }
+},
+
+CheckEating(i){
+    if(i == 1)
+    {
+        this.Quantity = 1;
+        this.CheckOutOrders();
+    }else
+    {
+        this.Quantity = 0;
+        this.DeleteCanteenOrders();
+    }
+},
+CheckOutOrders(){
+        for(var i = 0; i < this.Foods.length; i++){
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + 
+            this.CalendarDateTime.iCalendarIdx + "&username=" + this.username  +"&menuitem_idx=" + this.Foods[i].MenuItem_Idx._text + "&quantity=" + this.Quantity)
+        }
+},
 GetCanteenMenu(){
             this.Foods = [];
             var convert = require('xml-js');
@@ -115,19 +125,19 @@ GetCanteenMenu(){
                {compact: true, spaces: 4});
                result = JSON.parse(result);
                 if(result.CanteenMenuSchedule.MenuItemList.CanteenMenuItem != undefined){
-                    this.Foods = result.CanteenMenuSchedule.MenuItemList.CanteenMenuItem;
+                    if(Array.isArray(result.CanteenMenuSchedule.MenuItemList.CanteenMenuItem)){
+                        this.Foods = result.CanteenMenuSchedule.MenuItemList.CanteenMenuItem;    
+                    }else
+                    {
+                        this.Foods.push(result.CanteenMenuSchedule.MenuItemList.CanteenMenuItem);
+                    }
                 }
-                console.log(this.Foods)
+                console.log(result)
             })
         },
 },
 
 created(){
-    // this.GetAllOrder();
-    // if(this.username == null){
-    //     this.$router.push("/login");
-    // }
-    // console.log(this.$route.params.items);
     this.CalendarDateTime = JSON.parse(window.localStorage.getItem('iFoodMenu'))
     this.GetCanteenMenu()
 },

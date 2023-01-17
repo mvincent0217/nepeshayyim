@@ -110,7 +110,6 @@ export default {
             axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + order.Calendar_Idx + "&username=" + this.username + "&menuitem_idx=" + order.MenuItem_Idx._text ).then(response => {
                 console.log(response);
             })
-
         },
 
         checkquantity(order){

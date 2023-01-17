@@ -28,14 +28,14 @@ const routes =[
   path: '/',
   component: 
   require('./components/ViewLogin.vue').default,
-  // beforeEnter: (to, from, next) => {
-  //   next({ name: 'orderviewcart' })
-  // next('/login')
-  // }
+  beforeEnter: (to, from, next) => {
+    next({ name: 'calendarview' })
+  //next('/login')
+  }
 },
 
 
-  {path: '/CalendarView', component: CalendarView},
+  {path: '/CalendarView', component: CalendarView, name: 'calendarview'},
   {path: '/ViewHome', component: ViewHome},
   //{path: '/ViewCart', component: ViewCart},
   //{path: '/OrderHistory', component: OrderHistory},
