@@ -4,7 +4,7 @@
     <br>
     <br>
     <br>
-    <div class="row justify-content-center">
+    <div class="row justify-content-left m-2">
     <div class="card" style="width: 18rem;">
     <label class="text-center"><b>Legend</b></label>
     <label class="text-center"><span>🟦Reserved</span>&nbsp;&nbsp;<span>⬜️For Reservation</span></label>
@@ -23,13 +23,12 @@ import axios from "axios";
 //import { FullCalendar } from "vue-full-calendar";
 import "fullcalendar/dist/fullcalendar.min.css";
 
-var test;
+var transfer;
 
-function sample(event){
+function execTransfer(event){
   window.localStorage.setItem('iFoodMenu',JSON.stringify({'iCalendarIdx':event.Calendar_Idx,'iCalendarStart':event.start._i, 'iCalendarQuantity':event.quantity}))
-  test.$router.push({
+  transfer.$router.push({
             name: 'ViewMenu',
-            
           })
 }
 
@@ -37,11 +36,8 @@ export default {
   components:{
     //FullCalendar
   },
- // name: "hello",
   data() {
     return {
-      ttempstartdate: null,
-      ttempenddate: null,
       orders: [],
       username: window.localStorage.getItem("username"),
       events: [
@@ -53,7 +49,7 @@ export default {
           
         },
         eventClick: function (event) {
-          sample(event);
+          execTransfer(event);
             console.log(event);
         //window.open(event.url);
         }
@@ -208,24 +204,11 @@ export default {
                 console.log(this.orders)
             })
         },     
-    // createCalendarRecords(){
-    //   for(var iCal =0; iCal<=14; iCal++){
-    //     var tempObj = {};
-    //     tempObj['title'] = iCal+'PM';
-    //     tempObj['allDay'] = true;
-    //     tempObj['start'] = moment().add(iCal, "d");
-    //     tempObj['end'] = moment().add(iCal, "d");
-    //     this.events.push(tempObj);
-    //   }
-    //   console.log(tempObj);
-    // }
   },
   created(){
-   // this.createCalendarRecords();
    this.GetAllOrder()
    console.log(this.orders)
-   //this.GetCanteenCalendarIdx()
-    test = this;
+   transfer = this;
   }
 };
 </script>

@@ -9,7 +9,7 @@
         <div class="row w-100">
         <div class="col-lg-12 col-md-12 col-12">
             <br><br>
-
+            
             <h3 class="display-5 mb-2 text-center">SUPERSTAR! {{accountname}}</h3>
             <p class="mb-5 text-center"></p>
             <div class="text-center">
@@ -21,9 +21,6 @@
             <h6>Are you going to eat?</h6>
             <input class="bg-primary"  type="button" id="Yes" value="Reserved" @click="CheckEating(1)" :disabled="this.Quantity == 1">&nbsp;
             <input class="bg-secondary" type="button" id="No" value="Cancel Reservation" @click="CheckEating(0)" :disabled="this.Quantity == 0">
-            
-            <button onclick="myFunction()">Show Snackbar</button>
-            <div id="snackbar">Some text some message..</div>
 
             </div>
 
@@ -37,8 +34,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!--Product 1-->
-                    <!-- <tr v-if="!orders.length">No Order/s</tr> -->
                     <tr v-if="!Foods.length">No Order/s</tr>
                     <tr v-for="(food, index) in Foods" :key="index">
                         <td data-th="Image">
@@ -59,7 +54,7 @@
                     </tr>
                 </tbody>
             </table>
-
+            <div id="snackbar">{{ToastMessage}}</div>
         </div>
     </div>
 
@@ -81,11 +76,7 @@ import moment from 'moment'
 Vue.prototype.moment = moment
 Vue.use(VueAxios, axios)
 
-function myFunction() {
-  var x = document.getElementById("snackbar");
-  x.className = "show";
-  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-}
+
 
 export default {
     data() {
@@ -93,12 +84,11 @@ export default {
             
             accountname: window.localStorage.getItem("accountname").toUpperCase(),
             Foods: [],
-            dateorder: null,
-            menuitem_idx: null,
             username: window.localStorage.getItem("username"),
             isLogin: true,
             CalendarDateTime: null,
             Quantity: null,
+            ToastMessage: null,
         }
     },
     props: ['items'],
@@ -114,13 +104,19 @@ DeleteCanteenOrders(){
 },
 
 CheckEating(i){
+    var x = document.getElementById("snackbar");
+    x.className = "show";
     if(i == 1)
     {
         this.Quantity = 1;
+        this.ToastMessage = "Reserved"
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
         this.CheckOutOrders();
     }else
     {
         this.Quantity = 0;
+        this.ToastMessage = "Not Reserved"
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
         this.DeleteCanteenOrders();
     }
 },
@@ -156,8 +152,6 @@ created(){
     this.GetCanteenMenu()
 },
 }
-
-
 </script>
 
 <style>
