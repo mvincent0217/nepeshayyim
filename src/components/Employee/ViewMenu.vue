@@ -11,16 +11,14 @@
             <br><br>
             
             <h3 class="display-5 mb-2 text-center">SUPERSTAR! {{accountname}}</h3>
-            <p class="mb-5 text-center"></p>
-            <div class="text-center">
-                <label>Date: </label>{{moment(this.CalendarDateTime.iCalendarStart).format('MMM DD YYYY')}}<br>
-                <label>Time: </label>{{moment(this.CalendarDateTime.iCalendarStart).format('hh:mmA')}}
-            </div>
-
             <div class="text-center">
             <h6>Are you going to eat?</h6>
-            <input class="bg-primary"  type="button" id="Yes" value="Reserved" @click="CheckEating(1)" :disabled="this.Quantity == 1">&nbsp;
-            <input class="bg-secondary" type="button" id="No" value="Cancel Reservation" @click="CheckEating(0)" :disabled="this.Quantity == 0">
+            <button class="btn bg-primary custom"  id="Yes" value="Reserve" @click="CheckEating(1)" :disabled="this.Quantity == 1">📜 {{ Reservebtn }} </button>&nbsp;
+            <button class="btn bg-secondary custom"  id="No" value="Cancel Reservation" @click="CheckEating(0)" :disabled="this.Quantity == 0">🚫 Cancel Reservation</button>
+            </div>
+            <br>
+            <div class="">
+                <label>This is the <b>menu</b> for </label> {{moment(this.CalendarDateTime.iCalendarStart).format('MMM DD YYYY')}} {{moment(this.CalendarDateTime.iCalendarStart).format('hh:mmA')}}
             </div>
             
             <table class="table table-condensed table-responsive">
@@ -84,6 +82,7 @@ export default {
             CalendarDateTime: null,
             Quantity: null,
             ToastMessage: null,
+            Reservebtn: "Reserve",
         }
     },
     props: ['items'],
@@ -104,13 +103,15 @@ CheckEating(i){
     if(i == 1)
     {
         this.Quantity = 1;
-        this.ToastMessage = "Reserved"
+        this.ToastMessage = "Reserved";
+        this.Reservebtn = "Reserved";
         setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
         this.CheckOutOrders();
     }else
     {
         this.Quantity = 0;
-        this.ToastMessage = "Not Reserved"
+        this.ToastMessage = "Not Reserved";
+        this.Reservebtn = "Reserve";
         setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
         this.DeleteCanteenOrders();
     }
@@ -150,6 +151,9 @@ created(){
 </script>
 
 <style>
+.custom{
+    width: 200px !important;
+}
 #snackbar {
   visibility: hidden;
   min-width: 250px;
