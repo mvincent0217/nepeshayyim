@@ -13,12 +13,12 @@
             <h3 class="display-5 mb-2 text-center">SUPERSTAR! {{accountname}}</h3>
             <div class="text-center">
             <h6>Are you going to eat?</h6>
-            <button class="btn bg-primary custom"  id="Yes" value="Reserve" @click="CheckEating(1)" :disabled="this.Quantity == 1">📜 {{ Reservebtn }} </button>&nbsp;
-            <button class="btn bg-secondary custom"  id="No" value="Cancel Reservation" @click="CheckEating(0)" :disabled="this.Quantity == 0">🚫 Cancel Reservation</button>
+            <button class="btn bg-primary custom"  id="" value="Reserve" @click="CheckEating(1)" :disabled="this.Quantity == 1">📜 {{ Reservebtn }} </button>&nbsp;
+            <button class="btn bg-secondary custom"  id="" value="Cancel Reservation" @click="CheckEating(0)" :disabled="this.Quantity == 0">🚫 Cancel Reservation</button>
             </div>
             <br>
             <div class="">
-                <label>This is the <b>menu</b> for </label> {{moment(this.CalendarDateTime.iCalendarStart).format('MMM DD YYYY')}} {{moment(this.CalendarDateTime.iCalendarStart).format('hh:mmA')}}
+                <label>This is the <b>menu</b> for </label> {{moment(this.CalendarDateTime.oCalendarStart).format('MMM DD YYYY')}} {{moment(this.CalendarDateTime.oCalendarStart).format('hh:mmA')}}
             </div>
             
             <table class="table table-condensed table-responsive">
@@ -91,7 +91,7 @@ methods:{
 
 DeleteCanteenOrders(){
     for(var i = 0; i < this.Foods.length; i++){
-        axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + this.CalendarDateTime.iCalendarIdx + "&username=" + this.username + "&menuitem_idx=" + this.Foods[i].MenuItem_Idx._text ).then(response => {
+        axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + this.CalendarDateTime.oCalendarIdx + "&username=" + this.username + "&menuitem_idx=" + this.Foods[i].MenuItem_Idx._text ).then(response => {
             console.log(response);
         })
     }
@@ -103,6 +103,9 @@ CheckEating(i){
     if(i == 1)
     {
         this.Quantity = 1;
+        this.CalendarDateTime = JSON.parse(window.localStorage.getItem('oFoodMenu'));
+        this.CalendarDateTime['oCalendarQuantity'] = this.Quantity;
+        window.localStorage.setItem('oFoodMenu',JSON.stringify(this.CalendarDateTime))
         this.ToastMessage = "Reserved";
         this.Reservebtn = "Reserved";
         setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
@@ -110,7 +113,10 @@ CheckEating(i){
     }else
     {
         this.Quantity = 0;
-        this.ToastMessage = "Not Reserved";
+        this.CalendarDateTime = JSON.parse(window.localStorage.getItem('oFoodMenu'));
+        this.CalendarDateTime['oCalendarQuantity'] = this.Quantity;
+        window.localStorage.setItem('oFoodMenu',JSON.stringify(this.CalendarDateTime))
+        this.ToastMessage = "Cancel Reservation";
         this.Reservebtn = "Reserve";
         setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
         this.DeleteCanteenOrders();
@@ -119,13 +125,13 @@ CheckEating(i){
 CheckOutOrders(){
         for(var i = 0; i < this.Foods.length; i++){
             axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + 
-            this.CalendarDateTime.iCalendarIdx + "&username=" + this.username  +"&menuitem_idx=" + this.Foods[i].MenuItem_Idx._text + "&quantity=" + this.Quantity)
+            this.CalendarDateTime.oCalendarIdx + "&username=" + this.username  +"&menuitem_idx=" + this.Foods[i].MenuItem_Idx._text + "&quantity=" + this.Quantity)
         }
 },
 GetCanteenMenu(){
             this.Foods = [];
             var convert = require('xml-js');
-            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetCanteenMenu?calendar_idx=" + this.CalendarDateTime.iCalendarIdx).then(response => {
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetCanteenMenu?calendar_idx=" + this.CalendarDateTime.oCalendarIdx).then(response => {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                result = JSON.parse(result);
@@ -143,8 +149,8 @@ GetCanteenMenu(){
 },
 
 created(){
-    this.CalendarDateTime = JSON.parse(window.localStorage.getItem('iFoodMenu'));
-    this.Quantity = this.CalendarDateTime.iCalendarQuantity;
+    this.CalendarDateTime = JSON.parse(window.localStorage.getItem('oFoodMenu'));
+    this.Quantity = this.CalendarDateTime.oCalendarQuantity;
     this.GetCanteenMenu()
 },
 }
