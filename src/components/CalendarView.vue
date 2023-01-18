@@ -7,7 +7,7 @@
     <div class="row justify-content-left m-2">
     <div class="card" style="width: 18rem;">
     <label class="text-center"><b>Legend</b></label>
-    <label class="text-center"><span>🟦Reserved</span>&nbsp;&nbsp;<span>⬜️For Reservation</span></label>
+    <label class="text-center"><span>🟦Reserved</span>&nbsp;&nbsp;<span>🟥For Reservation</span></label>
     </div>
     </div>
     <br>
@@ -26,7 +26,7 @@ import "fullcalendar/dist/fullcalendar.min.css";
 var transfer;
 
 function execTransfer(event){
-  window.localStorage.setItem('iFoodMenu',JSON.stringify({'iCalendarIdx':event.Calendar_Idx,'iCalendarStart':event.start._i, 'iCalendarQuantity':event.quantity}))
+  window.localStorage.setItem('oFoodMenu',JSON.stringify({'oCalendarIdx':event.Calendar_Idx,'oCalendarStart':event.start._i, 'oCalendarQuantity':event.quantity}))
   transfer.$router.push({
             name: 'ViewMenu',
           })
@@ -138,7 +138,7 @@ export default {
                                   tempObj['Calendar_Idx'] = temp.CalendarRecord.Calendar_Idx._text;
                                   tempObj['quantity'] = tempOrderList.CanteenOrderItem.Quantity._text;
                                   if(tempOrderList.CanteenOrderItem.Quantity._text == '0'){
-                                    tempObj['color'] = 'gray';
+                                    tempObj['color'] = '#d93636';
                                     }else{
                                     tempObj['color'] = 'blue';
                                   }
@@ -165,7 +165,7 @@ export default {
                                     tempObj['Calendar_Idx'] = temp.CalendarRecord.Calendar_Idx._text;
                                     tempObj['quantity'] = tempCanteenOrder.Quantity._text
                                     if(tempCanteenOrder.Quantity._text == '0'){
-                                      tempObj['color'] = 'gray';
+                                      tempObj['color'] = '#d93636';
                                     }else{
                                       tempObj['color'] = 'blue';
                                     }
@@ -191,7 +191,7 @@ export default {
                               tempObj['Calendar_Idx'] = new_order.CalendarRecord.Calendar_Idx._text;
                               tempObj['quantity'] = tempCanteenOrder.Quantity._text
                               if(tempCanteenOrder.Quantity._text == '0'){
-                                tempObj['color'] = 'gray';
+                                tempObj['color'] = '#d93636';
                               }else{
                                 tempObj['color'] = 'blue';
                               }
