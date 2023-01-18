@@ -21,7 +21,13 @@
             <h6>Are you going to eat?</h6>
             <input class="bg-primary"  type="button" id="Yes" value="Reserved" @click="CheckEating(1)" :disabled="this.Quantity == 1">&nbsp;
             <input class="bg-secondary" type="button" id="No" value="Cancel Reservation" @click="CheckEating(0)" :disabled="this.Quantity == 0">
+            
+            <button onclick="myFunction()">Show Snackbar</button>
+            <div id="snackbar">Some text some message..</div>
+
             </div>
+
+            
             
             <table class="table table-condensed table-responsive">
                 <thead>
@@ -74,6 +80,12 @@ import moment from 'moment'
 
 Vue.prototype.moment = moment
 Vue.use(VueAxios, axios)
+
+function myFunction() {
+  var x = document.getElementById("snackbar");
+  x.className = "show";
+  setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+}
 
 export default {
     data() {
@@ -147,3 +159,47 @@ created(){
 
 
 </script>
+
+<style>
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
+</style>
