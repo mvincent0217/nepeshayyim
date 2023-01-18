@@ -11,14 +11,7 @@
             <br><br>
             
             <h3 class="display-5 mb-2 text-center">SUPERSTAR! {{accountname}}</h3>
-            <div class="footer">
-            <div class="text-center">
-            <h6 style="color:black">Are you going to eat?</h6>
-            <button class="btn bg-primary custom"  id="" value="Reserve" @click="CheckEating(1)" :disabled="this.Quantity == 1">📜 {{ Reservebtn }} </button>&nbsp;
-            <button class="btn bg-danger custom"  id="" value="Cancel Reservation" @click="CheckEating(0)" :disabled="this.Quantity == 0">🚫 Cancel Reservation</button>
-            </div>
-            <br>
-            </div>
+            
             <br>
             <div class="">
                 <label>This is the <b>menu</b> for </label> {{moment(this.CalendarDateTime.oCalendarStart).format('MMM DD YYYY')}} {{moment(this.CalendarDateTime.oCalendarStart).format('hh:mmA')}}
@@ -55,6 +48,14 @@
                 </tbody>
             </table>
             <div id="snackbar">{{ToastMessage}}</div>
+            <div class="footer">
+            <div class="text-center">
+            <h6 style="color:black">Are you going to eat?</h6>
+            <button class="btn bg-primary custom"  id="" value="Reserve" @click="CheckEating(1)" :disabled="this.Quantity == 1">📜 {{ Reservebtn }} </button>&nbsp;
+            <button class="btn bg-danger custom"  id="" value="Cancel Reservation" @click="CheckEating(0)" :disabled="this.Quantity == 0">🚫 Cancel Reservation</button>
+            </div>
+            <br>
+            </div>
         </div>
     </div>
 
@@ -90,6 +91,7 @@ export default {
             Quantity: null,
             ToastMessage: null,
             Reservebtn: "Reserve",
+            TempStartDate: null,
         }
     },
     props: ['items'],
@@ -158,6 +160,8 @@ GetCanteenMenu(){
 created(){
     this.CalendarDateTime = JSON.parse(window.localStorage.getItem('oFoodMenu'));
     this.Quantity = this.CalendarDateTime.oCalendarQuantity;
+    this.TempStartDate = this.CalendarDateTime.oCalendarTempStartDate;
+    console.log(this.TempStartDate)
     this.GetCanteenMenu()
 },
 }

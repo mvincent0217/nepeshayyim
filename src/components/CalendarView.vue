@@ -4,6 +4,8 @@
     <br>
     <br>
     <br>
+    <h3 class="display-5 mb-2 text-center">Superstar Canteen Calendar</h3>
+    <p class="display-7 mb-2 text-center"><b>Reserve your food here!</b></p>
     <div class="row justify-content-left m-2">
     <div class="card" style="width: 18rem;">
     <label class="text-center"><b>Legend</b></label>
@@ -18,7 +20,7 @@
 </template>
 
 <script>
-//import moment from "moment";
+import moment from "moment";
 import axios from "axios";
 //import { FullCalendar } from "vue-full-calendar";
 import "fullcalendar/dist/fullcalendar.min.css";
@@ -26,7 +28,7 @@ import "fullcalendar/dist/fullcalendar.min.css";
 var transfer;
 
 function execTransfer(event){
-  window.localStorage.setItem('oFoodMenu',JSON.stringify({'oCalendarIdx':event.Calendar_Idx,'oCalendarStart':event.start._i, 'oCalendarQuantity':event.quantity}))
+  window.localStorage.setItem('oFoodMenu',JSON.stringify({'oCalendarIdx':event.Calendar_Idx,'oCalendarStart':event.start._i, 'oCalendarQuantity':event.quantity, 'oCalendarTempStartDate':event.tempStartDate}))
   transfer.$router.push({
             name: 'ViewMenu',
           })
@@ -40,10 +42,13 @@ export default {
     return {
       orders: [],
       username: window.localStorage.getItem("username"),
+      tempStartdate: null,
+      tempEnddate: null,
       events: [
 
       ],
       config: {
+        showNonCurrentDates: false,
         defaultView: "month",
         eventRender: function () {
           
@@ -98,7 +103,7 @@ export default {
 
         GetAllOrder(){
             var convert = require('xml-js');
-            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetAllCanteenOrders?username=" + this.username).then(response => {
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetAllCanteenOrders?username=" + this.username + "&startdate=" + this.tempStartdate + "&enddate=" + this.tempEnddate).then(response => {
                 var result = convert.xml2json(response.data,
                {compact: true, spaces: 4});
                 var orders = JSON.parse(result);
@@ -142,6 +147,7 @@ export default {
                                     }else{
                                     tempObj['color'] = 'blue';
                                   }
+                                  tempObj['tempStartDate'] = this.tempStartdate;
                                   this.events.push(tempObj);
                                 }
                                 
@@ -206,8 +212,16 @@ export default {
         },     
   },
   created(){
+    if(this.username == null){
+                this.$router.push("/login");
+            }
+    var month = moment().format('MM');
+    var year = moment().format('YYYY');
+    var day = '01';
+    this.tempStartdate = year + "-" + month + "-" + day + " " + "00:00:00";
+    this.tempEnddate = moment().add(moment().daysInMonth() - moment().format("DD"), "d").format("YYYY-MM-DD 23:59:59");
    this.GetAllOrder()
-   console.log(this.orders)
+   console.log(this.tempEnddate)
    transfer = this;
   }
 };
