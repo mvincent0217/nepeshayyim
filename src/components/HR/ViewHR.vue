@@ -53,13 +53,12 @@ export default {
             displaypicture: '',
             Foods: [],
             GetimagePath: "https://canteen.nepeshayyim.com/",
-            SaveimagePath: "\\hayyim-ssassrv.nepeshayyim.com"
         }
     },
     methods:{
         DisplayImage(e){
             this.displaypicture = e.target.value;
-            console.log(e.target.value)
+            console.log(this.displaypicture)
         },
         GetCanteenImageFilenames(){
             var convert = require('xml-js');

@@ -44,6 +44,7 @@ export default {
       username: window.localStorage.getItem("username"),
       tempStartdate: null,
       tempEnddate: null,
+      status: false,
       events: [
 
       ],
@@ -150,8 +151,6 @@ export default {
                                   tempObj['tempStartDate'] = this.tempStartdate;
                                   this.events.push(tempObj);
                                 }
-                                
-
                             }
                             else{
                                 var tempCanteenOrderItem = [];
