@@ -4,6 +4,7 @@
     <br>
     <br>
     <br>
+    <div class="HiddenCalendar" v-if="this.CalendarLoadingStatus">
     <h3 class="display-5 mb-2 text-center">Superstar Canteen Calendar</h3>
     <p class="display-7 mb-2 text-center"><b>Reserve your food here!</b></p>
     <div class="row justify-content-left m-2">
@@ -14,8 +15,13 @@
     </div>
     <br>
     <br>
-  <full-calendar :config="config" :events="events" ></full-calendar>
-  
+    <full-calendar id = calendar class="fullcalendar" :config="config" :events="events" ></full-calendar>
+    </div>
+    <div class="Loading" v-else>
+    <div class="row justify-content-center m-2">
+    <div class="loader"></div>
+    </div>
+     </div>
 </body>
 </template>
 
@@ -26,7 +32,6 @@ import axios from "axios";
 import "fullcalendar/dist/fullcalendar.min.css";
 
 var transfer;
-
 function execTransfer(event){
   window.localStorage.setItem('oFoodMenu',JSON.stringify({'oCalendarIdx':event.Calendar_Idx,'oCalendarStart':event.start._i, 'oCalendarQuantity':event.quantity, 'oCalendarDatetime':event.tempStartDatetime}))
   transfer.$router.push({
@@ -39,7 +44,9 @@ export default {
     //FullCalendar
   },
   data() {
+    
     return {
+      CalendarLoadingStatus: false,
       orders: [],
       username: window.localStorage.getItem("username"),
       tempStartdate: null,
@@ -209,9 +216,20 @@ export default {
                         }
                     }                    
                 }
+
+                if(this.events.length < 0){
+                this.CalendarLoadingStatus = false;
+                 }else{
+                 this.CalendarLoadingStatus = true;
+                }
+
+
+
+                
             })
         },     
   },
+  
   created(){
     if(this.username == null){
                 this.$router.push("/login");
@@ -228,4 +246,24 @@ export default {
 </script>
 
 <style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>
