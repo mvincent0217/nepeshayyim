@@ -28,7 +28,7 @@ import "fullcalendar/dist/fullcalendar.min.css";
 var transfer;
 
 function execTransfer(event){
-  window.localStorage.setItem('oFoodMenu',JSON.stringify({'oCalendarIdx':event.Calendar_Idx,'oCalendarStart':event.start._i, 'oCalendarQuantity':event.quantity, 'oCalendarTempStartDate':event.tempStartDate}))
+  window.localStorage.setItem('oFoodMenu',JSON.stringify({'oCalendarIdx':event.Calendar_Idx,'oCalendarStart':event.start._i, 'oCalendarQuantity':event.quantity, 'oCalendarDatetime':event.tempStartDatetime}))
   transfer.$router.push({
             name: 'ViewMenu',
           })
@@ -114,7 +114,6 @@ export default {
                     var new_order = orders.ArrayOfCanteenOrder.CanteenOrder;
                     let array = []
                     var bSpecialCase = false;
-                    console.log(new_order)
                     if(Array.isArray(new_order))
                     {
                         array = new_order;
@@ -142,6 +141,7 @@ export default {
                                   tempObj['start'] = temp.CalendarRecord.StartDateTime._text;
                                   tempObj['Calendar_Idx'] = temp.CalendarRecord.Calendar_Idx._text;
                                   tempObj['quantity'] = tempOrderList.CanteenOrderItem.Quantity._text;
+                                  tempObj['tempStartDatetime'] = new_order[iArr].CalendarRecord.DateTime._text;
                                   if(tempOrderList.CanteenOrderItem.Quantity._text == '0'){
                                     tempObj['color'] = '#d93636';
                                     }else{
@@ -169,7 +169,8 @@ export default {
                                     tempObj = {};
                                     tempObj['start'] = temp.CalendarRecord.StartDateTime._text;
                                     tempObj['Calendar_Idx'] = temp.CalendarRecord.Calendar_Idx._text;
-                                    tempObj['quantity'] = tempCanteenOrder.Quantity._text
+                                    tempObj['quantity'] = tempCanteenOrder.Quantity._text;
+                                    tempObj['tempStartDatetime'] = new_order[iArr].CalendarRecord.DateTime._text;
                                     if(tempCanteenOrder.Quantity._text == '0'){
                                       tempObj['color'] = '#d93636';
                                     }else{
@@ -195,7 +196,8 @@ export default {
                               tempObj = {};
                               tempObj['start'] = new_order.CalendarRecord.StartDateTime._text;
                               tempObj['Calendar_Idx'] = new_order.CalendarRecord.Calendar_Idx._text;
-                              tempObj['quantity'] = tempCanteenOrder.Quantity._text
+                              tempObj['quantity'] = tempCanteenOrder.Quantity._text;
+                              tempObj['tempStartDatetime'] = new_order[iArr].CalendarRecord.DateTime._text;
                               if(tempCanteenOrder.Quantity._text == '0'){
                                 tempObj['color'] = '#d93636';
                               }else{
@@ -207,7 +209,6 @@ export default {
                         }
                     }                    
                 }
-                console.log(this.orders)
             })
         },     
   },
@@ -221,7 +222,6 @@ export default {
     this.tempStartdate = year + "-" + month + "-" + day + " " + "00:00:00";
     this.tempEnddate = moment().add(moment().daysInMonth() - moment().format("DD"), "d").format("YYYY-MM-DD 23:59:59");
    this.GetAllOrder()
-   console.log(this.tempEnddate)
    transfer = this;
   }
 };

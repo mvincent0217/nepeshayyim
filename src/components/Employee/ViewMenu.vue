@@ -48,7 +48,7 @@
                 </tbody>
             </table>
             <div id="snackbar">{{ToastMessage}}</div>
-            <div class="footer">
+            <div class="footer" v-if="!(this.TempStartDate < this.CurrentDate)">
             <div class="text-center">
             <h6 style="color:black">Are you going to eat?</h6>
             <button class="btn bg-primary custom"  id="" value="Reserve" @click="CheckEating(1)" :disabled="this.Quantity == 1">📜 {{ Reservebtn }} </button>&nbsp;
@@ -82,7 +82,6 @@ Vue.use(VueAxios, axios)
 export default {
     data() {
         return{
-            
             accountname: window.localStorage.getItem("accountname").toUpperCase(),
             Foods: [],
             username: window.localStorage.getItem("username"),
@@ -92,6 +91,7 @@ export default {
             ToastMessage: null,
             Reservebtn: "Reserve",
             TempStartDate: null,
+            CurrentDate: null,
         }
     },
     props: ['items'],
@@ -152,16 +152,16 @@ GetCanteenMenu(){
                         this.Foods.push(result.CanteenMenuSchedule.MenuItemList.CanteenMenuItem);
                     }
                 }
-                console.log(result)
             })
         },
 },
 
 created(){
+    var tcurrentDate = moment().format("YYYY-MM-DD");
+    this.CurrentDate = tcurrentDate;
     this.CalendarDateTime = JSON.parse(window.localStorage.getItem('oFoodMenu'));
     this.Quantity = this.CalendarDateTime.oCalendarQuantity;
-    this.TempStartDate = this.CalendarDateTime.oCalendarTempStartDate;
-    console.log(this.TempStartDate)
+    this.TempStartDate = moment(this.CalendarDateTime.oCalendarDatetime).format("YYYY-MM-DD");
     this.GetCanteenMenu()
 },
 }
