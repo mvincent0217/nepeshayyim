@@ -86,6 +86,7 @@ export default {
           .then((response) => {
             var result2 = convert.xml2json(response.data, { compact: true, spaces: 4 });
             result2 = JSON.parse(result2);
+            console.log(result2.UserAccount)
 
             this.username = result2.UserAccount.UserId._text;
             this.fullname = result2.UserAccount.FullName._text;
@@ -105,7 +106,8 @@ export default {
                   var bAdmin = false;
 
                   var requiredRole = 'HR_Admin';
-                 if(Array.isArray(result2.UserAccount.UserRoles["a:string"])){
+                  if(Object.hasOwn(result2.UserAccount.UserRoles, 'a:string')){
+                    if(Array.isArray(result2.UserAccount.UserRoles["a:string"])){
                       var arUserRoles = [];
                       arUserRoles = result2.UserAccount.UserRoles["a:string"];
                       for(var iUser=0; iUser < arUserRoles.length; iUser++)
@@ -124,6 +126,10 @@ export default {
                         bAdmin = true;
                       }
                   }
+                  }else{
+                    bAdmin = false;
+                  }
+                  
                   if(bAdmin)
                   {
                     window.localStorage.setItem('username', this.username);
