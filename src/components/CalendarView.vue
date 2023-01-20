@@ -1,6 +1,6 @@
 <template>
   <body>
-    
+    <div>
     <br>
     <br>
     <br>
@@ -15,13 +15,16 @@
     </div>
     <br>
     <br>
-    <full-calendar id = calendar class="fullcalendar" :config="config" :events="events" ></full-calendar>
+    <div id="Calendar" style ="height: calc(10vh - 10vmax);">
+    <full-calendar class="fullcalendar" :config="config" :events="events" ></full-calendar>
+    </div>  
     </div>
     <div class="Loading" v-else>
-    <div id="Loading">
+    <div id ="Loading" >
     <div class="loader"></div>
     </div>
      </div>
+    </div>
 </body>
 </template>
 
