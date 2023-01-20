@@ -51,8 +51,8 @@
             <div class="footer" v-if="!(this.TempStartDate < this.CurrentDate)">
             <div class="text-center">
             <h6 style="color:black">Are you going to eat?</h6>
-            <button class="btn bg-primary custom"  id="" value="Reserve" @click="CheckEating(1)" :disabled="this.Quantity == 1">📜 {{ Reservebtn }} </button>&nbsp;
-            <button class="btn bg-danger custom"  id="" value="Cancel Reservation" @click="CheckEating(0)" :disabled="this.Quantity == 0">🚫 Cancel Reservation</button>
+            <button class="btn btn-outline-primary custom active"  id="" value="Reserve" @click="CheckEating(1)" :disabled="this.Quantity == 1">📜 {{ Reservebtn }} </button>&nbsp;
+            <button class="btn btn-outline-danger custom custom active"  id="" value="Cancel Reservation" @click="CheckEating(0)" :disabled="this.Quantity == 0">🚫 Cancel Reservation</button>
             </div>
             <br>
             </div>

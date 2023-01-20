@@ -1,6 +1,6 @@
 <template>
   <body>
-    
+    <div>
     <br>
     <br>
     <br>
@@ -15,13 +15,16 @@
     </div>
     <br>
     <br>
-    <full-calendar id = calendar class="fullcalendar" :config="config" :events="events" ></full-calendar>
+    <div id="Calendar" style ="height: calc(10vh - 10vmax);">
+    <full-calendar class="fullcalendar" :config="config" :events="events" ></full-calendar>
+    </div>  
     </div>
     <div class="Loading" v-else>
-    <div class="row justify-content-center m-2">
+    <div id ="Loading" >
     <div class="loader"></div>
     </div>
      </div>
+    </div>
 </body>
 </template>
 
@@ -29,7 +32,7 @@
 import moment from "moment";
 import axios from "axios";
 //import { FullCalendar } from "vue-full-calendar";
-import "fullcalendar/dist/fullcalendar.min.css";
+import "fullcalendar/dist/fullcalendar.css";
 
 var transfer;
 function execTransfer(event){
@@ -265,5 +268,13 @@ export default {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+#Loading
+{
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
 }
 </style>
