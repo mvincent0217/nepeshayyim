@@ -10,7 +10,7 @@
         <div class="col-lg-12 col-md-12 col-12">
             <br><br>
             
-            <h3 class="display-5 mb-2 text-center">SUPERSTAR! {{accountname}}</h3>
+            <h3 class="display-5 mb-2 text-center" id="headertitle">SUPERSTAR! {{accountname}}</h3>
             
             <br>
             <div class="">
@@ -51,8 +51,8 @@
             <div class="footer" v-if="!(this.TempStartDate < this.CurrentDate)">
             <div class="text-center">
             <h6 style="color:black">Are you going to eat?</h6>
-            <button class="btn bg-primary custom"  id="" value="Reserve" @click="CheckEating(1)" :disabled="this.Quantity == 1">📜 {{ Reservebtn }} </button>&nbsp;
-            <button class="btn bg-danger custom"  id="" value="Cancel Reservation" @click="CheckEating(0)" :disabled="this.Quantity == 0">🚫 Cancel Reservation</button>
+            <button class="btn btn-outline-primary custom active"  id="" value="Reserve" @click="CheckEating(1)" :disabled="this.Quantity == 1">📜 {{ Reservebtn }} </button>&nbsp;
+            <button class="btn btn-outline-danger custom active"  id="" value="Cancel Reservation" @click="CheckEating(0)" :disabled="this.Quantity == 0">🚫 Cancel Reservation</button>
             </div>
             <br>
             </div>
@@ -125,7 +125,7 @@ CheckEating(i){
         this.CalendarDateTime = JSON.parse(window.localStorage.getItem('oFoodMenu'));
         this.CalendarDateTime['oCalendarQuantity'] = this.Quantity;
         window.localStorage.setItem('oFoodMenu',JSON.stringify(this.CalendarDateTime))
-        this.ToastMessage = "Cancel Reservation";
+        this.ToastMessage = "Canceled Reservation";
         this.Reservebtn = "Reserve";
         setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
         this.DeleteCanteenOrders();
@@ -161,6 +161,11 @@ created(){
     this.CurrentDate = tcurrentDate;
     this.CalendarDateTime = JSON.parse(window.localStorage.getItem('oFoodMenu'));
     this.Quantity = this.CalendarDateTime.oCalendarQuantity;
+    if(this.Quantity == 1){
+        this.Reservebtn = "Reserved";
+    }else{
+        this.Reservebtn = "Reserve";
+    }
     this.TempStartDate = moment(this.CalendarDateTime.oCalendarDatetime).format("YYYY-MM-DD");
     this.GetCanteenMenu()
 },
@@ -168,6 +173,9 @@ created(){
 </script>
 
 <style>
+#headertitle{
+  font-family: "Times New Roman", Times, serif;
+}
 .custom{
     width: 200px !important;
 }

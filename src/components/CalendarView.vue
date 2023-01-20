@@ -5,7 +5,7 @@
     <br>
     <br>
     <div class="HiddenCalendar" v-if="this.CalendarLoadingStatus">
-    <h3 class="display-5 mb-2 text-center">Superstar Canteen Calendar</h3>
+    <h2 class="display-5 mb-2 text-center" id="headertitle">Superstar Canteen Calendar</h2>
     <p class="display-7 mb-2 text-center"><b>Reserve your food here!</b></p>
     <div class="row justify-content-left m-2">
     <div class="card" style="width: 18rem;">
@@ -18,7 +18,7 @@
     <full-calendar id = calendar class="fullcalendar" :config="config" :events="events" ></full-calendar>
     </div>
     <div class="Loading" v-else>
-    <div class="row justify-content-center m-2">
+    <div id="Loading">
     <div class="loader"></div>
     </div>
      </div>
@@ -29,7 +29,7 @@
 import moment from "moment";
 import axios from "axios";
 //import { FullCalendar } from "vue-full-calendar";
-import "fullcalendar/dist/fullcalendar.min.css";
+import "fullcalendar/dist/fullcalendar.css";
 
 var transfer;
 function execTransfer(event){
@@ -245,6 +245,9 @@ export default {
 </script>
 
 <style>
+#headertitle{
+  font-family: "Times New Roman", Times, serif;
+}
 .loader {
   border: 16px solid #f3f3f3;
   border-radius: 50%;
@@ -264,5 +267,11 @@ export default {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+#Loading{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>
