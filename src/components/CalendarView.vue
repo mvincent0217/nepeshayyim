@@ -5,8 +5,8 @@
     <br>
     <br>
     <div class="HiddenCalendar" v-if="this.CalendarLoadingStatus">
-    <h3 class="display-5 mb-2 text-center">Superstar Canteen Calendar</h3>
-    <p class="display-7 mb-2 text-center"><b>Reserve your food here!</b></p>
+    <h3 class="display-5 mb-2 text-center" id="headertitle">Superstar Canteen Calendar {{accountname}}</h3>
+    <p class="display-7 mb-2 text-center" ><b>Reserve your food here!</b></p>
     <div class="row justify-content-left m-2">
     <div class="card" style="width: 12rem;">
     <label class="text-center"><b>Legend</b></label>

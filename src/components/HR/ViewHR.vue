@@ -1,5 +1,5 @@
 <template>
-        <div class="text-center">
+        <div  class="text-center" >
             <br><br><br>
             <div class="row justify-content-center m-5">
             <div class="card align-self-center w-auto">
@@ -12,7 +12,7 @@
                 </select>
             <br>
             <br>
-            <h4>Upload new food menu</h4>
+            <h5>Upload new food menu</h5>
             <br>
                 <form>
                     <div>
@@ -23,6 +23,7 @@
                                 <option value="">Select Image here</option>
                                 <option v-for="(img,index) in foodimgArr" :key="index" :value="img._text">{{ img._text }}</option>
                             </select>
+                            <br>
                             <div :hidden="this.displaypicture == '' ">
                                 <img :src="(GetimagePath + displaypicture)" width="450" height="450" style="border-style: ridge;">
                             </div>
