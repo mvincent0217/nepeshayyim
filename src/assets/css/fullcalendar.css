@@ -3,7 +3,10 @@
  * Docs & License: http://arshaw.com/fullcalendar/
  * (c) 2013 Adam Shaw
  */
-
+ .fc-day-grid-container .fc-scroller {
+	height: auto!important;
+	overflow-y: auto;
+  }
 
 .fc {
 	direction: ltr;

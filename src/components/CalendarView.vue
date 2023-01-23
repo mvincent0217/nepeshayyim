@@ -5,12 +5,16 @@
     <br>
     <br>
     <div class="HiddenCalendar" v-if="this.CalendarLoadingStatus">
-    <h2 class="display-5 mb-2 text-center" id="headertitle">Superstar Canteen Calendar</h2>
+    <h3 class="display-5 mb-2 text-center">Superstar Canteen Calendar</h3>
     <p class="display-7 mb-2 text-center"><b>Reserve your food here!</b></p>
     <div class="row justify-content-left m-2">
-    <div class="card" style="width: 18rem;">
+    <div class="card" style="width: 12rem;">
     <label class="text-center"><b>Legend</b></label>
-    <label class="text-center"><span>🟦Reserved</span>&nbsp;&nbsp;<span>🟥For Reservation</span></label>
+    <div>
+    <div id="red" class="box"></div><span class="explanation">- For Reservation</span> <br><br>
+    <div id="blue" class="box"></div><span class="explanation">- Reserved</span><br><br>
+    </div>
+    <!-- <label class="text-center"><span>Reserved</span>&nbsp;&nbsp;<span>🟥For Reservation</span></label> -->
     </div>
     </div>
     <br>
@@ -54,7 +58,6 @@ export default {
       username: window.localStorage.getItem("username"),
       tempStartdate: null,
       tempEnddate: null,
-      status: false,
       events: [
 
       ],
@@ -156,11 +159,13 @@ export default {
                                   if(tempOrderList.CanteenOrderItem.Quantity._text == '0'){
                                     tempObj['color'] = '#d93636';
                                     }else{
-                                    tempObj['color'] = 'blue';
+                                    tempObj['color'] = 'rgb(17, 17, 223)';
                                   }
                                   tempObj['tempStartDate'] = this.tempStartdate;
                                   this.events.push(tempObj);
                                 }
+                                
+
                             }
                             else{
                                 var tempCanteenOrderItem = [];
@@ -183,7 +188,7 @@ export default {
                                     if(tempCanteenOrder.Quantity._text == '0'){
                                       tempObj['color'] = '#d93636';
                                     }else{
-                                      tempObj['color'] = 'blue';
+                                      tempObj['color'] = 'rgb(17, 17, 223)';
                                     }
                                     this.events.push(tempObj);
                                     }     
@@ -210,7 +215,7 @@ export default {
                               if(tempCanteenOrder.Quantity._text == '0'){
                                 tempObj['color'] = '#d93636';
                               }else{
-                                tempObj['color'] = 'blue';
+                                tempObj['color'] = 'rgb(17, 17, 223)';
                               }
                               this.events.push(tempObj);
                             }
@@ -248,13 +253,10 @@ export default {
 </script>
 
 <style>
-#headertitle{
-  font-family: "Times New Roman", Times, serif;
-}
 .loader {
   border: 16px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 16px solid #3498db;
+  border-top: 16px solid rgb(17, 17, 223);
   width: 120px;
   height: 120px;
   -webkit-animation: spin 2s linear infinite; /* Safari */
@@ -271,10 +273,31 @@ export default {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-#Loading{
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+
+#Loading
+{
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+}
+
+.box {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.explanation {
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+#red {
+    background-color:#d93636;
+}
+#blue {
+    background-color: rgb(17, 17, 223);
 }
 </style>
