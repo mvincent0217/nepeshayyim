@@ -1,7 +1,7 @@
 <template>
         <div class="text-center">
             <br><br><br>
-            <h3 class="display-5 mb-2 text-center">Superstar! {{ this.accountname}}</h3>
+            <h3 class="display-5 mb-2 text-center" id="headertitle">Superstar! {{ this.accountname}}</h3>
             <br>
             <h5>List of Available Food Menu</h5>
                 <select name="food" id="" >
@@ -53,13 +53,12 @@ export default {
             displaypicture: '',
             Foods: [],
             GetimagePath: "https://canteen.nepeshayyim.com/",
-            SaveimagePath: "\\hayyim-ssassrv.nepeshayyim.com"
         }
     },
     methods:{
         DisplayImage(e){
             this.displaypicture = e.target.value;
-            console.log(e.target.value)
+            console.log(this.displaypicture)
         },
         GetCanteenImageFilenames(){
             var convert = require('xml-js');
@@ -92,8 +91,7 @@ export default {
 </script>
 
 <style>
-/* img {
-  max-width: 100%;
-  height: auto;
-} */
+#headertitle{
+  font-family: "Times New Roman", Times, serif;
+}
 </style>
