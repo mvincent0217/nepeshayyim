@@ -1,10 +1,12 @@
 <template>
         <div class="text-center">
             <br><br><br>
+            <div class="row justify-content-center m-5">
+            <div class="card align-self-center w-auto">
             <h3 class="display-5 mb-2 text-center" id="headertitle">Superstar! {{ this.accountname}}</h3>
             <br>
             <h5>List of Available Food Menu</h5>
-                <select name="food" id="" >
+                <select class="form-control" name="food" id="" >
                     <option value="">Food Menu</option>
                 <option v-for="(food,index) in Foods" :key="index">{{food.Name._text}}</option>
                 </select>
@@ -14,10 +16,10 @@
             <br>
                 <form>
                     <div>
-                            <label for="img">Food Name: </label>
-                            <input type="text" id="Foodname" name="Foodname" v-model="foodname"><br><br>
-                            <label for="">Food Image</label>
-                            <select name="food" id="" @change="DisplayImage">
+                            <label for="img">Food Name: &nbsp;</label>
+                            <input class="form-control" type="text" id="Foodname" name="Foodname" v-model="foodname"><br><br>
+                            <label for="">Food Image: &nbsp;</label>
+                            <select class="form-control" name="food" id="" @change="DisplayImage">
                                 <option value="">Select Image here</option>
                                 <option v-for="(img,index) in foodimgArr" :key="index" :value="img._text">{{ img._text }}</option>
                             </select>
@@ -25,12 +27,16 @@
                                 <img :src="(GetimagePath + displaypicture)" width="450" height="450" style="border-style: ridge;">
                             </div>
                             <br>
-
+                            <br>
                             <label for="img">Description: </label><br>
-                            <textarea id="Description" name="Description" rows="4" cols="50" v-model="fooddescription"></textarea><br>
-                            <br><input type="submit" @click.prevent="SubmitNewFoodMenu">
+                            <textarea class="form-control" id="Description" name="Description" rows="4" cols="50" v-model="fooddescription"></textarea><br>
+                            <br><input  type="submit" @click.prevent="SubmitNewFoodMenu">
+                            <br>
+                            <br>
                     </div>
                 </form>
+            </div>
+            </div>
         </div>
 </template>
 
