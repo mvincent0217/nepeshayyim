@@ -1,5 +1,5 @@
 <template>
-        <div  class="text-center" >
+        <div class="text-center" >
             <br><br><br>
             <div class="row justify-content-center m-5">
             <div class="card align-self-center w-auto">
@@ -101,4 +101,5 @@ export default {
 #headertitle{
   font-family: "Times New Roman", Times, serif;
 }
+
 </style>
