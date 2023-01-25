@@ -391,4 +391,5 @@ transform: translate(-50%, -50%);
 #blue {
     background-color: rgb(17, 17, 223);
 }
+
 </style>

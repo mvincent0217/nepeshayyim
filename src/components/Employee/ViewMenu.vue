@@ -229,4 +229,5 @@ created(){
    color: white;
    text-align: center;
 }
+
 </style>
