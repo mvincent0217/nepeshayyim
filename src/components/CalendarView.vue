@@ -5,7 +5,7 @@
     <br>
     <br>
     <div class="HiddenCalendar" v-if="this.CalendarLoadingStatus">
-    <h3 class="display-5 mb-2 text-center" id="headertitle">Superstar Canteen Calendar {{accountname}}</h3>
+    <h3 class="display-5 mb-2 text-center" id="headertitle">Canteen Calendar</h3>
     <p class="display-7 mb-2 text-center" ><b>Reserve your food here!</b></p>
     <div class="row justify-content-left m-2">
     <div class="card" style="width: 12rem;">
@@ -37,14 +37,80 @@ import moment from "moment";
 import axios from "axios";
 //import { FullCalendar } from "vue-full-calendar";
 import "fullcalendar/dist/fullcalendar.css";
+import Swal from 'sweetalert2'
 
-var transfer;
-function execTransfer(event){
-  window.localStorage.setItem('oFoodMenu',JSON.stringify({'oCalendarIdx':event.Calendar_Idx,'oCalendarStart':event.start._i, 'oCalendarQuantity':event.quantity, 'oCalendarDatetime':event.tempStartDatetime}))
-  transfer.$router.push({
-            name: 'ViewMenu',
-          })
-}
+var tempthis;
+var tempevents;
+// function execTransfer(event){
+//   window.localStorage.setItem('oFoodMenu',JSON.stringify({'oCalendarIdx':event.Calendar_Idx,'oCalendarStart':event.start._i, 'oCalendarQuantity':event.quantity, 'oCalendarDatetime':event.tempStartDatetime}))
+//   transfer.$router.push({
+//             name: 'ViewMenu',
+//           })
+// }
+async function getSchedule(event){
+          tempevents = event;
+          tempthis.GetCanteenMenu();
+          if(moment().format("YYYY-MM-DD HH:mm:ss") < moment(event.tempStartDatetime).format("YYYY-MM-DD HH:mm:ss")){
+            Swal.fire({
+            title: 'Superstar!',
+            text: "Are you going to eat?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!',
+            cancelButtonText: 'No!'
+                }).then(async(result) => {
+                  if (result.isConfirmed) {
+                    Swal.fire({
+                      title: 'Success!',
+                      text : 'Thank you!.',
+                      icon : 'success',
+                      confirmButtonText: 'Yes!'
+                  }).then(async(result) => {
+                    if (result.isConfirmed) {
+                    //remove if not needed
+                    var index = 0;
+                      index = tempthis.events.findIndex(elem => elem.Calendar_Idx === event.Calendar_Idx);
+                      var oTempItem = {};
+                      oTempItem = tempthis.events[index];
+                      //delete oTempItem['color'];
+                      oTempItem['color'] = 'rgb(17, 17, 223)';
+                      oTempItem['quantity'] = 1;
+                      tempthis.events[index] = oTempItem;
+                      //end
+                    await tempthis.CheckOutOrders();
+                    await tempthis.GetAllOrder();
+                    }
+                  })
+                  }else{
+                    console.log(result);
+                    Swal.fire({
+                        title: 'Not Success!',
+                        text : 'Thank you!.',
+                        icon : 'success',
+                    }).then(async(result) => {
+                      if (result.isConfirmed) {
+
+                        //remove if not needed
+                        var index = 0;
+                        index = tempthis.events.findIndex(elem => elem.Calendar_Idx === event.Calendar_Idx);
+                        var oTempItem = {};
+                        oTempItem = tempthis.events[index];
+                        //delete oTempItem['color'];
+                        oTempItem['color'] = 'd93636';
+                        oTempItem['quantity'] = 0;
+                        tempthis.events[index] = oTempItem;
+                        //end
+
+                        await tempthis.DeleteCanteenOrders();
+                        await tempthis.GetAllOrder();
+                      }
+                    })
+                  }
+                })
+              }
+        }
 
 export default {
   components:{
@@ -55,12 +121,13 @@ export default {
     return {
       CalendarLoadingStatus: false,
       orders: [],
+      orderItem: {},
+      Foods: [],
       username: window.localStorage.getItem("username"),
       tempStartdate: null,
       tempEnddate: null,
-      events: [
-
-      ],
+      CurrentDate: null,
+      events: [],
       config: {
         showNonCurrentDates: false,
         defaultView: "month",
@@ -68,57 +135,49 @@ export default {
           
         },
         eventClick: function (event) {
-          execTransfer(event);
-            console.log(event);
-        //window.open(event.url);
+          getSchedule(event);
         }
       },
     };
   },
   methods:{
-
-    // GetCanteenCalendarIdx(){
-    //   var attempstartdate = moment().format('YYYY-MM-DD');
-    //   var attempenddate = moment().add(1,'year').format('YYYY-MM-DD');
-    //   this.ttempstartdate = attempstartdate;
-    //   this.ttempenddate = attempenddate;
-    //         var convert = require('xml-js');
-    //         axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetCanteenCalendarRecords?startdate="+ attempstartdate + "&enddate=" + attempenddate ).then(response => {
-    //             var result = convert.xml2json(response.data,
-    //            {compact: true, spaces: 4});
-    //            result = JSON.parse(result);
-    //            console.log(result);
-    //            var arCanteenCalendarRecord = [];
-    //            arCanteenCalendarRecord = result.ArrayOfCanteenCalendarRecord.CanteenCalendarRecord;
-    //            for(var iCCR = 0; iCCR < arCanteenCalendarRecord.length; iCCR++){
-
-    //             //var tempStartDate = moment(arCanteenCalendarRecord[iCCR].StartDateTime._text).format('HH:mm:ss');
-    //             //var tempEndDate = moment(arCanteenCalendarRecord[iCCR].EndDateTime._text).format('HH:mm:ss');
-                
-    //             var tempObj = {};
-      
-    //             //tempObj['allDay'] = true;
-    //             tempObj['start'] = arCanteenCalendarRecord[iCCR].StartDateTime._text;
-    //             tempObj['Calendar_Idx'] = arCanteenCalendarRecord[iCCR].Calendar_Idx._text;
-    //             if(this.orders.includes(arCanteenCalendarRecord[iCCR].Calendar_Idx._text))
-    //             {
-    //               tempObj['color'] = 'green';
-    //             }else
-    //             {
-    //               tempObj['color'] = 'red';
-    //             }
-    //             //tempObj['end'] = tempEndDate;
-    //             // tempObj['url'] = '#/ViewMenu';
-    //             this.events.push(tempObj);
-
-    //            }
-    //         })
-    //     },
-
+        async CheckOutOrders(){
+          for(var i = 0; i < this.Foods.length; i++){
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/SaveCanteenOrder?calendar_idx=" + 
+            tempevents.Calendar_Idx + "&username=" + this.username  +"&menuitem_idx=" + this.Foods[i].MenuItem_Idx._text + "&quantity=1")
+          }
+        },
+        async DeleteCanteenOrders(){
+            for(var i = 0; i < this.Foods.length; i++){
+                axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/DeleteCanteenOrder?calendar_idx=" + tempevents.Calendar_Idx + "&username=" + this.username + "&menuitem_idx=" + this.Foods[i].MenuItem_Idx._text ).then(response => {
+                    console.log(response);
+                })
+            }
+        },
+        GetCanteenMenu(){
+            this.Foods = [];
+            var convert = require('xml-js');
+            axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetCanteenMenu?calendar_idx=" + tempevents.Calendar_Idx).then(response => {
+                var result = convert.xml2json(response.data,
+               {compact: true, spaces: 4});
+               result = JSON.parse(result);
+                if(result.CanteenMenuSchedule.MenuItemList.CanteenMenuItem != undefined){
+                    if(Array.isArray(result.CanteenMenuSchedule.MenuItemList.CanteenMenuItem)){
+                        this.Foods = result.CanteenMenuSchedule.MenuItemList.CanteenMenuItem;    
+                    }else
+                    {
+                        this.Foods.push(result.CanteenMenuSchedule.MenuItemList.CanteenMenuItem);
+                    }
+                }
+            })
+        },
         GetAllOrder(){
+            //this.orders = [];
+            //this.events = [];
+            var index = 0;
             var convert = require('xml-js');
             axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetAllCanteenOrders?username=" + this.username + "&startdate=" + this.tempStartdate + "&enddate=" + this.tempEnddate).then(response => {
-                var result = convert.xml2json(response.data,
+                var result= convert.xml2json(response.data,
                {compact: true, spaces: 4});
                 var orders = JSON.parse(result);
                 var tempObj = {};
@@ -163,9 +222,23 @@ export default {
                                   }
                                   tempObj['tempStartDate'] = this.tempStartdate;
                                   this.events.push(tempObj);
+                                  
+                                  index = this.events.findIndex(elem => elem.Calendar_Idx === temp.CalendarRecord.Calendar_Idx._text);
+                                  //console.log('if '+ index);
                                 }
-                                
-
+                                else
+                                {
+                                  index = this.events.findIndex(elem => elem.Calendar_Idx === temp.CalendarRecord.Calendar_Idx._text);
+                                  //console.log('else '+index);
+                                  var oTempItem = {};
+                                  oTempItem = this.events[iArr];
+                                  if(oTempItem.quantity == '0'){
+                                    oTempItem.color = '#d93636';
+                                    }else{
+                                      oTempItem.color = 'rgb(17, 17, 223)';
+                                  }
+                                  this.events[iArr] = oTempItem;
+                                }
                             }
                             else{
                                 var tempCanteenOrderItem = [];
@@ -191,6 +264,16 @@ export default {
                                       tempObj['color'] = 'rgb(17, 17, 223)';
                                     }
                                     this.events.push(tempObj);
+                                    }
+                                    else
+                                    {
+                                      index = 0;
+                                      index = this.events.findIndex(elem => elem.Calendar_Idx === temp.CalendarRecord.Calendar_Idx._text);
+                                      if(this.events[iArr].quantity == '0'){
+                                        this.events[iArr].color = '#d93636';
+                                        }else{
+                                          this.events[iArr].color = 'rgb(17, 17, 223)';
+                                      }
                                     }     
                                 }
                             }
@@ -219,6 +302,16 @@ export default {
                               }
                               this.events.push(tempObj);
                             }
+                            else
+                                {
+                                  index = 0;
+                                  index = this.events.findIndex(elem => elem.Calendar_Idx === temp.CalendarRecord.Calendar_Idx._text);
+                                  if(this.events[index].quantity == '0'){
+                                    this.events[index].color = '#d93636';
+                                    }else{
+                                      this.events[index].color = 'rgb(17, 17, 223)';
+                                  }
+                                }
                                 
                         }
                     }                    
@@ -230,9 +323,6 @@ export default {
                  this.CalendarLoadingStatus = true;
                 }
 
-
-
-                
             })
         },     
   },
@@ -244,10 +334,11 @@ export default {
     var month = moment().format('MM');
     var year = moment().format('YYYY');
     var day = '01';
+    //var time = moment().format('')
     this.tempStartdate = year + "-" + month + "-" + day + " " + "00:00:00";
     this.tempEnddate = moment().add(moment().daysInMonth() - moment().format("DD"), "d").format("YYYY-MM-DD 23:59:59");
-   this.GetAllOrder()
-   transfer = this;
+    this.GetAllOrder()
+    tempthis = this;
   }
 };
 </script>
