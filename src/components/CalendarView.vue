@@ -74,8 +74,7 @@ async function getSchedule(event){
                       index = tempthis.events.findIndex(elem => elem.Calendar_Idx === event.Calendar_Idx);
                       var oTempItem = {};
                       oTempItem = tempthis.events[index];
-                      //delete oTempItem['color'];
-                      oTempItem['color'] = 'rgb(17, 17, 223)';
+                      oTempItem['color'] = '#50ee50';
                       oTempItem['quantity'] = 1;
                       tempthis.events[index] = oTempItem;
                       //end
@@ -84,7 +83,6 @@ async function getSchedule(event){
                     }
                   })
                   }else{
-                    console.log(result);
                     Swal.fire({
                         title: 'Not Success!',
                         text : 'Thank you!.',
@@ -98,7 +96,7 @@ async function getSchedule(event){
                         var oTempItem = {};
                         oTempItem = tempthis.events[index];
                         //delete oTempItem['color'];
-                        oTempItem['color'] = 'd93636';
+                        oTempItem['color'] = '#d93636';
                         oTempItem['quantity'] = 0;
                         tempthis.events[index] = oTempItem;
                         //end
@@ -172,9 +170,6 @@ export default {
             })
         },
         GetAllOrder(){
-            //this.orders = [];
-            //this.events = [];
-            var index = 0;
             var convert = require('xml-js');
             axios.post("https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/GetAllCanteenOrders?username=" + this.username + "&startdate=" + this.tempStartdate + "&enddate=" + this.tempEnddate).then(response => {
                 var result= convert.xml2json(response.data,
@@ -218,26 +213,10 @@ export default {
                                   if(tempOrderList.CanteenOrderItem.Quantity._text == '0'){
                                     tempObj['color'] = '#d93636';
                                     }else{
-                                    tempObj['color'] = 'rgb(17, 17, 223)';
+                                    tempObj['color'] = '#50ee50';
                                   }
                                   tempObj['tempStartDate'] = this.tempStartdate;
                                   this.events.push(tempObj);
-                                  
-                                  index = this.events.findIndex(elem => elem.Calendar_Idx === temp.CalendarRecord.Calendar_Idx._text);
-                                  //console.log('if '+ index);
-                                }
-                                else
-                                {
-                                  index = this.events.findIndex(elem => elem.Calendar_Idx === temp.CalendarRecord.Calendar_Idx._text);
-                                  //console.log('else '+index);
-                                  var oTempItem = {};
-                                  oTempItem = this.events[iArr];
-                                  if(oTempItem.quantity == '0'){
-                                    oTempItem.color = '#d93636';
-                                    }else{
-                                      oTempItem.color = 'rgb(17, 17, 223)';
-                                  }
-                                  this.events[iArr] = oTempItem;
                                 }
                             }
                             else{
@@ -261,20 +240,10 @@ export default {
                                     if(tempCanteenOrder.Quantity._text == '0'){
                                       tempObj['color'] = '#d93636';
                                     }else{
-                                      tempObj['color'] = 'rgb(17, 17, 223)';
+                                      tempObj['color'] = '#50ee50';
                                     }
                                     this.events.push(tempObj);
                                     }
-                                    else
-                                    {
-                                      index = 0;
-                                      index = this.events.findIndex(elem => elem.Calendar_Idx === temp.CalendarRecord.Calendar_Idx._text);
-                                      if(this.events[iArr].quantity == '0'){
-                                        this.events[iArr].color = '#d93636';
-                                        }else{
-                                          this.events[iArr].color = 'rgb(17, 17, 223)';
-                                      }
-                                    }     
                                 }
                             }
                         }
@@ -298,22 +267,11 @@ export default {
                               if(tempCanteenOrder.Quantity._text == '0'){
                                 tempObj['color'] = '#d93636';
                               }else{
-                                tempObj['color'] = 'rgb(17, 17, 223)';
+                                tempObj['color'] = '#50ee50';
                               }
                               this.events.push(tempObj);
                             }
-                            else
-                                {
-                                  index = 0;
-                                  index = this.events.findIndex(elem => elem.Calendar_Idx === temp.CalendarRecord.Calendar_Idx._text);
-                                  if(this.events[index].quantity == '0'){
-                                    this.events[index].color = '#d93636';
-                                    }else{
-                                      this.events[index].color = 'rgb(17, 17, 223)';
-                                  }
-                                }
-                                
-                        }
+                          }
                     }                    
                 }
 
@@ -391,5 +349,4 @@ transform: translate(-50%, -50%);
 #blue {
     background-color: rgb(17, 17, 223);
 }
-
 </style>
