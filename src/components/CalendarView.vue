@@ -5,8 +5,8 @@
     <br>
     <br>
     <div class="HiddenCalendar" v-if="this.CalendarLoadingStatus">
-    <h3 class="display-5 mb-2 text-center" id="headertitle">Superstar Canteen Calendar {{accountname}}</h3>
-    <p class="display-7 mb-2 text-center" ><b>Reserve your food here!</b></p>
+    <h3 class="display-5 mb-2 text-center" id="headertitle">Canteen Calendar {{accountname}}</h3>
+    <p class="display-7 mb-2 text-center"  ><b>Reserve your food here!</b></p>
     <div class="row justify-content-left m-2">
     <div class="card" style="width: 12rem;">
     <label class="text-center"><b>Legend</b></label>
@@ -21,7 +21,7 @@
     <br>
     <div id="Calendar" style ="height: calc(10vh - 10vmax);">
     <full-calendar class="fullcalendar" :config="config" :events="events" ></full-calendar>
-    </div>  
+    </div>
     </div>
     <div class="Loading" v-else>
     <div id ="Loading" >
@@ -124,7 +124,7 @@ export default {
                 var tempObj = {};
                 if(Array.isArray(orders)){
                     this.orders = orders.ArrayOfCanteenOrder.CanteenOrder;
-                }else{                        
+                }else{                   
                     var new_order = orders.ArrayOfCanteenOrder.CanteenOrder;
                     let array = []
                     var bSpecialCase = false;
@@ -159,7 +159,7 @@ export default {
                                   if(tempOrderList.CanteenOrderItem.Quantity._text == '0'){
                                     tempObj['color'] = '#d93636';
                                     }else{
-                                    tempObj['color'] = 'rgb(17, 17, 223)';
+                                    tempObj['color'] = '#50ee50';
                                   }
                                   tempObj['tempStartDate'] = this.tempStartdate;
                                   this.events.push(tempObj);
@@ -188,7 +188,7 @@ export default {
                                     if(tempCanteenOrder.Quantity._text == '0'){
                                       tempObj['color'] = '#d93636';
                                     }else{
-                                      tempObj['color'] = 'rgb(17, 17, 223)';
+                                      tempObj['color'] = '#50ee50';
                                     }
                                     this.events.push(tempObj);
                                     }     
@@ -215,7 +215,7 @@ export default {
                               if(tempCanteenOrder.Quantity._text == '0'){
                                 tempObj['color'] = '#d93636';
                               }else{
-                                tempObj['color'] = 'rgb(17, 17, 223)';
+                                tempObj['color'] = '#50ee50';
                               }
                               this.events.push(tempObj);
                             }
@@ -256,7 +256,7 @@ export default {
 .loader {
   border: 16px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 16px solid rgb(17, 17, 223);
+  border-top: 16px solid #50ee50;
   width: 120px;
   height: 120px;
   -webkit-animation: spin 2s linear infinite; /* Safari */
@@ -298,7 +298,7 @@ transform: translate(-50%, -50%);
     background-color:#d93636;
 }
 #blue {
-    background-color: rgb(17, 17, 223);
+    background-color: #50ee50;
 }
 
 </style>
