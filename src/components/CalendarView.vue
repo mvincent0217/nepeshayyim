@@ -49,19 +49,41 @@ var tempevents;
 // }
 async function getSchedule(event){
           tempevents = event;
+          // var boolStatusYes;
+          // var boolStatusNo;
+
+          // if(event.quantity == 0)
+          // {
+          //   boolStatusYes = true;
+          //   boolStatusNo = false;
+          // }
+          // else
+          // {
+          //   boolStatusYes = false;
+          //   boolStatusNo = true;
+          // }
           tempthis.GetCanteenMenu();
           if(moment().format("YYYY-MM-DD HH:mm:ss") < moment(event.tempStartDatetime).format("YYYY-MM-DD HH:mm:ss")){
             Swal.fire({
             title: 'Superstar!',
             text: "Are you going to eat?",
             icon: 'warning',
-            showCancelButton: true,
+            showCancelButton: false,
+            showConfirmButton: true,
+            showDenyButton: true,
             confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes!',
-            cancelButtonText: 'No!'
+            cancelButtonColor: '#758091',
+            denyButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            denyButtonText: 'No',
+            showCloseButton: true,
+            // onOpen: function(){
+            //   Swal.disableConfirmButton()
+            // },
+            cancelButtonText: 'Cancel',
                 }).then(async(result) => {
-                  if (result.isConfirmed) {
+                  if(result.dismiss != 'backdrop' && result.dismiss != 'esc' && result.dismiss != 'cancel' && result.dismiss != 'close'){
+                    if (result.isConfirmed) {
                     Swal.fire({
                       title: 'Success!',
                       text : 'Thank you!.',
@@ -84,7 +106,7 @@ async function getSchedule(event){
                   })
                   }else{
                     Swal.fire({
-                        title: 'Not Success!',
+                        title: 'Success!',
                         text : 'Thank you!.',
                         icon : 'success',
                     }).then(async(result) => {
@@ -105,6 +127,7 @@ async function getSchedule(event){
                         await tempthis.GetAllOrder();
                       }
                     })
+                  }
                   }
                 })
               }
