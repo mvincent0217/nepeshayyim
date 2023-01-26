@@ -77,9 +77,6 @@ async function getSchedule(event){
             confirmButtonText: 'Yes',
             denyButtonText: 'No',
             showCloseButton: true,
-            // onOpen: function(){
-            //   Swal.disableConfirmButton()
-            // },
             cancelButtonText: 'Cancel',
                 }).then(async(result) => {
                   if(result.dismiss != 'backdrop' && result.dismiss != 'esc' && result.dismiss != 'cancel' && result.dismiss != 'close'){
