@@ -10,7 +10,7 @@
         <div class="col-lg-12 col-md-12 col-12">
             <br><br>
             
-            <h3 class="display-5 mb-2 text-center" id="headertitle">SUPERSTAR! {{accountname}}</h3>
+            <h3 class="display-5 mb-2 text-center" id="headertitle">SUPERSTAR! {{AccountName}}</h3>
             
             <br>
             <div class="">
@@ -48,7 +48,7 @@
                 </tbody>
             </table>
             <div id="snackbar">{{ToastMessage}}</div>
-            <div class="footer" v-if="!(this.TempStartDate < this.CurrentDate)">
+            <div class="footer" v-if="(this.CurrentDate < this.TempStartDate)">
             <div class="text-center">
             <h6 style="color:black">Are you going to eat?</h6>
             <button class="btn btn-outline-primary custom active"  id="" value="Reserve" @click="CheckEating(1)" :disabled="this.Quantity == 1">📜 {{ Reservebtn }} </button>&nbsp;
@@ -82,7 +82,7 @@ Vue.use(VueAxios, axios)
 export default {
     data() {
         return{
-            accountname: window.localStorage.getItem("accountname").toUpperCase(),
+            AccountName: window.localStorage.getItem("accountname").toUpperCase(),
             Foods: [],
             username: window.localStorage.getItem("username"),
             isLogin: true,
