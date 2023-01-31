@@ -81,7 +81,7 @@ export default {
             "https://canteen.nepeshayyim.com/Decatech/BRM_Canteen_Web/ValidateUserAccount?username=" +
               this.username +
               "&password=" +
-              this.password
+              encodeURIComponent(this.password)
           )
           .then((response) => {
             var result2 = convert.xml2json(response.data, { compact: true, spaces: 4 });
