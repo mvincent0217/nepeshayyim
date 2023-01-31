@@ -11,7 +11,7 @@
     <div class="card" style="width: 12rem;">
     <label class="text-center"><b>Legend</b></label>
     <div>
-    <div id="red" class="box"></div><span class="explanation">- For Reservation</span> <br><br>
+    <div id="red" class="box"></div><span class="explanation">- No Reservation</span> <br><br>
     <div id="blue" class="box"></div><span class="explanation">- Reserved</span><br><br>
     </div>
     <!-- <label class="text-center"><span>Reserved</span>&nbsp;&nbsp;<span>🟥For Reservation</span></label> -->
@@ -314,7 +314,7 @@ export default {
     var day = '01';
     //var time = moment().format('')
     this.tempStartdate = year + "-" + month + "-" + day + " " + "00:00:00";
-    this.tempEnddate = moment().add(moment().daysInMonth() - moment().format("DD"), "d").format("YYYY-MM-DD 23:59:59");
+    this.tempEnddate = moment().add(2,"M").format("YYYY-MM-DD 23:59:59");
     this.GetAllOrder()
     tempthis = this;
   }
